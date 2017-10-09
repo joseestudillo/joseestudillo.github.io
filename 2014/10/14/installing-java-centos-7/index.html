@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Jose Estudillo's Blog. Software engineering and technology blog.">
+    <meta name="keywords" content="jose,estudillo,ojeda,jose estudillo, jose estudillo ojeda,blog,programming,big data,software,engineering">
+    <meta name="description" lang="en" content="Jose Estudillo's Blog. Software engineering and technology blog.">
+    <meta name="description" lang="es" content="Blog de Jose Estudillo">
+
+    <title>Installing Oracle Java SDK in CentOS 7</title>
+
+    <link rel="canonical" href="http://blog.joseestudillo.com/2014/10/14/installing-java-centos-7/">
+    <link rel="icon" href="http://blog.joseestudillo.com/favicon.ico">
+    <link rel="shortcut icon" href="http://blog.joseestudillo.com/favicon.ico">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="http://blog.joseestudillo.com/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="http://blog.joseestudillo.com/css/blog.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="http://blog.joseestudillo.com/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link type="application/atom+xml" rel="alternate" href="http://joseestudillo.com/http://blog.joseestudillo.com/feed.xml" title="Jose Estudillo's Blog" />
+
+</head>
+
+
+<body>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://blog.joseestudillo.com/">Jose Estudillo's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="http://blog.joseestudillo.com/">Home</a>
+                </li>
+                
+				
+                <li>
+                    <a href="http://blog.joseestudillo.com/about/">About</a>
+                </li>
+				
+                
+				
+                <li>
+                    <a href="http://blog.joseestudillo.com/books/">Books</a>
+                </li>
+				
+                
+				
+                <li>
+                    <a href="http://blog.joseestudillo.com/contact/">Contact</a>
+                </li>
+				
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header" style="background-image: url('http://blog.joseestudillo.com/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Installing Oracle Java SDK in CentOS 7</h1>
+                    
+                    <span class="meta">Posted by Jose Estudillo on October 14, 2014</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+				<h1>Installing Oracle Java SDK in CentOS 7</h1>
+
+<p>Before starting I want to point out that all the commands required below must be executed as super user. By default CentOS doesn&#39;t add the newly create users to the sudoers list, because of this, we will have to become super user using the command <code>su</code> that will keep the root session open.</p>
+
+<h2>Downloading the binaries</h2>
+
+<h2>Removing OpenJDK</h2>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># run as super user, su/sudo</span>
+yum remove java-1.7.0-openjdk.x86_64</code></pre></figure>
+
+<p>to know which version you have to remove type <code>yum remove java-</code> and then press tab for autocompletion. In CentOS 7, <code>yum remove java</code> also does the job.</p>
+
+<h2>Installing the Oracle JDK rpm</h2>
+
+<p>For this example I will assume that the files are downloaded in <code>/tmp/</code></p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># run as super user, su/sudo</span>
+rpm -Uvh /tmp/jdk-7u71-linux-x64.rpm</code></pre></figure>
+    
+
+<p>By default this will be installed in <code>/usr/java/jdk{version}</code> using a symbolic links, this will be mapped to <code>/usr/java/default</code> that can be changed to a different SDK if required. To see the symbolic links, type the following in the shell:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">ls -l /usr/java/default </code></pre></figure>
+
+<p>this will return <code>/usr/java/default -&gt; /usr/java/latest</code> if we repeat the same operation, with the target of the symbolic link: </p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">ls -l /usr/java/latest</code></pre></figure>
+
+<p>It will show the actual directory where the JDK is installed <code>/usr/java/latest -&gt; /usr/java/jdk1.7.0_71</code>. Changing this symbolic link would allow us to point to a different JDK without any extra effort.</p>
+
+<p>I will do the same with the JDK 8 to have both versions on the server</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># run as super user, su/sudo</span>
+rpm -Uvh /tmp/jdk-8u25-linux-x64.rpm</code></pre></figure>
+  
+
+<p>In CentOS there is no need to redefine the alternatives for the java binaries, because they are defined already based on the default path (<code>/usr/java/default</code>) so all the java commands will be available (java, jar, javaws, ...).</p>
+
+<h2>Defining environment variables</h2>
+
+<p>Depending on the use, some users, just define the <strong>JAVA_HOME</strong> variable in their bash profile <code>/home/{username}/.bashrc</code> adding it the following line:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">export </span><span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/java/default</code></pre></figure>
+
+<p>In my case I intent to use the machine as a server so I want it to be defined for all the profiles, to achieve this, I create an <code>sh</code> file in the folder <code>/etc/profile.d/</code> where it will be always loaded on startup. This can be done with the following command:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">echo</span> <span class="s2">"export JAVA_HOME=/usr/java/default"</span> &gt; /etc/profile.d/java.sh</code></pre></figure>
+
+<p>Notice that this requires the OS to restart to be able to see the effects. Once this is done, you should be able see the value of <strong>JAVA_HOME</strong> with:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">echo</span> <span class="nv">$JAVA_HOME</span></code></pre></figure>
+
+<p>Now we have Oracle Java SDK installed on the system.</p>
+
+
+                <hr>
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="http://blog.joseestudillo.com/2014/04/24/issues-accessing-git-from-command-line/" data-toggle="tooltip" data-placement="top" title="Issues accessing Git in the command line">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="http://blog.joseestudillo.com/2014/10/15/installing-maven-centos-7/" data-toggle="tooltip" data-placement="top" title="Installing maven in centos 7">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+            </div>
+        </div>
+        <div class="row">
+          <!-- Disqus { -->
+          <div class="text-center">
+            <div id="disqus_thread"></div>
+          </div>
+          <!-- } Disqus -->
+        </div>
+    </div>
+</article>
+<script type="text/javascript" src="http://blog.joseestudillo.com/js/disqus.js"></script>
+
+<hr>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="http://blog.joseestudillo.com/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://twitter.com/jose_estudillo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+                    <li>
+                        <a href="https://github.com/joseestudillo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="https://linkedin.com/in/joseestudilloojeda">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="mailto:jose@estudillo.me">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2017</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="http://blog.joseestudillo.com/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="http://blog.joseestudillo.com/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="http://blog.joseestudillo.com/js/blog.min.js "></script>
+
+<!-- Add This script -->
+
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-51ff8808639bd279"></script>
+<script type="text/javascript">
+  var addthis_config = addthis_config||{};
+  addthis_config.data_track_addressbar = false;
+  addthis_config.data_track_clickback = false;
+</script>
+
+
+
+    
+
+
+</body>
+
+</html>

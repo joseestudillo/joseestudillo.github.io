@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Jose Estudillo's Blog. Software engineering and technology blog.">
+    <meta name="keywords" content="jose,estudillo,ojeda,jose estudillo, jose estudillo ojeda,blog,programming,big data,software,engineering">
+    <meta name="description" lang="en" content="Jose Estudillo's Blog. Software engineering and technology blog.">
+    <meta name="description" lang="es" content="Blog de Jose Estudillo">
+
+    <title>Creating a kafka cluster with docker</title>
+
+    <link rel="canonical" href="http://blog.joseestudillo.com/2017/08/27/creating-kafka-cluster-with-docker/">
+    <link rel="icon" href="http://blog.joseestudillo.com/favicon.ico">
+    <link rel="shortcut icon" href="http://blog.joseestudillo.com/favicon.ico">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="http://blog.joseestudillo.com/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="http://blog.joseestudillo.com/css/blog.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="http://blog.joseestudillo.com/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link type="application/atom+xml" rel="alternate" href="http://joseestudillo.com/http://blog.joseestudillo.com/feed.xml" title="Jose Estudillo's Blog" />
+
+</head>
+
+
+<body>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://blog.joseestudillo.com/">Jose Estudillo's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="http://blog.joseestudillo.com/">Home</a>
+                </li>
+                
+				
+                <li>
+                    <a href="http://blog.joseestudillo.com/about/">About</a>
+                </li>
+				
+                
+				
+                <li>
+                    <a href="http://blog.joseestudillo.com/books/">Books</a>
+                </li>
+				
+                
+				
+                <li>
+                    <a href="http://blog.joseestudillo.com/contact/">Contact</a>
+                </li>
+				
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header" style="background-image: url('http://blog.joseestudillo.com/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Creating a kafka cluster with docker</h1>
+                    
+                    <span class="meta">Posted by Jose Estudillo on August 27, 2017</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+				<h1>Creating a kafka cluster with docker</h1>
+
+<p>A local <a href="https://kafka.apache.org/">Kafka</a> cluster will help to develop producer and consumers, allowing to test different scenarios specially when it comes to HA. In this article I&#39;ll show how to create a kafka cluster using <a href="https://www.docker.com/">docker</a> and <a href="https://docs.docker.com/compose/">docker-compose</a>.  </p>
+
+<h2>Defining kafka image: Dockerfile</h2>
+
+<p>For the creation of the <a href="https://www.docker.com/">docker</a> image we will use the version <a href="http://www-eu.apache.org/dist/kafka/0.11.0.0/kafka_2.11-0.11.0.0.tgz">0.11.0.0</a> as specified in the code below in the environment var <code>KAFKA_BIN</code>.</p>
+
+<ul>
+<li><code>Dockerfile</code>:</li>
+</ul>
+<div class="highlight"><pre><code class="language-Dockerfile" data-lang="Dockerfile">FROM centos:7
+MAINTAINER jose@estudillo.me
+
+ENV KAFKA_BIN=http://www-eu.apache.org/dist/kafka/0.11.0.0/kafka_2.11-0.11.0.0.tgz
+
+RUN yum install -y wget java-1.8.0-openjdk \
+    &amp;&amp; cd /tmp &amp;&amp; wget -q $KAFKA_BIN \
+    &amp;&amp; export K_TAR=/tmp/$(ls kafka* | head -1) \
+    &amp;&amp; mkdir -p /opt/apache/kafka/ &amp;&amp; tar -zxf $K_TAR -C /opt/apache/kafka/ \
+    &amp;&amp; cd /opt/apache/kafka &amp;&amp; ln -s $(ls) current \
+    &amp;&amp; rm -rf $K_TAR
+
+ENV KAFKA_HOME /opt/apache/kafka/current
+ENV PATH $PATH:$KAFKA_HOME/bin
+
+ADD resources /home/kafka
+
+RUN groupadd -r kafka \
+    &amp;&amp; useradd -r -g kafka kafka \
+    &amp;&amp; mkdir -p /home/kafka \
+    &amp;&amp; chown -R kafka:kafka /home/kafka \
+    &amp;&amp; chmod -R +x /home/kafka/scripts \
+    &amp;&amp; mkdir -p /var/log/kafka \
+    &amp;&amp; chown -R kafka:kafka /var/log/kafka \
+    &amp;&amp; mkdir -p /etc/kafka \
+    &amp;&amp; chown -R kafka:kafka /etc/kafka
+
+USER kafka
+
+CMD /home/kafka/scripts/run.sh
+</code></pre></div>
+<p>The <code>Dockerimage</code> will download the <a href="https://kafka.apache.org/">Kafka</a> binaries and place then into <code>/opt/apache/kafka</code> and link the current version to <code>/opt/apache/kafka/current</code>, after that it add it into the <code>PATH</code> and create the required directories that need to be owned by the <code>kafka</code> user.</p>
+
+<p>In order to configure and start the broker properly, <code>CMD</code> needs to call a bash script that must be added to the image <code>ADD resources /home/kafka</code>, putting all the content from the local directory <code>resources</code> in the image directory <code>/home/kafka</code>.</p>
+
+<ul>
+<li><code>resources/scripts/run.sh</code></li>
+</ul>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">#!/bin/bash</span>
+
+cat <span class="sh">&lt;&lt;EOF &gt; /etc/kafka/broker.properties
+broker.id=$(hostname | sed "s/[^0-9]*//g")
+port=9092
+log.dir=/var/log/kafka
+zookeeper.connect=${KAFKA_ZOOKEEPER_HOST:=zookeeper:2181}
+host.name=$(hostname)
+advertised.host.name=$(hostname)
+advertised.host.port=9092
+EOF
+
+</span>kafka-server-start.sh /etc/kafka/broker.properties
+</code></pre></div>
+<p>For this to work we require:</p>
+
+<ul>
+<li>Every container created from this image must contain a number in the hostname, so it can be used as <code>broker.id</code>.</li>
+<li>Kafka requires <a href="https://zookeeper.apache.org/">Zookeeper</a> to be able to work, the script will assume that the hostname for this is <code>zookeeper</code>, but this value can be also specified in the env var <code>KAFKA_ZOOKEEPER_HOST</code> (i.c. `zoo1:2181,zoo2:2181,zoo3:2181)</li>
+</ul>
+
+<h2>Creating the kafka image from the Dockerfile</h2>
+
+<p>In this example I use my own namespace (<code>joseestudillo</code>) but this is not required and can be omitted. I also add the version <code>latest</code> to follow docker image naming standards.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">docker build --tag<span class="o">=</span><span class="s2">"joseestudillo/kafka:0.0.1"</span> .
+docker tag joseestudillo/kafka:0.0.1 joseestudillo/kafka:latest
+</code></pre></div>
+<h2>Creating the cluster: docker compose</h2>
+
+<p>Having the kafka image in our system we are ready to create a cluster. For <a href="https://zookeeper.apache.org/">Zookeeper</a> we will use the official image from <a href="https://hub.docker.com/_/zookeeper/">docker hub</a>. In the docker compose example I&#39;ll create a 3 nodes kafka cluster, but any number of nodes can be added by adding a new entry and changing the name/hostname.</p>
+
+<ul>
+<li><code>docker-compose.yml</code></li>
+</ul>
+<div class="highlight"><pre><code class="language-YAML" data-lang="YAML">version: '2.1'
+services:
+  zookeeper:
+    hostname: zookeeper
+    image: zookeeper:latest
+    environment:
+      ZOO_MY_ID: 1
+    restart: always
+    healthcheck:
+        test: ["CMD", "zkServer.sh", "status"]
+
+  kafka1:
+    image: joseestudillo/kafka:latest
+    hostname: kafka1
+    environment:
+      KAFKA_ZOOKEEPER_HOST: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+
+  kafka2:
+    image: joseestudillo/kafka:latest
+    hostname: kafka2
+    environment:
+      KAFKA_ZOOKEEPER_HOST: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - kafka1
+
+  kafka3:
+    image: joseestudillo/kafka:latest
+    hostname: kafka3
+    environment:
+      KAFKA_ZOOKEEPER_HOST: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - kafka1
+</code></pre></div>
+<p>In they YAML, I&#39;ve defined a single node zookeeper (examples with a higher number of nodes can be found in docker hub). Notice that <a href="https://zookeeper.apache.org/">Zookeeper</a> must be running to be able to create a kafka cluster, to guarantee this, we will make the first <a href="https://kafka.apache.org/">Kafka</a> node (<code>kafka1</code>) depend on the <a href="https://zookeeper.apache.org/">Zookeeper</a> container, then the rest of the <a href="https://kafka.apache.org/">Kafka</a> nodes will depend of the first one that we will use as advertised host.</p>
+
+<h2>Running the cluster</h2>
+
+<p>Once the kafka image is on the system (check with <code>docker images</code>), we can launch the cluster using: <code>docker-compose up</code> that will show the logs from all the running containers. The status of the containers can be checked with <code>docker-compose ps</code> that as the rest of the docker compose commands, but be run from the directory where <code>docker-compose.yml</code> is placed, or point explicitly to it.</p>
+
+<p>The cluster then can be operated from any of its nodes: <code>docker-compose exec &lt;container name in the docker compose file&gt; bash</code></p>
+
+
+                <hr>
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="http://blog.joseestudillo.com/2015/08/04/hosting-apache-server-openshift-godaddy-domain/" data-toggle="tooltip" data-placement="top" title="Hosting an apache server in Openshift with a godaddy hosted domain">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+
+            </div>
+        </div>
+        <div class="row">
+          <!-- Disqus { -->
+          <div class="text-center">
+            <div id="disqus_thread"></div>
+          </div>
+          <!-- } Disqus -->
+        </div>
+    </div>
+</article>
+<script type="text/javascript" src="http://blog.joseestudillo.com/js/disqus.js"></script>
+
+<hr>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="http://blog.joseestudillo.com/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://twitter.com/jose_estudillo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+                    <li>
+                        <a href="https://github.com/joseestudillo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="https://linkedin.com/in/joseestudilloojeda">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="mailto:jose@estudillo.me">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2017</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="http://blog.joseestudillo.com/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="http://blog.joseestudillo.com/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="http://blog.joseestudillo.com/js/blog.min.js "></script>
+
+<!-- Add This script -->
+
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-51ff8808639bd279"></script>
+<script type="text/javascript">
+  var addthis_config = addthis_config||{};
+  addthis_config.data_track_addressbar = false;
+  addthis_config.data_track_clickback = false;
+</script>
+
+
+
+    
+
+
+</body>
+
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Jose Estudillo's Blog. Software engineering and technology blog.">
+    <meta name="keywords" content="jose,estudillo,ojeda,jose estudillo, jose estudillo ojeda,blog,programming,big data,software,engineering">
+    <meta name="description" lang="en" content="Jose Estudillo's Blog. Software engineering and technology blog.">
+    <meta name="description" lang="es" content="Blog de Jose Estudillo">
+
+    <title>Creating a site with Jekyll</title>
+
+    <link rel="canonical" href="http://blog.joseestudillo.com/2014/01/22/creating-jekyll-static-site/">
+    <link rel="icon" href="http://blog.joseestudillo.com/favicon.ico">
+    <link rel="shortcut icon" href="http://blog.joseestudillo.com/favicon.ico">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="http://blog.joseestudillo.com/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="http://blog.joseestudillo.com/css/blog.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="http://blog.joseestudillo.com/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link type="application/atom+xml" rel="alternate" href="http://joseestudillo.com/http://blog.joseestudillo.com/feed.xml" title="Jose Estudillo's Blog" />
+
+</head>
+
+
+<body>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://blog.joseestudillo.com/">Jose Estudillo's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="http://blog.joseestudillo.com/">Home</a>
+                </li>
+                
+				
+                <li>
+                    <a href="http://blog.joseestudillo.com/about/">About</a>
+                </li>
+				
+                
+				
+                <li>
+                    <a href="http://blog.joseestudillo.com/books/">Books</a>
+                </li>
+				
+                
+				
+                <li>
+                    <a href="http://blog.joseestudillo.com/contact/">Contact</a>
+                </li>
+				
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header" style="background-image: url('http://blog.joseestudillo.com/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Creating a site with Jekyll</h1>
+                    
+                    <span class="meta">Posted by Jose Estudillo on January 22, 2014</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+				<h1>Creating a static site with Jekyll</h1>
+
+<p>This article explains how I created this site using Jekyll.</p>
+
+<h2>1. Installing Jekyll</h2>
+
+<p>My development environment is <a href="http://www.linuxmint.com/" title="Linux Mint">Linux Mint</a> which is based on Ubuntu, so following commands will work for both. For other OS check the official <a href="http://jekyllrb.com/" title="Jekyll">Jekyll website</a>.</p>
+
+<p>Jekyll is based in <em>ruby</em> and uses <em>gem</em> to control its installation process, requiring the packages:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">sudo apt-get install ruby
+sudo apt-get install ruby1.9.1-dev</code></pre></figure>
+
+<p>Once the ruby packages have been installed we can proceed to install Jekyll    </p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">    
+sudo gem install jekyll</code></pre></figure>
+
+<h2>2. Creating a new Jekyll Project</h2>
+
+<p>A Jekyll project is based in several preconfigured folders and files. For this example we will go with the basics, for further information check <a href="http://jekyllrb.com/docs/structure/" title="Jekyll Structure">Jekyll Structure</a>. To create a new site use the sintax <code>jekyll new {project directory name}</code> that will create the following structure:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">.
+├── _config.yml
+├── css
+│   ├── main.css
+│   └── syntax.css
+├── index.html
+├── _layouts
+│   ├── default.html
+│   └── post.html
+└── _posts
+    └── 2014-01-23-welcome-to-jekyll.markdown
+</code></pre></div>
+<p>To modify this default folder structure check <a href="http://jekyllrb.com/docs/configuration/" title="Jekyll Configuration">Jekyll Configuration</a></p>
+
+<h2>3. Configuration</h2>
+
+<p>This is not strictly necessary because the Jekyll has a basic configuration by default. We will only add some global properties and configure the markdown editor to use &#39;redcarpet2&#39;</p>
+
+<h3>_config.yml</h3>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="s">author</span><span class="pi">:</span> <span class="s">Jose Estudillo</span>
+<span class="s">markdown</span><span class="pi">:</span> <span class="s">redcarpet</span></code></pre></figure>
+    
+
+<p>DEPLOYS what is deployed and how</p>
+
+<h2>4. Page</h2>
+
+<p>Jekyll allow serveral ways to create a page, in this post I will focus on markdown.</p>
+
+<h3>page.md</h3>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="nn">---</span>
+<span class="c1">#YAML declaration</span>
+<span class="s">layout</span><span class="pi">:</span> <span class="s">page_layout</span> <span class="c1">#the layout parameter will select which layout to generate the html associated to this file</span>
+<span class="s">title</span><span class="pi">:</span> <span class="s">Page Title</span>
+<span class="nn">---</span>
+<span class="c1">#Page Main Title</span>
+
+<span class="s">Text</span></code></pre></figure>
+
+<p>In the YAML (after the first <code>---</code>) declaration we usually declare parameter for the page that will be generated (title, author,...). In the markdown declaration (after the second <code>---</code>) we will place the content. For further information check the <a href="http://daringfireball.net/projects/markdown/syntax" title="Markdown Documentation">official markdown documentation</a>.</p>
+
+<h2>5. Layout</h2>
+
+<p>The layout will allow us to place the content generated in the markdown file in a good looking HTML.</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"> 
+
+{{% include header.html title="Given title" %}}
+
+<span class="nt">&lt;p&gt;</span>{{page.title}}<span class="nt">&lt;/p&gt;</span>
+
+<span class="nt">&lt;div&gt;</span>{{content}}<span class="nt">&lt;/div&gt;</span>
+
+{% include footer.html %}</code></pre></figure>
+
+<p>markdown generates concrete HTML for each of its elements so the idea is to style this specific format using CSS based on the wrapper of the content, besides this, markdown allows to use plain HTML. From the layout side Jekyll allows the use on is templates of <a href="http://liquidmarkup.org/" title="Liquid Markup">liquid</a>.</p>
+
+<p>In every layout there are three global vars that are always defined:</p>
+
+<ul>
+<li><strong>site</strong>: that refers to the information declared in _config.yml</li>
+<li><strong>page</strong>: information related the the page itself</li>
+<li><strong>content</strong>: refering to the content generated by markdown</li>
+</ul>
+
+<h2>6. Includes</h2>
+
+<p>To keep it simple we will go for a simple header and footer that we will place in</p>
+
+<ul>
+<li><code>_includes/header.html</code></li>
+<li><code>_includes/footer.html</code></li>
+</ul>
+
+<p>to use import this files in a layout we will use the following codes</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html">{% include header.html title="Constant String" value_from_a_variable=name_of_the_variable %}
+...
+{% include footer.html %}</code></pre></figure>
+
+<p>Where the first part of the example shows how to pass parameters to an include. The parameter will be read as follows:</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html">    {{include.title}}</code></pre></figure>
+
+<h2>7. Paginated index</h2>
+
+<p>Once you have reached a certain numbers of posts, pagination is a must. Jekyll allow you to paginate the post in to basic steps:</p>
+
+<ul>
+<li>First will require to configure the pagination extension in the file  <strong>config.yml</strong>:</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="s">paginate</span><span class="pi">:</span> <span class="s">5</span>
+<span class="s">paginate_path</span><span class="pi">:</span> <span class="s2">"</span><span class="s">:num"</span></code></pre></figure>
+
+<p>where <code>paginate</code> defines the number of post per page, and <code>paginate_path</code> will define how the page is shown in the URL.</p>
+
+<ul>
+<li>The second one will be define the Liquid/HTML code to navigate through the index pages, that contain the links to the different post, this must be defined in the file <strong>index.html</strong>:</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html">{% if paginator.previous_page %}
+  {% if paginator.previous_page == 1 %}
+    <span class="c">&lt;!-- /1 doesnt exist so you must be redirected to the root for the first page of the index --&gt;</span>
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/"</span><span class="nt">/&gt;</span>
+  {% else %}
+    <span class="c">&lt;!-- link to the previous page --&gt;</span>
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"{{ paginator.previous_page }}"</span><span class="nt">/&gt;</span>
+  {% endif %}
+{% else %}
+  <span class="c">&lt;!-- covers the case when there is no previous page --&gt;</span>
+  <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">/&gt;</span>
+{% endif %}
+
+<span class="c">&lt;!-- show current / total number of pages --&gt;</span>
+<span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"page_number "</span><span class="nt">&gt;</span>{{ paginator.page }} / {{ paginator.total_pages }}<span class="nt">&lt;/span&gt;</span>
+
+{% if paginator.next_page %}
+  <span class="c">&lt;!-- link to the next page of the index --&gt;</span>
+  <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"{{ paginator.next_page }}"</span><span class="nt">/&gt;</span>
+{% else %}
+  <span class="c">&lt;!-- covers the case when there is no next page --&gt;</span>
+  <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">/&gt;</span>
+{% endif %}
+ </code></pre></figure>
+
+<p>Apart of this, Jekyll also allow to navigate from a post to the next and the previous posts, this should be defined in the template for the posts:</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html">{% if page.previous.url %}
+  <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"{{page.previous.url}}"</span><span class="nt">/&gt;</span>
+{% endif %}
+{% if page.next.url %}
+  <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"{{page.next.url}}"</span><span class="nt">/&gt;</span>
+{% endif %}</code></pre></figure>
+
+<h2>8. Building the site</h2>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">    jekyll build --watch</code></pre></figure>
+    
+
+
+                <hr>
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="http://blog.joseestudillo.com/linux/repository/2014/02/12/corrupted-repository-linux-mint/" data-toggle="tooltip" data-placement="top" title="Fixing corrupted package repository list in Linux Mint">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+            </div>
+        </div>
+        <div class="row">
+          <!-- Disqus { -->
+          <div class="text-center">
+            <div id="disqus_thread"></div>
+          </div>
+          <!-- } Disqus -->
+        </div>
+    </div>
+</article>
+<script type="text/javascript" src="http://blog.joseestudillo.com/js/disqus.js"></script>
+
+<hr>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="http://blog.joseestudillo.com/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://twitter.com/jose_estudillo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+                    <li>
+                        <a href="https://github.com/joseestudillo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="https://linkedin.com/in/joseestudilloojeda">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="mailto:jose@estudillo.me">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2017</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="http://blog.joseestudillo.com/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="http://blog.joseestudillo.com/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="http://blog.joseestudillo.com/js/blog.min.js "></script>
+
+<!-- Add This script -->
+
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-51ff8808639bd279"></script>
+<script type="text/javascript">
+  var addthis_config = addthis_config||{};
+  addthis_config.data_track_addressbar = false;
+  addthis_config.data_track_clickback = false;
+</script>
+
+
+
+    
+
+
+</body>
+
+</html>

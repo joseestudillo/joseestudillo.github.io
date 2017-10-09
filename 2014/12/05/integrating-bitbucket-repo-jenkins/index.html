@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Jose Estudillo's Blog. Software engineering and technology blog.">
+    <meta name="keywords" content="jose,estudillo,ojeda,jose estudillo, jose estudillo ojeda,blog,programming,big data,software,engineering">
+    <meta name="description" lang="en" content="Jose Estudillo's Blog. Software engineering and technology blog.">
+    <meta name="description" lang="es" content="Blog de Jose Estudillo">
+
+    <title>Configuring a Maven project hosted in Bitbucket in Jenkins</title>
+
+    <link rel="canonical" href="http://blog.joseestudillo.com/2014/12/05/integrating-bitbucket-repo-jenkins/">
+    <link rel="icon" href="http://blog.joseestudillo.com/favicon.ico">
+    <link rel="shortcut icon" href="http://blog.joseestudillo.com/favicon.ico">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="http://blog.joseestudillo.com/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="http://blog.joseestudillo.com/css/blog.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="http://blog.joseestudillo.com/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link type="application/atom+xml" rel="alternate" href="http://joseestudillo.com/http://blog.joseestudillo.com/feed.xml" title="Jose Estudillo's Blog" />
+
+</head>
+
+
+<body>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://blog.joseestudillo.com/">Jose Estudillo's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="http://blog.joseestudillo.com/">Home</a>
+                </li>
+                
+				
+                <li>
+                    <a href="http://blog.joseestudillo.com/about/">About</a>
+                </li>
+				
+                
+				
+                <li>
+                    <a href="http://blog.joseestudillo.com/books/">Books</a>
+                </li>
+				
+                
+				
+                <li>
+                    <a href="http://blog.joseestudillo.com/contact/">Contact</a>
+                </li>
+				
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header" style="background-image: url('http://blog.joseestudillo.com/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Configuring a Maven project hosted in Bitbucket in Jenkins</h1>
+                    
+                    <span class="meta">Posted by Jose Estudillo on December 5, 2014</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+				<h1>Configuring a Maven project hosted in Bitbucket</h1>
+
+<p>If you don&#39;t have Jenkins installed in  your system go to <a href="http://blog.joseestudillo.com/2014/12/03/installing-jenkins-centos-7/">How to install Jenkins</a></p>
+
+<h2>Installing Bitbucket plugins</h2>
+
+<p>Manage Jenkins -&gt; Manage Plugins</p>
+
+<p>Go to the <em>Available</em> tab and filter by &quot;Bitbucket&quot;, you will get the entries listed below:</p>
+
+<ul>
+<li>Bitbucket OAuth Plugin</li>
+<li>Bitbucket Plugin</li>
+<li>Bitbucket Pullrequest Builder Plugin</li>
+</ul>
+
+<p>Not all this plugins are required to build from Bitbucket</p>
+
+<h2>Creating new Item for a Maven project hosted in Bitbucket</h2>
+
+<p>New Item -&gt; Maven Project</p>
+
+<p>Maven project name:</p>
+
+<ul>
+<li>Source Code Management
+
+<ul>
+<li>Repository URL</li>
+<li>Credentials</li>
+<li>Branches to build : */master (or any other specified)</li>
+</ul></li>
+<li>Build Triggers
+
+<ul>
+<li>Build whenever a SNAPSHOT dependency is built</li>
+<li>Build when a change is pushed to BitBucket</li>
+<li>Build periodically: @midnight</li>
+</ul></li>
+<li>Build
+
+<ul>
+<li>Root POM: pom.xml</li>
+</ul></li>
+<li>Build Settings:
+
+<ul>
+<li>E-mail notification: setting the recipient and send emails for different cases, the most common one is for failed builds, so you can know as soon as a build fails.</li>
+</ul></li>
+</ul>
+
+
+                <hr>
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="http://blog.joseestudillo.com/2014/12/03/installing-jenkins-centos-7/" data-toggle="tooltip" data-placement="top" title="Installing and configuring Jenkins in CentOS 7">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="http://blog.joseestudillo.com/2014/12/10/installing-mongodb-centos-7/" data-toggle="tooltip" data-placement="top" title="Installing MongoDB in CentOS 7">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+            </div>
+        </div>
+        <div class="row">
+          <!-- Disqus { -->
+          <div class="text-center">
+            <div id="disqus_thread"></div>
+          </div>
+          <!-- } Disqus -->
+        </div>
+    </div>
+</article>
+<script type="text/javascript" src="http://blog.joseestudillo.com/js/disqus.js"></script>
+
+<hr>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="http://blog.joseestudillo.com/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://twitter.com/jose_estudillo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+                    <li>
+                        <a href="https://github.com/joseestudillo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="https://linkedin.com/in/joseestudilloojeda">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="mailto:jose@estudillo.me">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2017</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="http://blog.joseestudillo.com/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="http://blog.joseestudillo.com/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="http://blog.joseestudillo.com/js/blog.min.js "></script>
+
+<!-- Add This script -->
+
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-51ff8808639bd279"></script>
+<script type="text/javascript">
+  var addthis_config = addthis_config||{};
+  addthis_config.data_track_addressbar = false;
+  addthis_config.data_track_clickback = false;
+</script>
+
+
+
+    
+
+
+</body>
+
+</html>

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Jose Estudillo's Blog. Software engineering and technology blog.">
+    <meta name="keywords" content="jose,estudillo,ojeda,jose estudillo, jose estudillo ojeda,blog,programming,big data,software,engineering">
+    <meta name="description" lang="en" content="Jose Estudillo's Blog. Software engineering and technology blog.">
+    <meta name="description" lang="es" content="Blog de Jose Estudillo">
+
+    <title>Installing Oracle Database XE in CentOS 7</title>
+
+    <link rel="canonical" href="http://blog.joseestudillo.com/oracle/database/2014/12/24/installing-oracle-xe-database-centos-7/">
+    <link rel="icon" href="http://blog.joseestudillo.com/favicon.ico">
+    <link rel="shortcut icon" href="http://blog.joseestudillo.com/favicon.ico">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="http://blog.joseestudillo.com/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="http://blog.joseestudillo.com/css/blog.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="http://blog.joseestudillo.com/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link type="application/atom+xml" rel="alternate" href="http://joseestudillo.com/http://blog.joseestudillo.com/feed.xml" title="Jose Estudillo's Blog" />
+
+</head>
+
+
+<body>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://blog.joseestudillo.com/">Jose Estudillo's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="http://blog.joseestudillo.com/">Home</a>
+                </li>
+                
+				
+                <li>
+                    <a href="http://blog.joseestudillo.com/about/">About</a>
+                </li>
+				
+                
+				
+                <li>
+                    <a href="http://blog.joseestudillo.com/books/">Books</a>
+                </li>
+				
+                
+				
+                <li>
+                    <a href="http://blog.joseestudillo.com/contact/">Contact</a>
+                </li>
+				
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header" style="background-image: url('http://blog.joseestudillo.com/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Installing Oracle Database XE in CentOS 7</h1>
+                    
+                    <span class="meta">Posted by Jose Estudillo on December 24, 2014</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+				<h1>Installing Oracle Database XE in CentOS 7</h1>
+
+<h2>Getting the binaries</h2>
+
+<p>The binaries can be found in the link <a href="http://www.oracle.com/technetwork/database/database-technologies/express-edition/downloads/index.html">Oracle Database XE</a></p>
+
+<p>At the time of this writing the name of the file is <code>oracle-xe-11.2.0-1.0.x86_64.rpm.zip</code> in linux this can be extracted using:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">unzip oracle-xe-11.2.0-1.0.x86_64.rpm.zip</code></pre></figure>
+    
+
+<p>Supposing the file have been extracted to <code>/tmp</code> the rpm file will be at <code>/tmp/Disk1/oracle-xe-11.2.0-1.0.x86_64.rpm</code></p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">#run as super user, su/sudo</span>
+rpm -Uvh oracle-xe-11.2.0-1.0.x86_64.rpm </code></pre></figure>
+    
+
+<p>Output:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">Preparing...                          ################################# [100%]
+Updating / installing...
+   1:oracle-xe-11.2.0-1.0             ################################# [100%]
+Executing post-install steps...
+sh: -c: line 0: syntax error near unexpected token `('
+sh: -c: line 0: `echo ~(unknown)'
+You must run '/etc/init.d/oracle-xe configure' as the root user to configure the database.
+</code></pre></div>
+<p>Notice that despite the post-install script errors the installation is successful. I haven&#39;t done much research about this yet. </p>
+
+<p>After installing the app run:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">/etc/init.d/oracle-xe configure <span class="c">#run as super user</span></code></pre></figure>
+    
+
+<p>Oracle Database XE has a webapp associated to it, be default the offered port is <em>8080</em> but I will use <em>11521</em> to avoid conflict with other applications. For the database listener, I&#39;ll keep 1521.</p>
+
+<p>Output:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">[root@localhost Disk1]# /etc/init.d/oracle-xe configure
+
+Oracle Database 11g Express Edition Configuration
+-------------------------------------------------
+This will configure on-boot properties of Oracle Database 11g Express 
+Edition.  The following questions will determine whether the database should 
+be starting upon system boot, the ports it will use, and the passwords that 
+will be used for database accounts.  Press &lt;Enter&gt; to accept the defaults. 
+Ctrl-C will abort.
+
+Specify the HTTP port that will be used for Oracle Application Express [8080]:11521
+
+Specify a port that will be used for the database listener [1521]:
+
+Specify a password to be used for database accounts.  Note that the same
+password will be used for SYS and SYSTEM.  Oracle recommends the use of 
+different passwords for each database account.  This can be done after 
+initial configuration:
+Confirm the password:
+
+Do you want Oracle Database 11g Express Edition to be started on boot (y/n) [y]:y
+
+Starting Oracle Net Listener...Done
+Configuring database...Done
+Starting Oracle Database 11g Express Edition instance...Done
+Installation completed successfully.
+</code></pre></div>
+<h2>Managing the service</h2>
+
+<p>The service file is located in <code>/etc/init.d/oracle-xe</code> and be started / stopped using:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">    
+service oracle-xe start / service oracle-xe stop</code></pre></figure>
+    
+
+<h2>Opening Ports for external access</h2>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">firewall-cmd --permanent --zone<span class="o">=</span>public --add-port<span class="o">=</span>11521/tcp
+firewall-cmd --permanent --zone<span class="o">=</span>public --add-port<span class="o">=</span>1521/tcp
+firewall-cmd --reload</code></pre></figure>
+
+<h2>First use</h2>
+
+<p>Assuming we are using the same box to access to the webapp, we could use <a href="http://localhost:11521/">localhost:11521</a> and login as <strong>SYSTEM</strong>. You&#39;ll notice that even typing the right password, the login won&#39;t be successful, just cancel the login, and you will be redirected to a different URL, this only happens the first time.</p>
+
+<h3>Creating a workspace</h3>
+
+<p>Once in APEX <a href="http://localhost:11521/">localhost:11521</a> go to <strong>home -&gt; Application express</strong> and create a workspace (<em>Application express workspace</em> it will be the name of the workspace)</p>
+
+<p><img src="http://blog.joseestudillo.com/img/oracle-xe-database-centos-7/create-workspace.png" alt="creating oracle workspace"></p>
+
+<p>then connect to it using the interface next to the previous one to access to the newly created workspace </p>
+
+<p><img src="http://blog.joseestudillo.com/img/oracle-xe-database-centos-7/login-workspace.png" alt="log into workspace"></p>
+
+<h2>Connecting from Java</h2>
+
+<p>To connect from Java the oracle database driver is required, the oracle drivers are not hosted in Maven, so the easiest way to get it is from: </p>
+<div class="highlight"><pre><code class="language-" data-lang="">/u01/app/oracle/product/11.2.0/xe/jdbc/lib/ojdbc6.jar
+</code></pre></div>
+<p>To install one the drives to make it accessible from Maven check <a href="http://blog.joseestudillo.com/maven/java/jar/2014/12/23/installing-third-party-jars-in-maven/">this</a>. With Oracle driver added to the classpath, the connection URL for this example would look as follows:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">jdbc:oracle:thin:@localhost:1521:xe
+</code></pre></div>
+<p>And very quick chunk of code to test the connection:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">"oracle.jdbc.driver.OracleDriver"</span><span class="o">);</span>
+<span class="n">Connection</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">DriverManager</span><span class="o">.</span><span class="na">getConnection</span><span class="o">(</span><span class="s">"jdbc:oracle:thin:@localhost:1521:xe"</span><span class="o">,</span> <span class="s">"dbuser"</span><span class="o">,</span> <span class="s">"YOUR_PASSWORD"</span><span class="o">);</span>
+<span class="n">Statement</span> <span class="n">statement</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="na">createStatement</span><span class="o">();</span>
+<span class="n">ResultSet</span> <span class="n">resultSet</span> <span class="o">=</span> <span class="n">statement</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">(</span><span class="s">"SELECT 1 FROM Dual"</span><span class="o">);</span>
+<span class="k">if</span><span class="o">(</span><span class="n">resultSet</span><span class="o">.</span><span class="na">next</span><span class="o">())</span> <span class="o">{</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Success"</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+
+                <hr>
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="http://blog.joseestudillo.com/maven/java/jar/2014/12/23/installing-third-party-jars-in-maven/" data-toggle="tooltip" data-placement="top" title="Installing third party jars in Maven">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="http://blog.joseestudillo.com/linux/mint/2015/06/01/exporting-keybindings-linux-mint/" data-toggle="tooltip" data-placement="top" title="Exporting/Importing keyboard shortcuts in Linux Mint">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+            </div>
+        </div>
+        <div class="row">
+          <!-- Disqus { -->
+          <div class="text-center">
+            <div id="disqus_thread"></div>
+          </div>
+          <!-- } Disqus -->
+        </div>
+    </div>
+</article>
+<script type="text/javascript" src="http://blog.joseestudillo.com/js/disqus.js"></script>
+
+<hr>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="http://blog.joseestudillo.com/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://twitter.com/jose_estudillo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+                    <li>
+                        <a href="https://github.com/joseestudillo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="https://linkedin.com/in/joseestudilloojeda">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="mailto:jose@estudillo.me">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2017</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="http://blog.joseestudillo.com/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="http://blog.joseestudillo.com/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="http://blog.joseestudillo.com/js/blog.min.js "></script>
+
+<!-- Add This script -->
+
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-51ff8808639bd279"></script>
+<script type="text/javascript">
+  var addthis_config = addthis_config||{};
+  addthis_config.data_track_addressbar = false;
+  addthis_config.data_track_clickback = false;
+</script>
+
+
+
+    
+
+
+</body>
+
+</html>
