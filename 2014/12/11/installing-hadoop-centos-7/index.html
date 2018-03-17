@@ -38,7 +38,7 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <link type="application/atom+xml" rel="alternate" href="http://joseestudillo.com/http://blog.joseestudillo.com/feed.xml" title="Jose Estudillo's Blog" />
+    <link type="application/atom+xml" rel="alternate" href="http://joseestudillo.com/feed.xml" title="" />
 
 </head>
 
@@ -145,13 +145,13 @@
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># executed as super user</span>
     
 groupadd hadoop
-useradd -g hadoop -c <span class="s2">"Hadoop user"</span> hadoop
-mkdir /var/log/hadoop
-chown -R hadoop:hadoop /var/log/hadoop
-chmod -R u+xwr,g+xwr,o+xr /var/log/hadoop
-mkdir /var/data/hadoop
-chown -R hadoop:hadoop /var/data/hadoop
-chmod -R u+xwr,g+xwr,o+xr /var/data/hadoop</code></pre></figure>
+useradd <span class="nt">-g</span> hadoop <span class="nt">-c</span> <span class="s2">"Hadoop user"</span> hadoop
+<span class="nb">mkdir</span> /var/log/hadoop
+<span class="nb">chown</span> <span class="nt">-R</span> hadoop:hadoop /var/log/hadoop
+<span class="nb">chmod</span> <span class="nt">-R</span> u+xwr,g+xwr,o+xr /var/log/hadoop
+<span class="nb">mkdir</span> /var/data/hadoop
+<span class="nb">chown</span> <span class="nt">-R</span> hadoop:hadoop /var/data/hadoop
+<span class="nb">chmod</span> <span class="nt">-R</span> u+xwr,g+xwr,o+xr /var/data/hadoop</code></pre></figure>
 
 <p>After this we must set the new user to access to the host without authenticating. This can be checked with the command:</p>
 
@@ -165,7 +165,7 @@ ssh-keygen
 
  <span class="c"># copy the generated key (would also work for a remote server)</span>
 
-ssh-copy-id -i ~/.ssh/id_rsa.pub centos-vm
+ssh-copy-id <span class="nt">-i</span> ~/.ssh/id_rsa.pub centos-vm
 
  <span class="c"># stop the ssh session (exit) and try</span>
 
@@ -201,13 +201,13 @@ ssh centos-vm</code></pre></figure>
 
 <p>Supposing that the right version of java is installed in <code>/usr/java/latest</code> the following command will change the configuration in the file <code>conf/hadoop-env.sh</code>. Notice that this may not be required is you already have the right JDK installed and the JAVA<em>HOME variable defined (check using `echo &quot;$JAVA</em>HOME&quot;`).</p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">sed -i -e <span class="s2">"s-^.*JAVA_HOME.*-export JAVA_HOME=/usr/java/latest-g"</span>  /opt/apache-hadoop/hadoop1/conf/hadoop-env.sh</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">sed</span> <span class="nt">-i</span> <span class="nt">-e</span> <span class="s2">"s-^.*JAVA_HOME.*-export JAVA_HOME=/usr/java/latest-g"</span>  /opt/apache-hadoop/hadoop1/conf/hadoop-env.sh</code></pre></figure>
     
 
 <p>In order to be a good linux citizen we will also configure the log path (<code>/var/log/hadoop</code>):</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash">    
-sed -i -e <span class="s2">"s-^.*HADOOP_LOG_DIR.*-export HADOOP_LOG_DIR=/var/log/hadoop-g"</span>  /opt/apache-hadoop/hadoop1/conf/hadoop-env.sh</code></pre></figure>
+<span class="nb">sed</span> <span class="nt">-i</span> <span class="nt">-e</span> <span class="s2">"s-^.*HADOOP_LOG_DIR.*-export HADOOP_LOG_DIR=/var/log/hadoop-g"</span>  /opt/apache-hadoop/hadoop1/conf/hadoop-env.sh</code></pre></figure>
 
 <p>For a <em>Pseudo-Distributed</em> configuration these files must also be modified:</p>
 
@@ -277,7 +277,7 @@ sed -i -e <span class="s2">"s-^.*HADOOP_LOG_DIR.*-export HADOOP_LOG_DIR=/var/log
 <p>Once all the configuration have been set, it is required to format the filesystem with the following command:</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">cd</span> /opt/apache-hadoop/hadoop1/bin
-./hadoop namenode -format</code></pre></figure>
+./hadoop namenode <span class="nt">-format</span></code></pre></figure>
 
 <p>The output should be similar to:</p>
 <div class="highlight"><pre><code class="language-" data-lang="">14/12/20 01:35:12 INFO namenode.NameNode: STARTUP_MSG: 
@@ -336,10 +336,10 @@ JobTracker - http://centos-vm:50030/
 </code></pre></div>
 <h3>Make Hadoop web interface available for remote access</h3>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">firewall-cmd --permanent --zone<span class="o">=</span>public --add-port<span class="o">=</span>50070/tcp
-firewall-cmd --permanent --zone<span class="o">=</span>public --add-port<span class="o">=</span>50075/tcp
-firewall-cmd --permanent --zone<span class="o">=</span>public --add-port<span class="o">=</span>50030/tcp
-firewall-cmd --reload</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">firewall-cmd <span class="nt">--permanent</span> <span class="nt">--zone</span><span class="o">=</span>public <span class="nt">--add-port</span><span class="o">=</span>50070/tcp
+firewall-cmd <span class="nt">--permanent</span> <span class="nt">--zone</span><span class="o">=</span>public <span class="nt">--add-port</span><span class="o">=</span>50075/tcp
+firewall-cmd <span class="nt">--permanent</span> <span class="nt">--zone</span><span class="o">=</span>public <span class="nt">--add-port</span><span class="o">=</span>50030/tcp
+firewall-cmd <span class="nt">--reload</span></code></pre></figure>
 
 <h2>Hadoop 2</h2>
 
@@ -453,7 +453,7 @@ firewall-cmd --reload</code></pre></figure>
 <p>The command to format the filesystem has been changed in Hadoop2:</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">cd</span> /opt/apache-hadoop/hadoop2/bin
-./hdfs namenode -format</code></pre></figure>
+./hdfs namenode <span class="nt">-format</span></code></pre></figure>
     
 
 <h3>starting/stopping the node</h3>
@@ -464,25 +464,25 @@ firewall-cmd --reload</code></pre></figure>
 <li>Start Hadoop2:</li>
 </ul>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">mkdir -p /var/run/hadoop
-chown -R hadoop:hadoop /var/run/hadoop
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">mkdir</span> <span class="nt">-p</span> /var/run/hadoop
+<span class="nb">chown</span> <span class="nt">-R</span> hadoop:hadoop /var/run/hadoop
 <span class="nb">echo</span> <span class="s2">"Starting Hadoop2 NameNode and DataNode"</span>
-su - hadoop -c <span class="s1">'/opt/apache-hadoop/hadoop2/sbin/start-dfs.sh'</span>
+su - hadoop <span class="nt">-c</span> <span class="s1">'/opt/apache-hadoop/hadoop2/sbin/start-dfs.sh'</span>
 <span class="nb">echo</span> <span class="s2">"Starting Hadoop2 YARN"</span>
-su - hadoop -c <span class="s1">'/opt/apache-hadoop/hadoop2/sbin/start-yarn.sh'</span>
+su - hadoop <span class="nt">-c</span> <span class="s1">'/opt/apache-hadoop/hadoop2/sbin/start-yarn.sh'</span>
 <span class="nb">echo</span> <span class="s2">"Starting Job History server"</span>
-su - hadoop -c <span class="s1">'/opt/apache-hadoop/hadoop2/sbin/mr-jobhistory-daemon.sh start historyserver'</span></code></pre></figure>
+su - hadoop <span class="nt">-c</span> <span class="s1">'/opt/apache-hadoop/hadoop2/sbin/mr-jobhistory-daemon.sh start historyserver'</span></code></pre></figure>
 
 <ul>
 <li>Stop Hadoop2:</li>
 </ul>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">echo</span> <span class="s2">"Stopping Hadoop2 NameNode and DataNode"</span>
-su - hadoop -c <span class="s1">'/opt/apache-hadoop/hadoop2/sbin/stop-dfs.sh'</span>
+su - hadoop <span class="nt">-c</span> <span class="s1">'/opt/apache-hadoop/hadoop2/sbin/stop-dfs.sh'</span>
 <span class="nb">echo</span> <span class="s2">"Stopping Hadoop2 YARN"</span>
-su - hadoop -c <span class="s1">'/opt/apache-hadoop/hadoop2/sbin/stop-yarn.sh'</span>
+su - hadoop <span class="nt">-c</span> <span class="s1">'/opt/apache-hadoop/hadoop2/sbin/stop-yarn.sh'</span>
 <span class="nb">echo</span> <span class="s2">"Stopping Job History Server"</span>
-su - hadoop -c <span class="s1">'/opt/apache-hadoop/hadoop2/sbin/mr-jobhistory-daemon.sh stop historyserver'</span></code></pre></figure>
+su - hadoop <span class="nt">-c</span> <span class="s1">'/opt/apache-hadoop/hadoop2/sbin/mr-jobhistory-daemon.sh stop historyserver'</span></code></pre></figure>
 
 <p>Once the service is started, Hadoop offers web interfaces to know the status of the system:</p>
 <div class="highlight"><pre><code class="language-" data-lang="">NameNode - http://centos-vm:50070/
@@ -493,12 +493,12 @@ NodeManager Information - http://centos-vm:8042/
 </code></pre></div>
 <h3>Make Hadoop web interface available for remote access</h3>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">firewall-cmd --permanent --zone<span class="o">=</span>public --add-port<span class="o">=</span>50070/tcp
-firewall-cmd --permanent --zone<span class="o">=</span>public --add-port<span class="o">=</span>50075/tcp
-firewall-cmd --permanent --zone<span class="o">=</span>public --add-port<span class="o">=</span>8088/tcp
-firewall-cmd --permanent --zone<span class="o">=</span>public --add-port<span class="o">=</span>19888/tcp
-firewall-cmd --permanent --zone<span class="o">=</span>public --add-port<span class="o">=</span>8042/tcp
-firewall-cmd --reload</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">firewall-cmd <span class="nt">--permanent</span> <span class="nt">--zone</span><span class="o">=</span>public <span class="nt">--add-port</span><span class="o">=</span>50070/tcp
+firewall-cmd <span class="nt">--permanent</span> <span class="nt">--zone</span><span class="o">=</span>public <span class="nt">--add-port</span><span class="o">=</span>50075/tcp
+firewall-cmd <span class="nt">--permanent</span> <span class="nt">--zone</span><span class="o">=</span>public <span class="nt">--add-port</span><span class="o">=</span>8088/tcp
+firewall-cmd <span class="nt">--permanent</span> <span class="nt">--zone</span><span class="o">=</span>public <span class="nt">--add-port</span><span class="o">=</span>19888/tcp
+firewall-cmd <span class="nt">--permanent</span> <span class="nt">--zone</span><span class="o">=</span>public <span class="nt">--add-port</span><span class="o">=</span>8042/tcp
+firewall-cmd <span class="nt">--reload</span></code></pre></figure>
 
 <p><em>Updated 2015-03-16</em>: Configuration improved to use linux standards. Start / Stop script improved. New Ports to open added to the list.</p>
 
@@ -590,7 +590,7 @@ firewall-cmd --reload</code></pre></figure>
                     </li>
                     
                 </ul>
-                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2017</p>
+                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2018</p>
             </div>
         </div>
     </div>

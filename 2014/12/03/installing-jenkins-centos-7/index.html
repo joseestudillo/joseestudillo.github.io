@@ -38,7 +38,7 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <link type="application/atom+xml" rel="alternate" href="http://joseestudillo.com/http://blog.joseestudillo.com/feed.xml" title="Jose Estudillo's Blog" />
+    <link type="application/atom+xml" rel="alternate" href="http://joseestudillo.com/feed.xml" title="" />
 
 </head>
 
@@ -117,9 +117,9 @@
 
 <p>The easies way to install jenkins is following the instructions in their <a href="https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on+RedHat+distributions">official page</a></p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo
-sudo rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
-sudo yum install jenkins</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">sudo </span>wget <span class="nt">-O</span> /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo
+<span class="nb">sudo </span>rpm <span class="nt">--import</span> http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
+<span class="nb">sudo </span>yum <span class="nb">install </span>jenkins</code></pre></figure>
 
 <p>Jenkins require java installed, to do so check <a href="http://blog.joseestudillo.com/2014/10/14/installing-java-centos-7/">Installing java in CentOS</a></p>
 
@@ -131,7 +131,7 @@ sudo yum install jenkins</code></pre></figure>
 
 <p>So to change the default port, 8080, the easiest way is to replace the value of the variable <code>HTTP_PORT</code> in the file <code>/etc/sysconfig/jenkins</code>. This can be done using the following command as super user, where NEW_PORT is the value of the port you want to asign</p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">sed -i s/JENKINS_PORT<span class="o">=</span><span class="se">\"</span>8080<span class="se">\"</span>/JENKINS_PORT<span class="o">=</span><span class="se">\"</span><span class="o">{</span>NEW_PORT<span class="o">}</span><span class="se">\"</span>/g /etc/sysconfig/jenkins</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">sed</span> <span class="nt">-i</span> s/JENKINS_PORT<span class="o">=</span><span class="se">\"</span>8080<span class="se">\"</span>/JENKINS_PORT<span class="o">=</span><span class="se">\"</span><span class="o">{</span>NEW_PORT<span class="o">}</span><span class="se">\"</span>/g /etc/sysconfig/jenkins</code></pre></figure>
 
 <p>Then you just need to restart the service</p>
 
@@ -145,8 +145,8 @@ sudo yum install jenkins</code></pre></figure>
 
 <p>CentOS 7 has a new firewall application, for previous versions the service is called <em>iptables</em>.</p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">firewall-cmd --permanent --zone<span class="o">=</span>public --add-port<span class="o">={</span>NEW_PORT<span class="o">}</span>/tcp
-firewall-cmd --reload</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">firewall-cmd <span class="nt">--permanent</span> <span class="nt">--zone</span><span class="o">=</span>public <span class="nt">--add-port</span><span class="o">={</span>NEW_PORT<span class="o">}</span>/tcp
+firewall-cmd <span class="nt">--reload</span></code></pre></figure>
 
 
                 <hr>
@@ -236,7 +236,7 @@ firewall-cmd --reload</code></pre></figure>
                     </li>
                     
                 </ul>
-                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2017</p>
+                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2018</p>
             </div>
         </div>
     </div>

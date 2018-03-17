@@ -1,4 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="{"en"=>{"description"=>"Jose Estudillo's Blog. Software engineering and technology blog."}, "es"=>{"description"=>"Blog de Jose Estudillo"}}"><generator uri="https://jekyllrb.com/" version="3.5.0">Jekyll</generator><link href="http://joseestudillo.com/http://blog.joseestudillo.com/feed.xml" rel="self" type="application/atom+xml" /><link href="http://joseestudillo.com/http://blog.joseestudillo.com/" rel="alternate" type="text/html" hreflang="{"en"=>{"description"=>"Jose Estudillo's Blog. Software engineering and technology blog."}, "es"=>{"description"=>"Blog de Jose Estudillo"}}" /><updated>2017-10-09T12:34:09+01:00</updated><id>http://joseestudillo.com/http://blog.joseestudillo.com/</id><title type="html">Jose Estudillo’s Blog</title><subtitle>Jose Estudillo's Blog. Software engineering and technology blog.</subtitle><author><name>Jose Estudillo</name><email>jose@estudillo.me</email></author><entry><title type="html">Creating a kafka cluster with docker</title><link href="http://joseestudillo.com/http://blog.joseestudillo.com/2017/08/27/creating-kafka-cluster-with-docker/" rel="alternate" type="text/html" title="Creating a kafka cluster with docker" /><published>2017-08-27T00:00:00+01:00</published><updated>2017-08-27T00:00:00+01:00</updated><id>http://joseestudillo.com/http://blog.joseestudillo.com/2017/08/27/creating-kafka-cluster-with-docker</id><content type="html" xml:base="http://joseestudillo.com/http://blog.joseestudillo.com/2017/08/27/creating-kafka-cluster-with-docker/">&lt;h1&gt;Creating a kafka cluster with docker&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+<generator uri="http://jekyllrb.com" version="3.7.3">Jekyll</generator>
+<link href="http://joseestudillo.comhttp://blog.joseestudillo.com/feed.xml" rel="self" type="application/atom+xml" />
+<link href="http://joseestudillo.comhttp://blog.joseestudillo.com/" rel="alternate" type="text/html" />
+<updated>2018-03-17T23:29:21+00:00</updated>
+<id>http://joseestudillo.comhttp://blog.joseestudillo.com/</id>
+<subtitle>Jose Estudillo's Blog. Software engineering and technology blog.</subtitle>
+<author>
+<name>Jose Estudillo</name>
+<email>jose@estudillo.me</email>
+</author>
+<entry>
+<title>Creating a kafka cluster with docker</title>
+<link href="http://joseestudillo.comhttp://blog.joseestudillo.com/2017/08/27/creating-kafka-cluster-with-docker/" rel="alternate" type="text/html" title="Creating a kafka cluster with docker" />
+<published>2017-08-27T00:00:00+01:00</published>
+<updated>2017-08-27T00:00:00+01:00</updated>
+<id>http://joseestudillo.comhttp://blog.joseestudillo.com/2017/08/27/creating-kafka-cluster-with-docker</id>
+<content type="html" xml:base="http://joseestudillo.comhttp://blog.joseestudillo.com/2017/08/27/creating-kafka-cluster-with-docker/">&lt;h1&gt;Creating a kafka cluster with docker&lt;/h1&gt;
 
 &lt;p&gt;A local &lt;a href=&quot;https://kafka.apache.org/&quot;&gt;Kafka&lt;/a&gt; cluster will help to develop producer and consumers, allowing to test different scenarios specially when it comes to HA. In this article I&amp;#39;ll show how to create a kafka cluster using &lt;a href=&quot;https://www.docker.com/&quot;&gt;docker&lt;/a&gt; and &lt;a href=&quot;https://docs.docker.com/compose/&quot;&gt;docker-compose&lt;/a&gt;.  &lt;/p&gt;
 
@@ -49,15 +67,15 @@ CMD /home/kafka/scripts/run.sh
 &lt;/ul&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
 
-cat &lt;span class=&quot;sh&quot;&gt;&amp;lt;&amp;lt;EOF &amp;gt; /etc/kafka/broker.properties
-broker.id=$(hostname | sed &quot;s/[^0-9]*//g&quot;)
+&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt; &amp;gt; /etc/kafka/broker.properties
+broker.id=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;hostname&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;sed&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;s/[^0-9]*//g&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;
 port=9092
 log.dir=/var/log/kafka
-zookeeper.connect=${KAFKA_ZOOKEEPER_HOST:=zookeeper:2181}
-host.name=$(hostname)
-advertised.host.name=$(hostname)
+zookeeper.connect=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;KAFKA_ZOOKEEPER_HOST&lt;/span&gt;:&lt;span class=&quot;p&quot;&gt;=zookeeper&lt;/span&gt;:2181&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;
+host.name=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;hostname&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;
+advertised.host.name=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;hostname&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;
 advertised.host.port=9092
-EOF
+&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF
 
 &lt;/span&gt;kafka-server-start.sh /etc/kafka/broker.properties
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -71,7 +89,7 @@ EOF
 &lt;h2&gt;Creating the kafka image from the Dockerfile&lt;/h2&gt;
 
 &lt;p&gt;In this example I use my own namespace (&lt;code&gt;joseestudillo&lt;/code&gt;) but this is not required and can be omitted. I also add the version &lt;code&gt;latest&lt;/code&gt; to follow docker image naming standards.&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;docker build --tag&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;joseestudillo/kafka:0.0.1&quot;&lt;/span&gt; .
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;docker build &lt;span class=&quot;nt&quot;&gt;--tag&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;joseestudillo/kafka:0.0.1&quot;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
 docker tag joseestudillo/kafka:0.0.1 joseestudillo/kafka:latest
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h2&gt;Creating the cluster: docker compose&lt;/h2&gt;
@@ -129,7 +147,17 @@ services:
 
 &lt;p&gt;Once the kafka image is on the system (check with &lt;code&gt;docker images&lt;/code&gt;), we can launch the cluster using: &lt;code&gt;docker-compose up&lt;/code&gt; that will show the logs from all the running containers. The status of the containers can be checked with &lt;code&gt;docker-compose ps&lt;/code&gt; that as the rest of the docker compose commands, but be run from the directory where &lt;code&gt;docker-compose.yml&lt;/code&gt; is placed, or point explicitly to it.&lt;/p&gt;
 
-&lt;p&gt;The cluster then can be operated from any of its nodes: &lt;code&gt;docker-compose exec &amp;lt;container name in the docker compose file&amp;gt; bash&lt;/code&gt;&lt;/p&gt;</content><author><name>Jose Estudillo</name><email>jose@estudillo.me</email></author><summary type="html">Creating a kafka cluster with docker</summary></entry><entry><title type="html">Hosting an apache server in Openshift with a godaddy hosted domain</title><link href="http://joseestudillo.com/http://blog.joseestudillo.com/2015/08/04/hosting-apache-server-openshift-godaddy-domain/" rel="alternate" type="text/html" title="Hosting an apache server in Openshift with a godaddy hosted domain" /><published>2015-08-04T00:00:00+01:00</published><updated>2015-08-04T00:00:00+01:00</updated><id>http://joseestudillo.com/http://blog.joseestudillo.com/2015/08/04/hosting-apache-server-openshift-godaddy-domain</id><content type="html" xml:base="http://joseestudillo.com/http://blog.joseestudillo.com/2015/08/04/hosting-apache-server-openshift-godaddy-domain/">&lt;h1&gt;Hosting an apache server in Openshift with a godaddy hosted domain&lt;/h1&gt;
+&lt;p&gt;The cluster then can be operated from any of its nodes: &lt;code&gt;docker-compose exec &amp;lt;container name in the docker compose file&amp;gt; bash&lt;/code&gt;&lt;/p&gt;
+</content>
+<summary>Creating a kafka cluster with docker</summary>
+</entry>
+<entry>
+<title>Hosting an apache server in Openshift with a godaddy hosted domain</title>
+<link href="http://joseestudillo.comhttp://blog.joseestudillo.com/2015/08/04/hosting-apache-server-openshift-godaddy-domain/" rel="alternate" type="text/html" title="Hosting an apache server in Openshift with a godaddy hosted domain" />
+<published>2015-08-04T00:00:00+01:00</published>
+<updated>2015-08-04T00:00:00+01:00</updated>
+<id>http://joseestudillo.comhttp://blog.joseestudillo.com/2015/08/04/hosting-apache-server-openshift-godaddy-domain</id>
+<content type="html" xml:base="http://joseestudillo.comhttp://blog.joseestudillo.com/2015/08/04/hosting-apache-server-openshift-godaddy-domain/">&lt;h1&gt;Hosting an apache server in Openshift with a godaddy hosted domain&lt;/h1&gt;
 
 &lt;p&gt;In this article I&amp;#39;ll show how to point an existing domain hosted in godaddy to an apache server running in Openshift, to do so I&amp;#39;ll use the following generic URLs:&lt;/p&gt;
 
@@ -152,13 +180,17 @@ services:
 
 &lt;p&gt;In the right side hand of the application configuration menu, there is a box that displays the git repository associated to the app, for this example it would look like &lt;code&gt;ssh://ID@APP_NAME-OPENSHIFT_DOMAIN_NAME.rhcloud.com/~/git/APPNAME.git/&lt;/code&gt; using this URL we can clone the git repository from the CLI:&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;git clone ssh://[ID]@APP_NAME-OPENSHIFT_DOMAIN_NAME.rhcloud.com/~/git/APPNAME.git/&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;{% highlight bash %}
+git clone ssh://[ID]@APP&lt;em&gt;NAME-OPENSHIFT&lt;/em&gt;DOMAIN_NAME.rhcloud.com/~/git/APPNAME.git/
+{% endhighlight %}&lt;/p&gt;
 
 &lt;p&gt;Once it has been cloned, we can place the required files into the directory &lt;code&gt;APPNAME&lt;/code&gt;. The last step will be uploading the files, this can be done using the commands below:&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;git add --all
-git commit -m &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;date&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-git push origin&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;{% highlight bash %}
+git add --all
+git commit -m &amp;quot;&lt;code&gt;date&lt;/code&gt;&amp;quot;
+git push origin
+{% endhighlight %}&lt;/p&gt;
 
 &lt;p&gt;Notice that for this to work you will need credentials, the easiest way to do it is having your public shh key configured in &lt;a href=&quot;https://www.openshift.com/&quot;&gt;OpenShift&lt;/a&gt;. This is outside the scope of this article, so as a quick tip, &lt;code&gt;ssh-keygen -t rsa -b 4096 -C &amp;quot;your@email.com&amp;quot;&lt;/code&gt; will generate the public key and &lt;code&gt;cat ~/.ssh/id_rsa.pub&lt;/code&gt; will display it.&lt;/p&gt;
 
@@ -204,7 +236,17 @@ git push origin&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;If you got to this point you are all setup, after waiting a few minutes (this may vary) the page will be ready to use.&lt;/p&gt;</content><author><name>Jose Estudillo</name><email>jose@estudillo.me</email></author><summary type="html">Hosting an apache server in Openshift with a godaddy hosted domain</summary></entry><entry><title type="html">Exporting/Importing keyboard shortcuts in Linux Mint</title><link href="http://joseestudillo.com/http://blog.joseestudillo.com/linux/mint/2015/06/01/exporting-keybindings-linux-mint/" rel="alternate" type="text/html" title="Exporting/Importing keyboard shortcuts in Linux Mint" /><published>2015-06-01T00:00:00+01:00</published><updated>2015-06-01T00:00:00+01:00</updated><id>http://joseestudillo.com/http://blog.joseestudillo.com/linux/mint/2015/06/01/exporting-keybindings-linux-mint</id><content type="html" xml:base="http://joseestudillo.com/http://blog.joseestudillo.com/linux/mint/2015/06/01/exporting-keybindings-linux-mint/">&lt;h1&gt;Exporting/Importing keyboard shortcuts in Linux Mint (Cinnamon)&lt;/h1&gt;
+&lt;p&gt;If you got to this point you are all setup, after waiting a few minutes (this may vary) the page will be ready to use.&lt;/p&gt;
+</content>
+<summary>Hosting an apache server in Openshift with a godaddy hosted domain</summary>
+</entry>
+<entry>
+<title>Exporting/Importing keyboard shortcuts in Linux Mint</title>
+<link href="http://joseestudillo.comhttp://blog.joseestudillo.com/linux/mint/2015/06/01/exporting-keybindings-linux-mint/" rel="alternate" type="text/html" title="Exporting/Importing keyboard shortcuts in Linux Mint" />
+<published>2015-06-01T00:00:00+01:00</published>
+<updated>2015-06-01T00:00:00+01:00</updated>
+<id>http://joseestudillo.comhttp://blog.joseestudillo.com/linux/mint/2015/06/01/exporting-keybindings-linux-mint</id>
+<content type="html" xml:base="http://joseestudillo.comhttp://blog.joseestudillo.com/linux/mint/2015/06/01/exporting-keybindings-linux-mint/">&lt;h1&gt;Exporting/Importing keyboard shortcuts in Linux Mint (Cinnamon)&lt;/h1&gt;
 
 &lt;p&gt;To check the configuration of &lt;a href=&quot;http://www.linuxmint.com/&quot;&gt;Linux Mint Cinnamon Edition&lt;/a&gt; we will need the command &lt;code&gt;dconf&lt;/code&gt;, in case it isn&amp;#39;t be installed, use &lt;code&gt;sudo apt-get install dconf-cli&lt;/code&gt;&lt;/p&gt;
 
@@ -214,7 +256,7 @@ git push origin&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 &lt;p&gt;This will show all the entries under &lt;code&gt;/org/cinnamon/&lt;/code&gt; which means not all the entries will be related the the keyboard shorcuts configuration, you can get specific entries using the complete path in &lt;code&gt;dconf&lt;/code&gt;&lt;/p&gt;
 
 &lt;h2&gt;Exporting the current configuration&lt;/h2&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;dconf dump /org/cinnamon/ &amp;gt; keyboard-shortcuts-conf.txt
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;dconf dump /org/cinnamon/ &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; keyboard-shortcuts-conf.txt
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;In my case, using &lt;a href=&quot;http://www.linuxmint.com/&quot;&gt;Linux Mint 17&lt;/a&gt;, I get many entries, but in this case we will only need the followings:&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;settings-daemon/plugins/media-keys]
@@ -245,7 +287,16 @@ move-to-workspace-right&lt;span class=&quot;o&quot;&gt;=[&lt;/span&gt;&lt;span c
 
 &lt;p&gt;Using the file generated in the previous process &lt;code&gt;keyboard-shortcuts-conf.txt&lt;/code&gt; you can do the following&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;dconf load /org/cinnamon/ &amp;lt; keyboard-shortcuts-conf.txt
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><author><name>Jose Estudillo</name><email>jose@estudillo.me</email></author><summary type="html">Exporting/Importing keyboard shortcuts in Linux Mint (Cinnamon)</summary></entry><entry><title type="html">Installing Oracle Database XE in CentOS 7</title><link href="http://joseestudillo.com/http://blog.joseestudillo.com/oracle/database/2014/12/24/installing-oracle-xe-database-centos-7/" rel="alternate" type="text/html" title="Installing Oracle Database XE in CentOS 7" /><published>2014-12-24T00:00:00+00:00</published><updated>2014-12-24T00:00:00+00:00</updated><id>http://joseestudillo.com/http://blog.joseestudillo.com/oracle/database/2014/12/24/installing-oracle-xe-database-centos-7</id><content type="html" xml:base="http://joseestudillo.com/http://blog.joseestudillo.com/oracle/database/2014/12/24/installing-oracle-xe-database-centos-7/">&lt;h1&gt;Installing Oracle Database XE in CentOS 7&lt;/h1&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+<summary>Exporting/Importing keyboard shortcuts in Linux Mint (Cinnamon)</summary>
+</entry>
+<entry>
+<title>Installing Oracle Database XE in CentOS 7</title>
+<link href="http://joseestudillo.comhttp://blog.joseestudillo.com/oracle/database/2014/12/24/installing-oracle-xe-database-centos-7/" rel="alternate" type="text/html" title="Installing Oracle Database XE in CentOS 7" />
+<published>2014-12-24T00:00:00+00:00</published>
+<updated>2014-12-24T00:00:00+00:00</updated>
+<id>http://joseestudillo.comhttp://blog.joseestudillo.com/oracle/database/2014/12/24/installing-oracle-xe-database-centos-7</id>
+<content type="html" xml:base="http://joseestudillo.comhttp://blog.joseestudillo.com/oracle/database/2014/12/24/installing-oracle-xe-database-centos-7/">&lt;h1&gt;Installing Oracle Database XE in CentOS 7&lt;/h1&gt;
 
 &lt;h2&gt;Getting the binaries&lt;/h2&gt;
 
@@ -253,14 +304,18 @@ move-to-workspace-right&lt;span class=&quot;o&quot;&gt;=[&lt;/span&gt;&lt;span c
 
 &lt;p&gt;At the time of this writing the name of the file is &lt;code&gt;oracle-xe-11.2.0-1.0.x86_64.rpm.zip&lt;/code&gt; in linux this can be extracted using:&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;unzip oracle-xe-11.2.0-1.0.x86_64.rpm.zip&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-    
+&lt;p&gt;{% highlight bash %}
+unzip oracle-xe-11.2.0-1.0.x86_64.rpm.zip
+{% endhighlight %}  &lt;/p&gt;
 
 &lt;p&gt;Supposing the file have been extracted to &lt;code&gt;/tmp&lt;/code&gt; the rpm file will be at &lt;code&gt;/tmp/Disk1/oracle-xe-11.2.0-1.0.x86_64.rpm&lt;/code&gt;&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;#run as super user, su/sudo&lt;/span&gt;
-rpm -Uvh oracle-xe-11.2.0-1.0.x86_64.rpm &lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-    
+&lt;p&gt;{% highlight bash %}&lt;/p&gt;
+
+&lt;h1&gt;run as super user, su/sudo&lt;/h1&gt;
+
+&lt;p&gt;rpm -Uvh oracle-xe-11.2.0-1.0.x86_64.rpm 
+{% endhighlight %}  &lt;/p&gt;
 
 &lt;p&gt;Output:&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;Preparing...                          ################################# [100%]
@@ -275,8 +330,9 @@ You must run '/etc/init.d/oracle-xe configure' as the root user to configure the
 
 &lt;p&gt;After installing the app run:&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;/etc/init.d/oracle-xe configure &lt;span class=&quot;c&quot;&gt;#run as super user&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-    
+&lt;p&gt;{% highlight bash %}
+/etc/init.d/oracle-xe configure #run as super user
+{% endhighlight %}  &lt;/p&gt;
 
 &lt;p&gt;Oracle Database XE has a webapp associated to it, be default the offered port is &lt;em&gt;8080&lt;/em&gt; but I will use &lt;em&gt;11521&lt;/em&gt; to avoid conflict with other applications. For the database listener, I&amp;#39;ll keep 1521.&lt;/p&gt;
 
@@ -310,17 +366,18 @@ Installation completed successfully.
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h2&gt;Managing the service&lt;/h2&gt;
 
-&lt;p&gt;The service file is located in &lt;code&gt;/etc/init.d/oracle-xe&lt;/code&gt; and be started / stopped using:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;    
-service oracle-xe start / service oracle-xe stop&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-    
+&lt;p&gt;The service file is located in &lt;code&gt;/etc/init.d/oracle-xe&lt;/code&gt; and be started / stopped using:
+{% highlight bash %}&lt;br&gt;
+service oracle-xe start / service oracle-xe stop
+{% endhighlight %}    &lt;/p&gt;
 
 &lt;h2&gt;Opening Ports for external access&lt;/h2&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;firewall-cmd --permanent --zone&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;public --add-port&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;11521/tcp
-firewall-cmd --permanent --zone&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;public --add-port&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1521/tcp
-firewall-cmd --reload&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;{% highlight bash %}
+firewall-cmd --permanent --zone=public --add-port=11521/tcp
+firewall-cmd --permanent --zone=public --add-port=1521/tcp
+firewall-cmd --reload
+{% endhighlight %}&lt;/p&gt;
 
 &lt;h2&gt;First use&lt;/h2&gt;
 
@@ -330,33 +387,51 @@ firewall-cmd --reload&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;Once in APEX &lt;a href=&quot;http://localhost:11521/&quot;&gt;localhost:11521&lt;/a&gt; go to &lt;strong&gt;home -&amp;gt; Application express&lt;/strong&gt; and create a workspace (&lt;em&gt;Application express workspace&lt;/em&gt; it will be the name of the workspace)&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://blog.joseestudillo.com/img/oracle-xe-database-centos-7/create-workspace.png&quot; alt=&quot;creating oracle workspace&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;%7B%7Bsite.baseurl%7D%7D/img/%7B%7Bpage.relImgFolder%7D%7D/create-workspace.png&quot; alt=&quot;creating oracle workspace&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;then connect to it using the interface next to the previous one to access to the newly created workspace &lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://blog.joseestudillo.com/img/oracle-xe-database-centos-7/login-workspace.png&quot; alt=&quot;log into workspace&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;%7B%7Bsite.baseurl%7D%7D/img/%7B%7Bpage.relImgFolder%7D%7D/login-workspace.png&quot; alt=&quot;log into workspace&quot;&gt;&lt;/p&gt;
 
 &lt;h2&gt;Connecting from Java&lt;/h2&gt;
 
 &lt;p&gt;To connect from Java the oracle database driver is required, the oracle drivers are not hosted in Maven, so the easiest way to get it is from: &lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;/u01/app/oracle/product/11.2.0/xe/jdbc/lib/ojdbc6.jar
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;To install one the drives to make it accessible from Maven check &lt;a href=&quot;http://blog.joseestudillo.com/maven/java/jar/2014/12/23/installing-third-party-jars-in-maven/&quot;&gt;this&lt;/a&gt;. With Oracle driver added to the classpath, the connection URL for this example would look as follows:&lt;/p&gt;
+&lt;p&gt;To install one the drives to make it accessible from Maven check [this][installLibMaven]. With Oracle driver added to the classpath, the connection URL for this example would look as follows:&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;jdbc:oracle:thin:@localhost:1521:xe
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;And very quick chunk of code to test the connection:&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;n&quot;&gt;Class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;forName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;oracle.jdbc.driver.OracleDriver&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;Connection&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;conn&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DriverManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getConnection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;jdbc:oracle:thin:@localhost:1521:xe&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;dbuser&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;YOUR_PASSWORD&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;Statement&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;statement&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;conn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;createStatement&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;ResultSet&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resultSet&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;statement&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;executeQuery&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;SELECT 1 FROM Dual&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;resultSet&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Success&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;</content><author><name>Jose Estudillo</name><email>jose@estudillo.me</email></author><summary type="html">Installing Oracle Database XE in CentOS 7</summary></entry><entry><title type="html">Installing third party jars in Maven</title><link href="http://joseestudillo.com/http://blog.joseestudillo.com/maven/java/jar/2014/12/23/installing-third-party-jars-in-maven/" rel="alternate" type="text/html" title="Installing third party jars in Maven" /><published>2014-12-23T00:00:00+00:00</published><updated>2014-12-23T00:00:00+00:00</updated><id>http://joseestudillo.com/http://blog.joseestudillo.com/maven/java/jar/2014/12/23/installing-third-party-jars-in-maven</id><content type="html" xml:base="http://joseestudillo.com/http://blog.joseestudillo.com/maven/java/jar/2014/12/23/installing-third-party-jars-in-maven/">&lt;h1&gt;Installing third party jars in Maven&lt;/h1&gt;
+&lt;p&gt;{% highlight java %}&lt;/p&gt;
+
+&lt;p&gt;Class.forName(&amp;quot;oracle.jdbc.driver.OracleDriver&amp;quot;);
+Connection conn = DriverManager.getConnection(&amp;quot;jdbc:oracle:thin:@localhost:1521:xe&amp;quot;, &amp;quot;dbuser&amp;quot;, &amp;quot;YOUR_PASSWORD&amp;quot;);
+Statement statement = conn.createStatement();
+ResultSet resultSet = statement.executeQuery(&amp;quot;SELECT 1 FROM Dual&amp;quot;);
+if(resultSet.next()) {
+    System.out.println(&amp;quot;Success&amp;quot;);
+}&lt;/p&gt;
+
+&lt;p&gt;{% endhighlight %}&lt;/p&gt;
+
+&lt;p&gt;[installLibMaven]: {{site.baseurl}}{% post_url 2014-12-23-installing-third-party-jars-in-maven %}&lt;/p&gt;
+</content>
+<summary>Installing Oracle Database XE in CentOS 7</summary>
+</entry>
+<entry>
+<title>Installing third party jars in Maven</title>
+<link href="http://joseestudillo.comhttp://blog.joseestudillo.com/maven/java/jar/2014/12/23/installing-third-party-jars-in-maven/" rel="alternate" type="text/html" title="Installing third party jars in Maven" />
+<published>2014-12-23T00:00:00+00:00</published>
+<updated>2014-12-23T00:00:00+00:00</updated>
+<id>http://joseestudillo.comhttp://blog.joseestudillo.com/maven/java/jar/2014/12/23/installing-third-party-jars-in-maven</id>
+<content type="html" xml:base="http://joseestudillo.comhttp://blog.joseestudillo.com/maven/java/jar/2014/12/23/installing-third-party-jars-in-maven/">&lt;h1&gt;Installing third party jars in Maven&lt;/h1&gt;
 
 &lt;p&gt;Some companies don&amp;#39;t put their jars in Maven official repositories, so when working in a local environment is useful to have this jars available as any other.&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;    mvn install:install-file -Dfile&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;JAR_FILE_PATH -DgroupId&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;GROUP_ID -DartifactId&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ARTIFACT_ID -Dversion&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;VERSION  -Dpackaging&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;jar&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;{% highlight bash %}
+    mvn install:install-file -Dfile=JAR&lt;em&gt;FILE&lt;/em&gt;PATH -DgroupId=GROUP&lt;em&gt;ID -DartifactId=ARTIFACT&lt;/em&gt;ID -Dversion=VERSION  -Dpackaging=jar
+{% endhighlight %}&lt;/p&gt;
 
 &lt;p&gt;where:&lt;/p&gt;
 
@@ -369,19 +444,32 @@ firewall-cmd --reload&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;to declare this new added jar in the pom.xml&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-xml&quot; data-lang=&quot;xml&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;project&amp;gt;&lt;/span&gt;
+&lt;p&gt;{% highlight xml %}
+&lt;project&gt;
   ...
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;dependencies&amp;gt;&lt;/span&gt;
+  &lt;dependencies&gt;
     ...
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;dependency&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;GROUP_ID&lt;span class=&quot;nt&quot;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;ARTIFACT_ID&lt;span class=&quot;nt&quot;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;VERSION&lt;span class=&quot;nt&quot;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/dependency&amp;gt;&lt;/span&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;GROUP&lt;em&gt;ID&lt;/groupId&gt;
+      &lt;artifactId&gt;ARTIFACT&lt;/em&gt;ID&lt;/artifactId&gt;
+      &lt;version&gt;VERSION&lt;/version&gt;
+    &lt;/dependency&gt;
     ...
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/dependencies&amp;gt;&lt;/span&gt;
+  &lt;/dependencies&gt;
   ...
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/project&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;</content><author><name>Jose Estudillo</name><email>jose@estudillo.me</email></author><category term="[&quot;maven&quot;, &quot;java&quot;, &quot;jar&quot;]" /><summary type="html">Installing third party jars in Maven</summary></entry><entry><title type="html">Installing Hadoop in CentOS 7</title><link href="http://joseestudillo.com/http://blog.joseestudillo.com/2014/12/11/installing-hadoop-centos-7/" rel="alternate" type="text/html" title="Installing Hadoop in CentOS 7" /><published>2014-12-11T00:00:00+00:00</published><updated>2014-12-11T00:00:00+00:00</updated><id>http://joseestudillo.com/http://blog.joseestudillo.com/2014/12/11/installing-hadoop-centos-7</id><content type="html" xml:base="http://joseestudillo.com/http://blog.joseestudillo.com/2014/12/11/installing-hadoop-centos-7/">&lt;h1&gt;Installing Hadoop in CentOS 7&lt;/h1&gt;
+&lt;/project&gt;
+{% endhighlight %}&lt;/p&gt;
+</content>
+<category term="[&quot;maven&quot;, &quot;java&quot;, &quot;jar&quot;]" />
+<summary>Installing third party jars in Maven</summary>
+</entry>
+<entry>
+<title>Installing Hadoop in CentOS 7</title>
+<link href="http://joseestudillo.comhttp://blog.joseestudillo.com/2014/12/11/installing-hadoop-centos-7/" rel="alternate" type="text/html" title="Installing Hadoop in CentOS 7" />
+<published>2014-12-11T00:00:00+00:00</published>
+<updated>2014-12-11T00:00:00+00:00</updated>
+<id>http://joseestudillo.comhttp://blog.joseestudillo.com/2014/12/11/installing-hadoop-centos-7</id>
+<content type="html" xml:base="http://joseestudillo.comhttp://blog.joseestudillo.com/2014/12/11/installing-hadoop-centos-7/">&lt;h1&gt;Installing Hadoop in CentOS 7&lt;/h1&gt;
 
 &lt;p&gt;In this article I&amp;#39;m going to focus in how to install Hadoop in CentOS 7. At the time of this writing there are two mantanined version of Hadoop that can be useful for different purposes, for these reasons we will install both. For Hadoop 1, we will use &lt;a href=&quot;http://mirror.ox.ac.uk/sites/rsync.apache.org/hadoop/common/stable1/hadoop-1.2.1.tar.gz&quot;&gt;hadoop-1.2.1&lt;/a&gt;, for Hadoop 2, &lt;a href=&quot;http://mirror.ox.ac.uk/sites/rsync.apache.org/hadoop/common/stable2/hadoop-2.6.0.tar.gz&quot;&gt;hadoop-2.6.0&lt;/a&gt;. For other versions check &lt;a href=&quot;http://www.apache.org/dyn/closer.cgi/hadoop/common/&quot;&gt;Hadoop Download Page&lt;/a&gt;. Also worth notice that the hostname of the machine where I&amp;#39;m doing the instalation is &lt;strong&gt;centos-vm&lt;/strong&gt; and I will use this name instead of &lt;strong&gt;localhost&lt;/strong&gt; because this will make possible to work with this installation remotely.&lt;/p&gt;
 
@@ -410,34 +498,41 @@ firewall-cmd --reload&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;Before the installation we also need to create a user, a group and set the permissions:&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# executed as super user&lt;/span&gt;
-    
-groupadd hadoop
-useradd -g hadoop -c &lt;span class=&quot;s2&quot;&gt;&quot;Hadoop user&quot;&lt;/span&gt; hadoop
+&lt;p&gt;{% highlight bash %}&lt;/p&gt;
+
+&lt;h1&gt;executed as super user&lt;/h1&gt;
+
+&lt;p&gt;groupadd hadoop
+useradd -g hadoop -c &amp;quot;Hadoop user&amp;quot; hadoop
 mkdir /var/log/hadoop
 chown -R hadoop:hadoop /var/log/hadoop
 chmod -R u+xwr,g+xwr,o+xr /var/log/hadoop
 mkdir /var/data/hadoop
 chown -R hadoop:hadoop /var/data/hadoop
-chmod -R u+xwr,g+xwr,o+xr /var/data/hadoop&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+chmod -R u+xwr,g+xwr,o+xr /var/data/hadoop
+{% endhighlight %}&lt;/p&gt;
 
 &lt;p&gt;After this we must set the new user to access to the host without authenticating. This can be checked with the command:&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;ssh centos-vm&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;{% highlight bash %}
+ssh centos-vm
+{% endhighlight %}&lt;/p&gt;
 
 &lt;p&gt;if you are asked for a password do the following:&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt; &lt;span class=&quot;c&quot;&gt;# no parameters required (use default parameters)&lt;/span&gt;
+&lt;p&gt;{% highlight bash %}
+ # no parameters required (use default parameters)&lt;/p&gt;
 
-ssh-keygen 
+&lt;p&gt;ssh-keygen &lt;/p&gt;
 
- &lt;span class=&quot;c&quot;&gt;# copy the generated key (would also work for a remote server)&lt;/span&gt;
+&lt;p&gt;# copy the generated key (would also work for a remote server)&lt;/p&gt;
 
-ssh-copy-id -i ~/.ssh/id_rsa.pub centos-vm
+&lt;p&gt;ssh-copy-id -i ~/.ssh/id_rsa.pub centos-vm&lt;/p&gt;
 
- &lt;span class=&quot;c&quot;&gt;# stop the ssh session (exit) and try&lt;/span&gt;
+&lt;p&gt;# stop the ssh session (exit) and try&lt;/p&gt;
 
-ssh centos-vm&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;ssh centos-vm
+{% endhighlight %}&lt;/p&gt;
 
 &lt;p&gt;With this steps you should be able to access to the server without typing the password, making easier to use Hadoop&amp;#39;s start/stop scripts.&lt;/p&gt;
 
@@ -465,17 +560,19 @@ ssh centos-vm&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;h3&gt;Editing the configuration files for a Pseudo-distributed configuration&lt;/h3&gt;
 
-&lt;p&gt;The first step is to set the &lt;code&gt;JAVA_HOME&lt;/code&gt; variable in &lt;code&gt;/opt/apache-hadoop/hadoop1/conf/hadoop-env.sh&lt;/code&gt;. Different Hadoop versions may need different Java SDK versions, this versions table can be found &lt;a href=&quot;http://wiki.apache.org/hadoop/HadoopJavaVersions&quot;&gt;here&lt;/a&gt;. I&amp;#39;m currently using Java 8 (1.8.0_25) and Hadoop is running without any issues. If at this point you don&amp;#39;t have Java in your system go to &lt;a href=&quot;http://blog.joseestudillo.com/2014/10/14/installing-java-centos-7/&quot;&gt;Installing Java in CentOS 7&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The first step is to set the &lt;code&gt;JAVA_HOME&lt;/code&gt; variable in &lt;code&gt;/opt/apache-hadoop/hadoop1/conf/hadoop-env.sh&lt;/code&gt;. Different Hadoop versions may need different Java SDK versions, this versions table can be found &lt;a href=&quot;http://wiki.apache.org/hadoop/HadoopJavaVersions&quot;&gt;here&lt;/a&gt;. I&amp;#39;m currently using Java 8 (1.8.0_25) and Hadoop is running without any issues. If at this point you don&amp;#39;t have Java in your system go to [Installing Java in CentOS 7][installingJavaCentOS].&lt;/p&gt;
 
 &lt;p&gt;Supposing that the right version of java is installed in &lt;code&gt;/usr/java/latest&lt;/code&gt; the following command will change the configuration in the file &lt;code&gt;conf/hadoop-env.sh&lt;/code&gt;. Notice that this may not be required is you already have the right JDK installed and the JAVA&lt;em&gt;HOME variable defined (check using `echo &amp;quot;$JAVA&lt;/em&gt;HOME&amp;quot;`).&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;sed -i -e &lt;span class=&quot;s2&quot;&gt;&quot;s-^.*JAVA_HOME.*-export JAVA_HOME=/usr/java/latest-g&quot;&lt;/span&gt;  /opt/apache-hadoop/hadoop1/conf/hadoop-env.sh&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-    
+&lt;p&gt;{% highlight bash %}
+sed -i -e &amp;quot;s-^.&lt;em&gt;JAVA_HOME.&lt;/em&gt;-export JAVA_HOME=/usr/java/latest-g&amp;quot;  /opt/apache-hadoop/hadoop1/conf/hadoop-env.sh
+{% endhighlight %}    &lt;/p&gt;
 
 &lt;p&gt;In order to be a good linux citizen we will also configure the log path (&lt;code&gt;/var/log/hadoop&lt;/code&gt;):&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;    
-sed -i -e &lt;span class=&quot;s2&quot;&gt;&quot;s-^.*HADOOP_LOG_DIR.*-export HADOOP_LOG_DIR=/var/log/hadoop-g&quot;&lt;/span&gt;  /opt/apache-hadoop/hadoop1/conf/hadoop-env.sh&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;{% highlight bash %}&lt;br&gt;
+sed -i -e &amp;quot;s-^.&lt;em&gt;HADOOP&lt;em&gt;LOG&lt;/em&gt;DIR.&lt;/em&gt;-export HADOOP&lt;em&gt;LOG&lt;/em&gt;DIR=/var/log/hadoop-g&amp;quot;  /opt/apache-hadoop/hadoop1/conf/hadoop-env.sh
+{% endhighlight %}&lt;/p&gt;
 
 &lt;p&gt;For a &lt;em&gt;Pseudo-Distributed&lt;/em&gt; configuration these files must also be modified:&lt;/p&gt;
 
@@ -483,13 +580,14 @@ sed -i -e &lt;span class=&quot;s2&quot;&gt;&quot;s-^.*HADOOP_LOG_DIR.*-export HA
 &lt;li&gt;&lt;strong&gt;conf/core-site.xml&lt;/strong&gt;:&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-xml&quot; data-lang=&quot;xml&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;configuration&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;name&amp;gt;&lt;/span&gt;fs.default.name&lt;span class=&quot;nt&quot;&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;value&amp;gt;&lt;/span&gt;hdfs://centos-vm:9000&lt;span class=&quot;nt&quot;&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/configuration&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-  
+&lt;p&gt;{% highlight xml %}
+&lt;configuration&gt;
+  &lt;property&gt;
+    &lt;name&gt;fs.default.name&lt;/name&gt;
+    &lt;value&gt;hdfs://centos-vm:9000&lt;/value&gt;
+  &lt;/property&gt;
+&lt;/configuration&gt;
+{% endhighlight %}  &lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;conf/hdfs-site.xml&lt;/strong&gt;:&lt;/li&gt;
@@ -506,46 +604,54 @@ sed -i -e &lt;span class=&quot;s2&quot;&gt;&quot;s-^.*HADOOP_LOG_DIR.*-export HA
 
 &lt;p&gt;Without this the required file structures will be created by default in the &lt;code&gt;/tmp/&lt;/code&gt; folder. This is not a good practice as some systems are configured to delete the content of this folder when the system restarts. To avoid this just configure any writable directory that will guaranty the persistence of the data. In the example below, we will assume this folder is &lt;code&gt;/var/data/hadoop&lt;/code&gt;:&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-xml&quot; data-lang=&quot;xml&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;configuration&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;name&amp;gt;&lt;/span&gt;dfs.replication&lt;span class=&quot;nt&quot;&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;value&amp;gt;&lt;/span&gt;1&lt;span class=&quot;nt&quot;&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;     
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;name&amp;gt;&lt;/span&gt;dfs.name.dir&lt;span class=&quot;nt&quot;&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;value&amp;gt;&lt;/span&gt;/var/data/hadoop/dfs&lt;span class=&quot;nt&quot;&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;name&amp;gt;&lt;/span&gt;dfs.data.dir&lt;span class=&quot;nt&quot;&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;value&amp;gt;&lt;/span&gt;/var/data/hadoop/data&lt;span class=&quot;nt&quot;&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;name&amp;gt;&lt;/span&gt;dfs.client.buffer.dir&lt;span class=&quot;nt&quot;&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;value&amp;gt;&lt;/span&gt;/var/data/hadoop/buffer&lt;span class=&quot;nt&quot;&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;name&amp;gt;&lt;/span&gt;mapred.local.dir&lt;span class=&quot;nt&quot;&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;value&amp;gt;&lt;/span&gt;/var/data/hadoop/mapred&lt;span class=&quot;nt&quot;&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/configuration&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;{% highlight xml %}
+&lt;configuration&gt;
+  &lt;property&gt;
+    &lt;name&gt;dfs.replication&lt;/name&gt;
+    &lt;value&gt;1&lt;/value&gt;
+  &lt;/property&gt;&lt;br&gt;
+  &lt;property&gt;
+    &lt;name&gt;dfs.name.dir&lt;/name&gt;
+    &lt;value&gt;/var/data/hadoop/dfs&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;dfs.data.dir&lt;/name&gt;
+    &lt;value&gt;/var/data/hadoop/data&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;dfs.client.buffer.dir&lt;/name&gt;
+    &lt;value&gt;/var/data/hadoop/buffer&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapred.local.dir&lt;/name&gt;
+    &lt;value&gt;/var/data/hadoop/mapred&lt;/value&gt;
+  &lt;/property&gt;
+&lt;/configuration&gt;
+{% endhighlight %}&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;conf/mapred-site.xml&lt;/strong&gt;:&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-xml&quot; data-lang=&quot;xml&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;configuration&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;name&amp;gt;&lt;/span&gt;mapred.job.tracker&lt;span class=&quot;nt&quot;&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;value&amp;gt;&lt;/span&gt;centos-vm:9001&lt;span class=&quot;nt&quot;&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/configuration&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;{% highlight xml %}&lt;/p&gt;
+
+&lt;p&gt;&lt;configuration&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapred.job.tracker&lt;/name&gt;
+    &lt;value&gt;centos-vm:9001&lt;/value&gt;
+  &lt;/property&gt;
+&lt;/configuration&gt;&lt;/p&gt;
+
+&lt;p&gt;{% endhighlight %}&lt;/p&gt;
 
 &lt;h3&gt;Initializing Hadoop&lt;/h3&gt;
 
 &lt;p&gt;Once all the configuration have been set, it is required to format the filesystem with the following command:&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /opt/apache-hadoop/hadoop1/bin
-./hadoop namenode -format&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;{% highlight bash %}
+cd /opt/apache-hadoop/hadoop1/bin
+./hadoop namenode -format
+{% endhighlight %}&lt;/p&gt;
 
 &lt;p&gt;The output should be similar to:&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;14/12/20 01:35:12 INFO namenode.NameNode: STARTUP_MSG: 
@@ -588,14 +694,17 @@ SHUTDOWN_MSG: Shutting down NameNode at centos-vm/127.0.0.1
 &lt;li&gt;Start the hadoop daemons:&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;start-all.sh&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;{% highlight bash %}
+start-all.sh
+{% endhighlight %}&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;To stop the node use:&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;stop-all.sh&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-      
+&lt;p&gt;{% highlight bash %}
+stop-all.sh
+{% endhighlight %}      &lt;/p&gt;
 
 &lt;p&gt;When the service is started, Hadoop offers web interfaces to know the status of the system:&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;NameNode - http://centos-vm:50070/
@@ -604,10 +713,12 @@ JobTracker - http://centos-vm:50030/
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h3&gt;Make Hadoop web interface available for remote access&lt;/h3&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;firewall-cmd --permanent --zone&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;public --add-port&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;50070/tcp
-firewall-cmd --permanent --zone&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;public --add-port&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;50075/tcp
-firewall-cmd --permanent --zone&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;public --add-port&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;50030/tcp
-firewall-cmd --reload&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;{% highlight bash %}
+firewall-cmd --permanent --zone=public --add-port=50070/tcp
+firewall-cmd --permanent --zone=public --add-port=50075/tcp
+firewall-cmd --permanent --zone=public --add-port=50030/tcp
+firewall-cmd --reload
+{% endhighlight %}&lt;/p&gt;
 
 &lt;h2&gt;Hadoop 2&lt;/h2&gt;
 
@@ -633,23 +744,25 @@ firewall-cmd --reload&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 &lt;li&gt;&lt;code&gt;/etc/profile.d/hadoop.sh&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;HADOOP_HOME&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/opt/apache-hadoop/default
-&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;HADOOP&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$HADOOP_HOME&lt;/span&gt;/bin
-&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$HADOOP&lt;/span&gt;:&lt;span class=&quot;nv&quot;&gt;$PATH&lt;/span&gt;
+&lt;p&gt;{% highlight bash %}
+export HADOOP&lt;em&gt;HOME=/opt/apache-hadoop/default
+export HADOOP=$HADOOP&lt;/em&gt;HOME/bin
+export PATH=$HADOOP:$PATH&lt;/p&gt;
 
-&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;HADOOP_PREFIX&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$HADOOP_HOME&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;HADOOP_CONF_DIR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$HADOOP_PREFIX&lt;/span&gt;/etc/hadoop
-&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;HADOOP_YARN_HOME&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$HADOOP_HOME&lt;/span&gt;
+&lt;p&gt;export HADOOP&lt;em&gt;PREFIX=$HADOOP&lt;/em&gt;HOME
+export HADOOP&lt;em&gt;CONF&lt;/em&gt;DIR=$HADOOP&lt;em&gt;PREFIX/etc/hadoop
+export HADOOP&lt;/em&gt;YARN&lt;em&gt;HOME=$HADOOP&lt;/em&gt;HOME&lt;/p&gt;
 
-&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;NN_DATA_DIR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/var/data/hadoop/hdfs/nn
-&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;SNN_DATA_DIR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/var/data/hadoop/hdfs/snn
-&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;DN_DATA_DIR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/var/data/hadoop/hdfs/dn
-&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;YARN_LOG_DIR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/var/log/hadoop/yarn
-&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;HADOOP_LOG_DIR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/var/log/hadoop/hdfs
-&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;HADOOP_MAPRED_LOG_DIR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/var/log/hadoop/mapred
-&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;YARN_PID_DIR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/var/run/hadoop/yarn
-&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;HADOOP_PID_DIR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/var/run/hadoop/hdfs
-&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;HADOOP_MAPRED_PID_DIR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/var/run/hadoop/mapred&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;export NN&lt;em&gt;DATA&lt;/em&gt;DIR=/var/data/hadoop/hdfs/nn
+export SNN&lt;em&gt;DATA&lt;/em&gt;DIR=/var/data/hadoop/hdfs/snn
+export DN&lt;em&gt;DATA&lt;/em&gt;DIR=/var/data/hadoop/hdfs/dn
+export YARN&lt;em&gt;LOG&lt;/em&gt;DIR=/var/log/hadoop/yarn
+export HADOOP&lt;em&gt;LOG&lt;/em&gt;DIR=/var/log/hadoop/hdfs
+export HADOOP&lt;em&gt;MAPRED&lt;/em&gt;LOG&lt;em&gt;DIR=/var/log/hadoop/mapred
+export YARN&lt;/em&gt;PID&lt;em&gt;DIR=/var/run/hadoop/yarn
+export HADOOP&lt;/em&gt;PID&lt;em&gt;DIR=/var/run/hadoop/hdfs
+export HADOOP&lt;/em&gt;MAPRED&lt;em&gt;PID&lt;/em&gt;DIR=/var/run/hadoop/mapred
+{% endhighlight %}&lt;/p&gt;
 
 &lt;p&gt;this can also be defined on the &lt;code&gt;.bashrc&lt;/code&gt; file in the hadoop user home directory.&lt;/p&gt;
 
@@ -657,12 +770,14 @@ firewall-cmd --reload&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 &lt;li&gt;&lt;strong&gt;etc/hadoop/core-site.xml&lt;/strong&gt;:&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-xml&quot; data-lang=&quot;xml&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;configuration&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;name&amp;gt;&lt;/span&gt;fs.defaultFS&lt;span class=&quot;nt&quot;&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;value&amp;gt;&lt;/span&gt;hdfs://centos-vm:9000&lt;span class=&quot;nt&quot;&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/configuration&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;{% highlight xml %}
+&lt;configuration&gt;
+  &lt;property&gt;
+    &lt;name&gt;fs.defaultFS&lt;/name&gt;
+    &lt;value&gt;hdfs://centos-vm:9000&lt;/value&gt;
+  &lt;/property&gt;
+&lt;/configuration&gt;
+{% endhighlight %}&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;etc/hadoop/hdfs-site.xml&lt;/strong&gt;:&lt;/li&gt;
@@ -670,59 +785,65 @@ firewall-cmd --reload&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;Notice that in this version the file paths must be given as URIs.&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-xml&quot; data-lang=&quot;xml&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;configuration&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;name&amp;gt;&lt;/span&gt;dfs.replication&lt;span class=&quot;nt&quot;&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;value&amp;gt;&lt;/span&gt;1&lt;span class=&quot;nt&quot;&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;name&amp;gt;&lt;/span&gt;dfs.name.dir&lt;span class=&quot;nt&quot;&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;value&amp;gt;&lt;/span&gt;file:///var/data/hadoop/dfs&lt;span class=&quot;nt&quot;&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;name&amp;gt;&lt;/span&gt;dfs.data.dir&lt;span class=&quot;nt&quot;&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;value&amp;gt;&lt;/span&gt;file:///var/data/hadoop/dfs/data&lt;span class=&quot;nt&quot;&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;name&amp;gt;&lt;/span&gt;dfs.client.buffer.dir&lt;span class=&quot;nt&quot;&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;value&amp;gt;&lt;/span&gt;file:///var/data/hadoop/dfs/buffer&lt;span class=&quot;nt&quot;&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;name&amp;gt;&lt;/span&gt;mapred.local.dir&lt;span class=&quot;nt&quot;&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;value&amp;gt;&lt;/span&gt;file://var/data/hadoop/mapred&lt;span class=&quot;nt&quot;&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/configuration&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;{% highlight xml %}
+&lt;configuration&gt;
+  &lt;property&gt;
+    &lt;name&gt;dfs.replication&lt;/name&gt;
+    &lt;value&gt;1&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;dfs.name.dir&lt;/name&gt;
+    &lt;value&gt;file:///var/data/hadoop/dfs&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;dfs.data.dir&lt;/name&gt;
+    &lt;value&gt;file:///var/data/hadoop/dfs/data&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;dfs.client.buffer.dir&lt;/name&gt;
+    &lt;value&gt;file:///var/data/hadoop/dfs/buffer&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapred.local.dir&lt;/name&gt;
+    &lt;value&gt;file://var/data/hadoop/mapred&lt;/value&gt;
+  &lt;/property&gt;
+&lt;/configuration&gt;
+{% endhighlight %}&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;etc/hadoop/mapred-site.xml&lt;/strong&gt; (must be created or copied from &lt;em&gt;mapred-site.xml.template&lt;/em&gt;):&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-xml&quot; data-lang=&quot;xml&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;configuration&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;name&amp;gt;&lt;/span&gt;mapreduce.framework.name&lt;span class=&quot;nt&quot;&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;value&amp;gt;&lt;/span&gt;yarn&lt;span class=&quot;nt&quot;&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/configuration&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-  
+&lt;p&gt;{% highlight xml %}
+&lt;configuration&gt;
+  &lt;property&gt;
+    &lt;name&gt;mapreduce.framework.name&lt;/name&gt;
+    &lt;value&gt;yarn&lt;/value&gt;
+  &lt;/property&gt;
+&lt;/configuration&gt;
+{% endhighlight %}  &lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;etc/hadoop/yarn-site.xml&lt;/strong&gt;:&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-xml&quot; data-lang=&quot;xml&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;configuration&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;name&amp;gt;&lt;/span&gt;yarn.nodemanager.aux-services&lt;span class=&quot;nt&quot;&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;value&amp;gt;&lt;/span&gt;mapreduce_shuffle&lt;span class=&quot;nt&quot;&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/configuration&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;{% highlight xml %}
+&lt;configuration&gt;
+  &lt;property&gt;
+    &lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt;
+    &lt;value&gt;mapreduce_shuffle&lt;/value&gt;
+  &lt;/property&gt;
+&lt;/configuration&gt;
+{% endhighlight %}&lt;/p&gt;
 
 &lt;h3&gt;Initializing Hadoop&lt;/h3&gt;
 
 &lt;p&gt;The command to format the filesystem has been changed in Hadoop2:&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /opt/apache-hadoop/hadoop2/bin
-./hdfs namenode -format&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-    
+&lt;p&gt;{% highlight bash %}
+cd /opt/apache-hadoop/hadoop2/bin
+./hdfs namenode -format
+{% endhighlight %}    &lt;/p&gt;
 
 &lt;h3&gt;starting/stopping the node&lt;/h3&gt;
 
@@ -732,25 +853,32 @@ firewall-cmd --reload&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 &lt;li&gt;Start Hadoop2:&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;mkdir -p /var/run/hadoop
+&lt;p&gt;{% highlight bash %}&lt;/p&gt;
+
+&lt;p&gt;mkdir -p /var/run/hadoop
 chown -R hadoop:hadoop /var/run/hadoop
-&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Starting Hadoop2 NameNode and DataNode&quot;&lt;/span&gt;
-su - hadoop -c &lt;span class=&quot;s1&quot;&gt;'/opt/apache-hadoop/hadoop2/sbin/start-dfs.sh'&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Starting Hadoop2 YARN&quot;&lt;/span&gt;
-su - hadoop -c &lt;span class=&quot;s1&quot;&gt;'/opt/apache-hadoop/hadoop2/sbin/start-yarn.sh'&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Starting Job History server&quot;&lt;/span&gt;
-su - hadoop -c &lt;span class=&quot;s1&quot;&gt;'/opt/apache-hadoop/hadoop2/sbin/mr-jobhistory-daemon.sh start historyserver'&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+echo &amp;quot;Starting Hadoop2 NameNode and DataNode&amp;quot;
+su - hadoop -c &amp;#39;/opt/apache-hadoop/hadoop2/sbin/start-dfs.sh&amp;#39;
+echo &amp;quot;Starting Hadoop2 YARN&amp;quot;
+su - hadoop -c &amp;#39;/opt/apache-hadoop/hadoop2/sbin/start-yarn.sh&amp;#39;
+echo &amp;quot;Starting Job History server&amp;quot;
+su - hadoop -c &amp;#39;/opt/apache-hadoop/hadoop2/sbin/mr-jobhistory-daemon.sh start historyserver&amp;#39;&lt;/p&gt;
+
+&lt;p&gt;{% endhighlight %}&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Stop Hadoop2:&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Stopping Hadoop2 NameNode and DataNode&quot;&lt;/span&gt;
-su - hadoop -c &lt;span class=&quot;s1&quot;&gt;'/opt/apache-hadoop/hadoop2/sbin/stop-dfs.sh'&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Stopping Hadoop2 YARN&quot;&lt;/span&gt;
-su - hadoop -c &lt;span class=&quot;s1&quot;&gt;'/opt/apache-hadoop/hadoop2/sbin/stop-yarn.sh'&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Stopping Job History Server&quot;&lt;/span&gt;
-su - hadoop -c &lt;span class=&quot;s1&quot;&gt;'/opt/apache-hadoop/hadoop2/sbin/mr-jobhistory-daemon.sh stop historyserver'&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;{% highlight bash %}&lt;/p&gt;
+
+&lt;p&gt;echo &amp;quot;Stopping Hadoop2 NameNode and DataNode&amp;quot;
+su - hadoop -c &amp;#39;/opt/apache-hadoop/hadoop2/sbin/stop-dfs.sh&amp;#39;
+echo &amp;quot;Stopping Hadoop2 YARN&amp;quot;
+su - hadoop -c &amp;#39;/opt/apache-hadoop/hadoop2/sbin/stop-yarn.sh&amp;#39;
+echo &amp;quot;Stopping Job History Server&amp;quot;
+su - hadoop -c &amp;#39;/opt/apache-hadoop/hadoop2/sbin/mr-jobhistory-daemon.sh stop historyserver&amp;#39;
+{% endhighlight %}&lt;/p&gt;
 
 &lt;p&gt;Once the service is started, Hadoop offers web interfaces to know the status of the system:&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;NameNode - http://centos-vm:50070/
@@ -761,14 +889,28 @@ NodeManager Information - http://centos-vm:8042/
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h3&gt;Make Hadoop web interface available for remote access&lt;/h3&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;firewall-cmd --permanent --zone&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;public --add-port&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;50070/tcp
-firewall-cmd --permanent --zone&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;public --add-port&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;50075/tcp
-firewall-cmd --permanent --zone&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;public --add-port&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;8088/tcp
-firewall-cmd --permanent --zone&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;public --add-port&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;19888/tcp
-firewall-cmd --permanent --zone&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;public --add-port&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;8042/tcp
-firewall-cmd --reload&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;{% highlight bash %}
+firewall-cmd --permanent --zone=public --add-port=50070/tcp
+firewall-cmd --permanent --zone=public --add-port=50075/tcp
+firewall-cmd --permanent --zone=public --add-port=8088/tcp
+firewall-cmd --permanent --zone=public --add-port=19888/tcp
+firewall-cmd --permanent --zone=public --add-port=8042/tcp
+firewall-cmd --reload
+{% endhighlight %}&lt;/p&gt;
 
-&lt;p&gt;&lt;em&gt;Updated 2015-03-16&lt;/em&gt;: Configuration improved to use linux standards. Start / Stop script improved. New Ports to open added to the list.&lt;/p&gt;</content><author><name>Jose Estudillo</name><email>jose@estudillo.me</email></author><summary type="html">Installing Hadoop in CentOS 7</summary></entry><entry><title type="html">Installing MongoDB in CentOS 7</title><link href="http://joseestudillo.com/http://blog.joseestudillo.com/2014/12/10/installing-mongodb-centos-7/" rel="alternate" type="text/html" title="Installing MongoDB in CentOS 7" /><published>2014-12-10T00:00:00+00:00</published><updated>2014-12-10T00:00:00+00:00</updated><id>http://joseestudillo.com/http://blog.joseestudillo.com/2014/12/10/installing-mongodb-centos-7</id><content type="html" xml:base="http://joseestudillo.com/http://blog.joseestudillo.com/2014/12/10/installing-mongodb-centos-7/">&lt;h1&gt;Installing MongoDB in CentOS 7&lt;/h1&gt;
+&lt;p&gt;&lt;em&gt;Updated 2015-03-16&lt;/em&gt;: Configuration improved to use linux standards. Start / Stop script improved. New Ports to open added to the list.&lt;/p&gt;
+
+&lt;p&gt;[installingJavaCentOS]: {{site.baseurl}}{% post_url 2014-10-14-installing-java-centos-7 %}&lt;/p&gt;
+</content>
+<summary>Installing Hadoop in CentOS 7</summary>
+</entry>
+<entry>
+<title>Installing MongoDB in CentOS 7</title>
+<link href="http://joseestudillo.comhttp://blog.joseestudillo.com/2014/12/10/installing-mongodb-centos-7/" rel="alternate" type="text/html" title="Installing MongoDB in CentOS 7" />
+<published>2014-12-10T00:00:00+00:00</published>
+<updated>2014-12-10T00:00:00+00:00</updated>
+<id>http://joseestudillo.comhttp://blog.joseestudillo.com/2014/12/10/installing-mongodb-centos-7</id>
+<content type="html" xml:base="http://joseestudillo.comhttp://blog.joseestudillo.com/2014/12/10/installing-mongodb-centos-7/">&lt;h1&gt;Installing MongoDB in CentOS 7&lt;/h1&gt;
 
 &lt;h1&gt;Adding MongoDB repositories to yum&lt;/h1&gt;
 
@@ -781,35 +923,60 @@ enabled=1
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;As &lt;a href=&quot;TODO&quot;&gt;super user&lt;/a&gt; this file can be created using the command showed below:&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;printf&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;[mongodb]&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;name=MongoDB Repository&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/x86_64/&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;gpgcheck=0&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;enabled=1&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &amp;gt; /etc/yum.repos.d/mongodb.repo&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-    
+&lt;p&gt;{% highlight bash %}
+printf &amp;quot;[mongodb]\nname=MongoDB Repository\nbaseurl=http://downloads-distro.mongodb.org/repo/redhat/os/x86_64/\ngpgcheck=0\nenabled=1\n&amp;quot; &amp;gt; /etc/yum.repos.d/mongodb.repo
+{% endhighlight %}    &lt;/p&gt;
 
 &lt;h1&gt;Installing MongoDB with yum&lt;/h1&gt;
 
 &lt;p&gt;Once the file have been created we can install MongoDB using yum:&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# run as super user, su/sudo&lt;/span&gt;
-yum install -y mongodb-org&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;{% highlight bash %}&lt;/p&gt;
+
+&lt;h1&gt;run as super user, su/sudo&lt;/h1&gt;
+
+&lt;p&gt;yum install -y mongodb-org
+{% endhighlight %}&lt;/p&gt;
 
 &lt;h1&gt;Configuring MongoDB&lt;/h1&gt;
 
 &lt;p&gt;By default, MongoDB configuration is stored in &lt;code&gt;/etc/mongodb.conf&lt;/code&gt; there is not need to change anything to make it work. In the case external connections are required, the value &lt;code&gt;bind_ip=127.0.0.1&lt;/code&gt; must be commented out. This can be done using:&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# run as super user, su/sudo&lt;/span&gt;
-sed -i -e s/bind_ip&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;127.0.0.1/#bind_ip&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;127.0.0.1/g /etc/mongod.conf&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;{% highlight bash %}&lt;/p&gt;
+
+&lt;h1&gt;run as super user, su/sudo&lt;/h1&gt;
+
+&lt;p&gt;sed -i -e s/bind&lt;em&gt;ip=127.0.0.1/#bind&lt;/em&gt;ip=127.0.0.1/g /etc/mongod.conf
+{% endhighlight %}&lt;/p&gt;
 
 &lt;p&gt;By default MongoDB is runining on the port 21017, so as part of allowing external access, this port must be opened in the firewall.&lt;/p&gt;
 
 &lt;h1&gt;Opening MongoDB ports in CentOS 7&lt;/h1&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;firewall-cmd --permanent --zone&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;public --add-port&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;27017/tcp
-firewall-cmd --reload&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;{% highlight bash %}
+firewall-cmd --permanent --zone=public --add-port=27017/tcp
+firewall-cmd --reload
+{% endhighlight %}&lt;/p&gt;
 
 &lt;h1&gt;Managing MongoDB service&lt;/h1&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;sudo service mongod start&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;</content><author><name>Jose Estudillo</name><email>jose@estudillo.me</email></author><summary type="html">Installing MongoDB in CentOS 7</summary></entry><entry><title type="html">Configuring a Maven project hosted in Bitbucket in Jenkins</title><link href="http://joseestudillo.com/http://blog.joseestudillo.com/2014/12/05/integrating-bitbucket-repo-jenkins/" rel="alternate" type="text/html" title="Configuring a Maven project hosted in Bitbucket in Jenkins" /><published>2014-12-05T00:00:00+00:00</published><updated>2014-12-05T00:00:00+00:00</updated><id>http://joseestudillo.com/http://blog.joseestudillo.com/2014/12/05/integrating-bitbucket-repo-jenkins</id><content type="html" xml:base="http://joseestudillo.com/http://blog.joseestudillo.com/2014/12/05/integrating-bitbucket-repo-jenkins/">&lt;h1&gt;Configuring a Maven project hosted in Bitbucket&lt;/h1&gt;
+&lt;p&gt;{% highlight bash %}
+sudo service mongod start
+{% endhighlight %}&lt;/p&gt;
 
-&lt;p&gt;If you don&amp;#39;t have Jenkins installed in  your system go to &lt;a href=&quot;http://blog.joseestudillo.com/2014/12/03/installing-jenkins-centos-7/&quot;&gt;How to install Jenkins&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[openingPortsCentos7]: {{site.baseurl}}{% post_url 2014-12-01-opening-ports-in-centos-7 %}&lt;/p&gt;
+</content>
+<summary>Installing MongoDB in CentOS 7</summary>
+</entry>
+<entry>
+<title>Configuring a Maven project hosted in Bitbucket in Jenkins</title>
+<link href="http://joseestudillo.comhttp://blog.joseestudillo.com/2014/12/05/integrating-bitbucket-repo-jenkins/" rel="alternate" type="text/html" title="Configuring a Maven project hosted in Bitbucket in Jenkins" />
+<published>2014-12-05T00:00:00+00:00</published>
+<updated>2014-12-05T00:00:00+00:00</updated>
+<id>http://joseestudillo.comhttp://blog.joseestudillo.com/2014/12/05/integrating-bitbucket-repo-jenkins</id>
+<content type="html" xml:base="http://joseestudillo.comhttp://blog.joseestudillo.com/2014/12/05/integrating-bitbucket-repo-jenkins/">&lt;h1&gt;Configuring a Maven project hosted in Bitbucket&lt;/h1&gt;
+
+&lt;p&gt;If you don&amp;#39;t have Jenkins installed in  your system go to [How to install Jenkins][jenkinsInstall]&lt;/p&gt;
 
 &lt;h2&gt;Installing Bitbucket plugins&lt;/h2&gt;
 
@@ -856,15 +1023,29 @@ firewall-cmd --reload&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 &lt;ul&gt;
 &lt;li&gt;E-mail notification: setting the recipient and send emails for different cases, the most common one is for failed builds, so you can know as soon as a build fails.&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Jose Estudillo</name><email>jose@estudillo.me</email></author><summary type="html">Configuring a Maven project hosted in Bitbucket</summary></entry><entry><title type="html">Installing and configuring Jenkins in CentOS 7</title><link href="http://joseestudillo.com/http://blog.joseestudillo.com/2014/12/03/installing-jenkins-centos-7/" rel="alternate" type="text/html" title="Installing and configuring Jenkins in CentOS 7" /><published>2014-12-03T00:00:00+00:00</published><updated>2014-12-03T00:00:00+00:00</updated><id>http://joseestudillo.com/http://blog.joseestudillo.com/2014/12/03/installing-jenkins-centos-7</id><content type="html" xml:base="http://joseestudillo.com/http://blog.joseestudillo.com/2014/12/03/installing-jenkins-centos-7/">&lt;h1&gt;Installing Jenkins&lt;/h1&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;[jenkinsInstall]: {{site.baseurl}}{% post_url 2014-12-03-installing-jenkins-centos-7 %}&lt;/p&gt;
+</content>
+<summary>Configuring a Maven project hosted in Bitbucket</summary>
+</entry>
+<entry>
+<title>Installing and configuring Jenkins in CentOS 7</title>
+<link href="http://joseestudillo.comhttp://blog.joseestudillo.com/2014/12/03/installing-jenkins-centos-7/" rel="alternate" type="text/html" title="Installing and configuring Jenkins in CentOS 7" />
+<published>2014-12-03T00:00:00+00:00</published>
+<updated>2014-12-03T00:00:00+00:00</updated>
+<id>http://joseestudillo.comhttp://blog.joseestudillo.com/2014/12/03/installing-jenkins-centos-7</id>
+<content type="html" xml:base="http://joseestudillo.comhttp://blog.joseestudillo.com/2014/12/03/installing-jenkins-centos-7/">&lt;h1&gt;Installing Jenkins&lt;/h1&gt;
 
 &lt;p&gt;The easies way to install jenkins is following the instructions in their &lt;a href=&quot;https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on+RedHat+distributions&quot;&gt;official page&lt;/a&gt;&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo
+&lt;p&gt;{% highlight bash %}
+sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo
 sudo rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
-sudo yum install jenkins&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+sudo yum install jenkins
+{% endhighlight %}&lt;/p&gt;
 
-&lt;p&gt;Jenkins require java installed, to do so check &lt;a href=&quot;http://blog.joseestudillo.com/2014/10/14/installing-java-centos-7/&quot;&gt;Installing java in CentOS&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Jenkins require java installed, to do so check [Installing java in CentOS][InstallingJavaCentOS]&lt;/p&gt;
 
 &lt;h2&gt;Configuring Jenkins&lt;/h2&gt;
 
@@ -874,27 +1055,55 @@ sudo yum install jenkins&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;So to change the default port, 8080, the easiest way is to replace the value of the variable &lt;code&gt;HTTP_PORT&lt;/code&gt; in the file &lt;code&gt;/etc/sysconfig/jenkins&lt;/code&gt;. This can be done using the following command as super user, where NEW_PORT is the value of the port you want to asign&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;sed -i s/JENKINS_PORT&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;8080&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;/JENKINS_PORT&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;NEW_PORT&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;/g /etc/sysconfig/jenkins&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;{% highlight bash %}
+sed -i s/JENKINS&lt;em&gt;PORT=\&amp;quot;8080\&amp;quot;/JENKINS&lt;/em&gt;PORT=\&amp;quot;{NEW_PORT}\&amp;quot;/g /etc/sysconfig/jenkins
+{% endhighlight %}&lt;/p&gt;
 
 &lt;p&gt;Then you just need to restart the service&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;/etc/init.d/jenkins restart &lt;span class=&quot;c&quot;&gt;#service jenkins restart #will also works&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;{% highlight bash %}
+/etc/init.d/jenkins restart #service jenkins restart #will also works
+{% endhighlight %}&lt;/p&gt;
 
 &lt;h2&gt;Setting jenkins to start when the server starts&lt;/h2&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;chkconfig jenkins on&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;{% highlight bash %}
+chkconfig jenkins on
+{% endhighlight %}&lt;/p&gt;
 
 &lt;h2&gt;Opening Jenkins ports&lt;/h2&gt;
 
 &lt;p&gt;CentOS 7 has a new firewall application, for previous versions the service is called &lt;em&gt;iptables&lt;/em&gt;.&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;firewall-cmd --permanent --zone&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;public --add-port&lt;span class=&quot;o&quot;&gt;={&lt;/span&gt;NEW_PORT&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;/tcp
-firewall-cmd --reload&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;</content><author><name>Jose Estudillo</name><email>jose@estudillo.me</email></author><summary type="html">Installing Jenkins</summary></entry><entry><title type="html">Opening ports in CentOS 7</title><link href="http://joseestudillo.com/http://blog.joseestudillo.com/linux/centos/2014/12/01/opening-ports-in-centos-7/" rel="alternate" type="text/html" title="Opening ports in CentOS 7" /><published>2014-12-01T00:00:00+00:00</published><updated>2014-12-01T00:00:00+00:00</updated><id>http://joseestudillo.com/http://blog.joseestudillo.com/linux/centos/2014/12/01/opening-ports-in-centos-7</id><content type="html" xml:base="http://joseestudillo.com/http://blog.joseestudillo.com/linux/centos/2014/12/01/opening-ports-in-centos-7/">&lt;h1&gt;Opening ports in CentOS 7&lt;/h1&gt;
+&lt;p&gt;{% highlight bash %}
+firewall-cmd --permanent --zone=public --add-port={NEW_PORT}/tcp
+firewall-cmd --reload
+{% endhighlight %}&lt;/p&gt;
+
+&lt;p&gt;[InstallingJavaCentOS]: {{site.baseurl}}{% post_url 2014-10-14-installing-java-centos-7 %}&lt;/p&gt;
+</content>
+<summary>Installing Jenkins</summary>
+</entry>
+<entry>
+<title>Opening ports in CentOS 7</title>
+<link href="http://joseestudillo.comhttp://blog.joseestudillo.com/linux/centos/2014/12/01/opening-ports-in-centos-7/" rel="alternate" type="text/html" title="Opening ports in CentOS 7" />
+<published>2014-12-01T00:00:00+00:00</published>
+<updated>2014-12-01T00:00:00+00:00</updated>
+<id>http://joseestudillo.comhttp://blog.joseestudillo.com/linux/centos/2014/12/01/opening-ports-in-centos-7</id>
+<content type="html" xml:base="http://joseestudillo.comhttp://blog.joseestudillo.com/linux/centos/2014/12/01/opening-ports-in-centos-7/">&lt;h1&gt;Opening ports in CentOS 7&lt;/h1&gt;
 
 &lt;p&gt;CentOS 7.0 doesn&amp;#39;t use iptables anymore to handle the ports, and it has been replaced by firewall-cmd.&lt;/p&gt;
 
 &lt;p&gt;In the following example, I show how to permanently open the port XXXX:&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# run as super user, su/sudo&lt;/span&gt;
-firewall-cmd --permanent --zone&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;public --add-port&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;XXXX/tcp
-firewall-cmd --reload&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;</content><author><name>Jose Estudillo</name><email>jose@estudillo.me</email></author><summary type="html">Opening ports in CentOS 7</summary></entry></feed>
+&lt;p&gt;{% highlight bash %}&lt;/p&gt;
+
+&lt;h1&gt;run as super user, su/sudo&lt;/h1&gt;
+
+&lt;p&gt;firewall-cmd --permanent --zone=public --add-port=XXXX/tcp
+firewall-cmd --reload
+{% endhighlight %}&lt;/p&gt;
+</content>
+<summary>Opening ports in CentOS 7</summary>
+</entry>
+</feed>
