@@ -3,7 +3,7 @@
 <generator uri="http://jekyllrb.com" version="3.7.3">Jekyll</generator>
 <link href="http://joseestudillo.comhttp://blog.joseestudillo.com/feed.xml" rel="self" type="application/atom+xml" />
 <link href="http://joseestudillo.comhttp://blog.joseestudillo.com/" rel="alternate" type="text/html" />
-<updated>2018-03-17T23:29:21+00:00</updated>
+<updated>2018-03-18T02:52:21+00:00</updated>
 <id>http://joseestudillo.comhttp://blog.joseestudillo.com/</id>
 <subtitle>Jose Estudillo's Blog. Software engineering and technology blog.</subtitle>
 <author>
@@ -11,12 +11,111 @@
 <email>jose@estudillo.me</email>
 </author>
 <entry>
+<title>Creating scalable a kafka cluster with docker</title>
+<link href="http://joseestudillo.comhttp://blog.joseestudillo.com/2018/01/15/creating-scalable-kafka-cluster-with-docker/" rel="alternate" type="text/html" title="Creating scalable a kafka cluster with docker" />
+<published>2018-01-15T00:00:00+00:00</published>
+<updated>2018-01-15T00:00:00+00:00</updated>
+<id>http://joseestudillo.comhttp://blog.joseestudillo.com/2018/01/15/creating-scalable-kafka-cluster-with-docker</id>
+<content type="html" xml:base="http://joseestudillo.comhttp://blog.joseestudillo.com/2018/01/15/creating-scalable-kafka-cluster-with-docker/">&lt;h1&gt;Creating a scalable kafka cluster with docker&lt;/h1&gt;
+
+&lt;p&gt;The auto broker id features of &lt;a href=&quot;https://kafka.apache.org/&quot;&gt;Kafka&lt;/a&gt; combined with &lt;a href=&quot;https://docs.docker.com/compose/&quot;&gt;Docker compose&lt;/a&gt; scaling capabilities allow to create a cluster with N number of nodes with very little effort.&lt;/p&gt;
+
+&lt;h2&gt;The Kafka docker image&lt;/h2&gt;
+
+&lt;p&gt;We will need an image that can start a broker and use zookeeper to form the cluster.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Dockerfile for the kafka brokers:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-Dockerfile&quot; data-lang=&quot;Dockerfile&quot;&gt;FROM centos:7
+MAINTAINER jose@estudillo.me
+
+ENV K_SRC=http://apache.mirror.anlx.net/kafka/1.0.1/kafka_2.11-1.0.1.tgz
+
+RUN yum install -y wget java-1.8.0-openjdk \
+    &amp;amp;&amp;amp; cd /tmp &amp;amp;&amp;amp; wget -q $K_SRC \ 
+    &amp;amp;&amp;amp; export K_TAR=/tmp/$(ls kafka* | head -1) \
+    &amp;amp;&amp;amp; mkdir -p /opt/apache/kafka/ &amp;amp;&amp;amp; tar -zxf $K_TAR -C /opt/apache/kafka/ \
+    &amp;amp;&amp;amp; cd /opt/apache/kafka &amp;amp;&amp;amp; ln -s $(ls) current \
+    &amp;amp;&amp;amp; rm -rf $K_TAR
+
+ENV KAFKA_HOME /opt/apache/kafka/current
+ENV PATH $PATH:$KAFKA_HOME/bin
+
+ADD resources /home/kafka
+
+RUN groupadd -r kafka \
+    &amp;amp;&amp;amp; useradd -r -g kafka kafka \
+    &amp;amp;&amp;amp; mkdir -p /home/kafka \
+    &amp;amp;&amp;amp; chown -R kafka:kafka /home/kafka \
+    &amp;amp;&amp;amp; chmod -R +x /home/kafka/bin \
+    &amp;amp;&amp;amp; mkdir -p /var/log/kafka \
+    &amp;amp;&amp;amp; chown -R kafka:kafka /var/log/kafka
+
+USER kafka
+
+CMD /home/kafka/bin/run.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Where &lt;code&gt;/home/kafka/bin/run.sh&lt;/code&gt; allow to define the configuration of the broker dynamically and start it:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# not required from kafka 0.9 # broker.id=$(date +%N | cut -c5-9)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt; &amp;gt; /home/kafka/broker.properties
+broker.id.generation.enable = true
+port=9092
+log.dir=/var/log/kafka
+zookeeper.connect=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;KAFKA_ZOOKEEPER_HOST&lt;/span&gt;:&lt;span class=&quot;p&quot;&gt;=zookeeper&lt;/span&gt;:2181&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;
+host.name=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;hostname&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;
+advertised.host.name=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;hostname&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;
+advertised.host.port=9092
+&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF
+
+&lt;/span&gt;kafka-server-start.sh /home/kafka/broker.properties
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Kafka auto broker id generation (&lt;code&gt;broker.id.generation.enable = true&lt;/code&gt;) make scaling the cluster easier (in older versions the id had to be setup for each broker). Notice that this or any other file must be located in the &lt;code&gt;resources&lt;/code&gt; (at the same level of the &lt;code&gt;Dockerfile&lt;/code&gt;), as in the image definition map this directory to &lt;code&gt;/home/kafka&lt;/code&gt; (&lt;code&gt;ADD resources /home/kafka&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;Before running docker-compose we will need images in the cassandra local repo, this can be achieved using:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;docker build &lt;span class=&quot;nt&quot;&gt;--tag&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;joseestudillo/kafka:0.0.1&quot;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+docker tag joseestudillo/kafka:0.0.1 joseestudillo/kafka:latest
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;Scaling with docker-compose&lt;/h2&gt;
+
+&lt;p&gt;In the docker compose definition we will only need to entries, one for the zookeeper server, that is not available for simplicity, and one for the kafka brokers that will use &lt;code&gt;KAFKA_ZOOKEEPER_HOST&lt;/code&gt; to join the kafka cluster.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-yaml&quot; data-lang=&quot;yaml&quot;&gt;&lt;span class=&quot;na&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;2.1'&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;services&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;zookeeper&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;hostname&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;zookeeper&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;zookeeper:latest&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;environment&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;ZOO_MY_ID&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;1&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;restart&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;always&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;healthcheck&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;CMD&quot;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;zkServer.sh&quot;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;status&quot;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;]&lt;/span&gt;
+
+  &lt;span class=&quot;na&quot;&gt;kafka_broker&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;joseestudillo/kafka:latest&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;environment&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;KAFKA_ZOOKEEPER_HOST&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;zookeeper:2181/kafka-docker-compose&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;KAFKA_LOG_DIR&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;/var/log/kafka&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;volumes&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;/var/run/docker.sock:/var/run/docker.sock&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;depends_on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;zookeeper&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;condition&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;service_healthy&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;With this file defined, we just need to call &lt;code&gt;docker-compose up --scale kafka_broker=5&lt;/code&gt; and it will start a kafka cluster with 6 brokers.&lt;/p&gt;
+</content>
+<summary>Creating a scalable kafka cluster with docker</summary>
+</entry>
+<entry>
 <title>Creating a kafka cluster with docker</title>
 <link href="http://joseestudillo.comhttp://blog.joseestudillo.com/2017/08/27/creating-kafka-cluster-with-docker/" rel="alternate" type="text/html" title="Creating a kafka cluster with docker" />
 <published>2017-08-27T00:00:00+01:00</published>
 <updated>2017-08-27T00:00:00+01:00</updated>
 <id>http://joseestudillo.comhttp://blog.joseestudillo.com/2017/08/27/creating-kafka-cluster-with-docker</id>
-<content type="html" xml:base="http://joseestudillo.comhttp://blog.joseestudillo.com/2017/08/27/creating-kafka-cluster-with-docker/">&lt;h1&gt;Creating a kafka cluster with docker&lt;/h1&gt;
+<content type="html" xml:base="http://joseestudillo.comhttp://blog.joseestudillo.com/2017/08/27/creating-kafka-cluster-with-docker/">&lt;p&gt;[Updated version of this article][updated-version]&lt;/p&gt;
+
+&lt;h1&gt;Creating a kafka cluster with docker&lt;/h1&gt;
 
 &lt;p&gt;A local &lt;a href=&quot;https://kafka.apache.org/&quot;&gt;Kafka&lt;/a&gt; cluster will help to develop producer and consumers, allowing to test different scenarios specially when it comes to HA. In this article I&amp;#39;ll show how to create a kafka cluster using &lt;a href=&quot;https://www.docker.com/&quot;&gt;docker&lt;/a&gt; and &lt;a href=&quot;https://docs.docker.com/compose/&quot;&gt;docker-compose&lt;/a&gt;.  &lt;/p&gt;
 
@@ -148,8 +247,10 @@ services:
 &lt;p&gt;Once the kafka image is on the system (check with &lt;code&gt;docker images&lt;/code&gt;), we can launch the cluster using: &lt;code&gt;docker-compose up&lt;/code&gt; that will show the logs from all the running containers. The status of the containers can be checked with &lt;code&gt;docker-compose ps&lt;/code&gt; that as the rest of the docker compose commands, but be run from the directory where &lt;code&gt;docker-compose.yml&lt;/code&gt; is placed, or point explicitly to it.&lt;/p&gt;
 
 &lt;p&gt;The cluster then can be operated from any of its nodes: &lt;code&gt;docker-compose exec &amp;lt;container name in the docker compose file&amp;gt; bash&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;[updated-version]: {{site.baseurl}}{% post_url 2018-01-15-creating-scalable-kafka-cluster-with-docker %}&lt;/p&gt;
 </content>
-<summary>Creating a kafka cluster with docker</summary>
+<summary>Updated version of this article</summary>
 </entry>
 <entry>
 <title>Hosting an apache server in Openshift with a godaddy hosted domain</title>
@@ -1083,27 +1184,5 @@ firewall-cmd --reload
 &lt;p&gt;[InstallingJavaCentOS]: {{site.baseurl}}{% post_url 2014-10-14-installing-java-centos-7 %}&lt;/p&gt;
 </content>
 <summary>Installing Jenkins</summary>
-</entry>
-<entry>
-<title>Opening ports in CentOS 7</title>
-<link href="http://joseestudillo.comhttp://blog.joseestudillo.com/linux/centos/2014/12/01/opening-ports-in-centos-7/" rel="alternate" type="text/html" title="Opening ports in CentOS 7" />
-<published>2014-12-01T00:00:00+00:00</published>
-<updated>2014-12-01T00:00:00+00:00</updated>
-<id>http://joseestudillo.comhttp://blog.joseestudillo.com/linux/centos/2014/12/01/opening-ports-in-centos-7</id>
-<content type="html" xml:base="http://joseestudillo.comhttp://blog.joseestudillo.com/linux/centos/2014/12/01/opening-ports-in-centos-7/">&lt;h1&gt;Opening ports in CentOS 7&lt;/h1&gt;
-
-&lt;p&gt;CentOS 7.0 doesn&amp;#39;t use iptables anymore to handle the ports, and it has been replaced by firewall-cmd.&lt;/p&gt;
-
-&lt;p&gt;In the following example, I show how to permanently open the port XXXX:&lt;/p&gt;
-
-&lt;p&gt;{% highlight bash %}&lt;/p&gt;
-
-&lt;h1&gt;run as super user, su/sudo&lt;/h1&gt;
-
-&lt;p&gt;firewall-cmd --permanent --zone=public --add-port=XXXX/tcp
-firewall-cmd --reload
-{% endhighlight %}&lt;/p&gt;
-</content>
-<summary>Opening ports in CentOS 7</summary>
 </entry>
 </feed>
