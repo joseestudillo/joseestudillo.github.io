@@ -3,7 +3,7 @@
 <generator uri="http://jekyllrb.com" version="3.7.3">Jekyll</generator>
 <link href="http://joseestudillo.comhttp://blog.joseestudillo.com/feed.xml" rel="self" type="application/atom+xml" />
 <link href="http://joseestudillo.comhttp://blog.joseestudillo.com/" rel="alternate" type="text/html" />
-<updated>2018-03-18T02:52:21+00:00</updated>
+<updated>2018-03-18T02:54:21+00:00</updated>
 <id>http://joseestudillo.comhttp://blog.joseestudillo.com/</id>
 <subtitle>Jose Estudillo's Blog. Software engineering and technology blog.</subtitle>
 <author>
@@ -11,8 +11,8 @@
 <email>jose@estudillo.me</email>
 </author>
 <entry>
-<title>Creating scalable a kafka cluster with docker</title>
-<link href="http://joseestudillo.comhttp://blog.joseestudillo.com/2018/01/15/creating-scalable-kafka-cluster-with-docker/" rel="alternate" type="text/html" title="Creating scalable a kafka cluster with docker" />
+<title>Creating a scalable kafka cluster with docker</title>
+<link href="http://joseestudillo.comhttp://blog.joseestudillo.com/2018/01/15/creating-scalable-kafka-cluster-with-docker/" rel="alternate" type="text/html" title="Creating a scalable kafka cluster with docker" />
 <published>2018-01-15T00:00:00+00:00</published>
 <updated>2018-01-15T00:00:00+00:00</updated>
 <id>http://joseestudillo.comhttp://blog.joseestudillo.com/2018/01/15/creating-scalable-kafka-cluster-with-docker</id>
