@@ -154,6 +154,10 @@ USER kafka
 CMD /home/kafka/bin/run.sh
 </code></pre></div>
 <p>Where <code>/home/kafka/bin/run.sh</code> allow to define the configuration of the broker dynamically and start it:</p>
+
+<ul>
+<li><code>resources/bin/run.sh</code>:</li>
+</ul>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">#!/bin/bash</span>
 <span class="nb">cat</span> <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh"> &gt; /home/kafka/broker.properties
 broker.id.generation.enable = true

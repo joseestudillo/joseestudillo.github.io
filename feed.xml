@@ -3,7 +3,7 @@
 <generator uri="http://jekyllrb.com" version="3.7.3">Jekyll</generator>
 <link href="http://joseestudillo.comhttp://blog.joseestudillo.com/feed.xml" rel="self" type="application/atom+xml" />
 <link href="http://joseestudillo.comhttp://blog.joseestudillo.com/" rel="alternate" type="text/html" />
-<updated>2018-03-19T22:16:17+00:00</updated>
+<updated>2018-03-19T22:19:59+00:00</updated>
 <id>http://joseestudillo.comhttp://blog.joseestudillo.com/</id>
 <subtitle>Jose Estudillo's Blog. Software engineering and technology blog.</subtitle>
 <author>
@@ -57,6 +57,10 @@ USER kafka
 CMD /home/kafka/bin/run.sh
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Where &lt;code&gt;/home/kafka/bin/run.sh&lt;/code&gt; allow to define the configuration of the broker dynamically and start it:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;resources/bin/run.sh&lt;/code&gt;:&lt;/li&gt;
+&lt;/ul&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
 &lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt; &amp;gt; /home/kafka/broker.properties
 broker.id.generation.enable = true
