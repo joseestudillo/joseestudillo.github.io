@@ -3,7 +3,7 @@
 <generator uri="http://jekyllrb.com" version="3.7.3">Jekyll</generator>
 <link href="http://joseestudillo.comhttp://blog.joseestudillo.com/feed.xml" rel="self" type="application/atom+xml" />
 <link href="http://joseestudillo.comhttp://blog.joseestudillo.com/" rel="alternate" type="text/html" />
-<updated>2018-03-18T02:54:21+00:00</updated>
+<updated>2018-03-19T22:16:17+00:00</updated>
 <id>http://joseestudillo.comhttp://blog.joseestudillo.com/</id>
 <subtitle>Jose Estudillo's Blog. Software engineering and technology blog.</subtitle>
 <author>
@@ -58,8 +58,6 @@ CMD /home/kafka/bin/run.sh
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Where &lt;code&gt;/home/kafka/bin/run.sh&lt;/code&gt; allow to define the configuration of the broker dynamically and start it:&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# not required from kafka 0.9 # broker.id=$(date +%N | cut -c5-9)&lt;/span&gt;
 &lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt; &amp;gt; /home/kafka/broker.properties
 broker.id.generation.enable = true
 port=9092
@@ -72,9 +70,11 @@ advertised.host.port=9092
 
 &lt;/span&gt;kafka-server-start.sh /home/kafka/broker.properties
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Kafka auto broker id generation (&lt;code&gt;broker.id.generation.enable = true&lt;/code&gt;) make scaling the cluster easier (in older versions the id had to be setup for each broker). Notice that this or any other file must be located in the &lt;code&gt;resources&lt;/code&gt; (at the same level of the &lt;code&gt;Dockerfile&lt;/code&gt;), as in the image definition map this directory to &lt;code&gt;/home/kafka&lt;/code&gt; (&lt;code&gt;ADD resources /home/kafka&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;Kafka auto broker id generation (&lt;code&gt;broker.id.generation.enable = true&lt;/code&gt;) makes scaling the cluster easier (in older versions the id had to be setup for each broker), this will use zookeeper to keep all the brokers that join the cluster with unique ids. &lt;/p&gt;
 
-&lt;p&gt;Before running docker-compose we will need images in the cassandra local repo, this can be achieved using:&lt;/p&gt;
+&lt;p&gt;Notice that this or any other file must be located in the &lt;code&gt;resources&lt;/code&gt; (at the same level of the &lt;code&gt;Dockerfile&lt;/code&gt;), as in the image definition map this directory to &lt;code&gt;/home/kafka&lt;/code&gt; (&lt;code&gt;ADD resources /home/kafka&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;Before running docker-compose we will need images in the docker local repo, the images can be generated using:&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;docker build &lt;span class=&quot;nt&quot;&gt;--tag&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;joseestudillo/kafka:0.0.1&quot;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
 docker tag joseestudillo/kafka:0.0.1 joseestudillo/kafka:latest
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -103,7 +103,7 @@ docker tag joseestudillo/kafka:0.0.1 joseestudillo/kafka:latest
       &lt;span class=&quot;na&quot;&gt;zookeeper&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
         &lt;span class=&quot;na&quot;&gt;condition&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;service_healthy&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;With this file defined, we just need to call &lt;code&gt;docker-compose up --scale kafka_broker=5&lt;/code&gt; and it will start a kafka cluster with 6 brokers.&lt;/p&gt;
+&lt;p&gt;With this file defined, we just need to call &lt;code&gt;docker-compose up --scale kafka_broker=5&lt;/code&gt; and it will start a kafka cluster with 5 brokers.&lt;/p&gt;
 </content>
 <summary>Creating a scalable kafka cluster with docker</summary>
 </entry>
