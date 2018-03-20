@@ -11,9 +11,9 @@
     <meta name="description" lang="en" content="Jose Estudillo's Blog. Software engineering and technology blog.">
     <meta name="description" lang="es" content="Blog de Jose Estudillo">
 
-    <title>Jose Estudillo's Blog</title>
+    <title>Extending Vagrant Boxes: Creating your own Vagrant boxes</title>
 
-    <link rel="canonical" href="http://blog.joseestudillo.com/3/">
+    <link rel="canonical" href="http://blog.joseestudillo.com/2017/09/06/extending-vagrant-boxes/">
     <link rel="icon" href="http://blog.joseestudillo.com/favicon.ico">
     <link rel="shortcut icon" href="http://blog.joseestudillo.com/favicon.ico">
 
@@ -92,96 +92,133 @@
 </nav>
 
 
-    <!-- Page Header -->
+    <!-- Post Header -->
 <header class="intro-header" style="background-image: url('http://blog.joseestudillo.com/img/home-bg.jpg')">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="site-heading">
-                    <h1>Jose Estudillo's Blog</h1>
-                    <hr class="small">
-                    <span class="subheading">Software, engineering and other interesting stuff</span>
+                <div class="post-heading">
+                    <h1>Extending Vagrant Boxes: Creating your own Vagrant boxes</h1>
+                    
+                    <span class="meta">Posted by Jose Estudillo on September 6, 2017</span>
                 </div>
             </div>
         </div>
     </div>
 </header>
 
-<!-- Main Content -->
-<div class="container">
-	<div class="row">
-		<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-			
-<div class="post-preview">
-    <a href="http://blog.joseestudillo.com/2014/12/03/installing-jenkins-centos-7/">
-        <h2 class="post-title">            Installing and configuring Jenkins in CentOS 7
-        </h2>
-        
-    </a>
-    <p class="post-meta">Posted by Jose Estudillo on December 3, 2014</p>
-</div>
-<hr>
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-<div class="post-preview">
-    <a href="http://blog.joseestudillo.com/linux/centos/2014/12/01/opening-ports-in-centos-7/">
-        <h2 class="post-title">            Opening ports in CentOS 7
-        </h2>
-        
-    </a>
-    <p class="post-meta">Posted by Jose Estudillo on December 1, 2014</p>
-</div>
-<hr>
+				<h1>Extending Vagrant Boxes</h1>
 
-<div class="post-preview">
-    <a href="http://blog.joseestudillo.com/2014/10/15/installing-maven-centos-7/">
-        <h2 class="post-title">            Installing maven in centos 7
-        </h2>
-        
-    </a>
-    <p class="post-meta">Posted by Jose Estudillo on October 15, 2014</p>
-</div>
-<hr>
+<p>It&#39;s a common case in <a href="https://www.vagrantup.com/">Vagrant</a> to want to have base boxes that contain certain package or specific software to be able to create different type of clusters with little effort. </p>
 
-<div class="post-preview">
-    <a href="http://blog.joseestudillo.com/2014/10/14/installing-java-centos-7/">
-        <h2 class="post-title">            Installing Oracle Java SDK in CentOS 7
-        </h2>
-        
-    </a>
-    <p class="post-meta">Posted by Jose Estudillo on October 14, 2014</p>
-</div>
-<hr>
+<p>The most common case when using <a href="https://www.vagrantup.com/">Vagrant</a>  is to specify a script that will download the software and prepare the box on startup, but this is quite inefficient, specially if we are downloading a lot of information from the internet that could be common for many of the instances. </p>
 
-<div class="post-preview">
-    <a href="http://blog.joseestudillo.com/2014/04/24/issues-accessing-git-from-command-line/">
-        <h2 class="post-title">            Issues accessing Git in the command line
-        </h2>
-        
-    </a>
-    <p class="post-meta">Posted by Jose Estudillo on April 24, 2014</p>
-</div>
-<hr>
+<h1>Defining your own boxed extending from a base image</h1>
 
+<p>For the examples I will use <a href="https://www.centos.org/">CentOS</a> (<code>centos/7</code>) as a base image as it is one of the most common server OS.</p>
 
-<!-- Pager -->
+<h2>Defining a box using Inline script</h2>
 
-<ul class="pager">
-    
-    <li class="previous">
-        <a href="http://blog.joseestudillo.com/2">&larr; Newer Posts</a>
-    </li>
-    
-    
-    <li class="next">
-        <a href="http://blog.joseestudillo.com/4">Older Posts &rarr;</a>
-    </li>
-    
+<p>Using the inline script capabilities is the fastest way to define what our custom box will require: </p>
+
+<ul>
+<li><code>Vagrantfile</code>:
+<code>Vagrantfile
+Vagrant.configure(&quot;2&quot;) do |config|
+config.vm.box = &quot;centos/7&quot;
+config.ssh.insert_key = false
+config.vm.provision &quot;shell&quot;, inline: &lt;&lt;-SHELL
+yum update -y
+yum install -y git
+SHELL  
+end
+</code></li>
 </ul>
 
+<h2>Defining a box Using external script</h2>
 
-		</div>
-	</div>
-</div>
+<p>For the cases where we need to do more complex installation, it is cleaner to create a external script and point to it from the <code>Vagrantfile</code>.</p>
+
+<ul>
+<li><code>Vagrantfile</code>:</li>
+</ul>
+<div class="highlight"><pre><code class="language-Vagrantfile" data-lang="Vagrantfile">Vagrant.configure("2") do |config|
+  config.vm.box = "centos/7"
+  config.ssh.insert_key = false
+  config.vm.provision :shell, path: ".vagrant/scripts/init.sh"  
+end
+</code></pre></div>
+<p>An example of init script could be:</p>
+
+<ul>
+<li><code>.vagrant/scripts/init.sh</code>:
+<code>
+#!/usr/bin/env bash
+yum update -y
+yum install -y git
+</code></li>
+</ul>
+
+<p>The location of the script can be anywhere in the directory where the <code>VagrantFile</code> is, but I like to keep the init scripts under <code>.vagrant</code> directory, so they are used the first time the Virtual machine is started, but never copied into it (<a href="https://www.vagrantup.com/">Vagrant</a> ignored the context of this directory by default).</p>
+
+<h1>Installing the extend box</h1>
+
+<p>I have noticed that the generated boxes only work correctly when the vguest plugin installed, so I advice to install it before running any of the scripts below. This can be done running <code>vagrant plugin install vagrant-vbguest</code>.</p>
+
+<p>To install the box we will create a vagrant virtual machine that will download and install all the specified software, turn it off and package it into a box to install it in the vagrant boxes repo.</p>
+
+<p>the script below can do all this steps in one go and will clean the generated files after.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">BOX_ID</span><span class="o">=</span><span class="s2">"&lt;your box id&gt;"</span>
+vagrant destroy <span class="nt">-f</span>
+<span class="nb">set</span> <span class="nt">-e</span>
+vagrant up <span class="c"># Start the box and run any defined scripts</span>
+vagrant package <span class="nt">--output</span> <span class="k">${</span><span class="nv">BOX_ID</span><span class="k">}</span>.box <span class="c"># Store the virtual machine with all the software installed into a box file.</span>
+vagrant box add <span class="nt">--force</span> <span class="k">${</span><span class="nv">BOX_ID</span><span class="k">}</span> <span class="k">${</span><span class="nv">BOX_ID</span><span class="k">}</span>.box <span class="c"># Add the box to the vagrant repo using the given id.</span>
+vagrant destroy <span class="nt">-f</span> <span class="c"># Stop the vagrant instance</span>
+<span class="nb">rm</span> <span class="k">${</span><span class="nv">BOX_ID</span><span class="k">}</span>.box <span class="c"># Remove the file </span>
+</code></pre></div>
+<p>Once the the previous steps are completed, you can use your newly created box as base assigning the id (<code>BOX_ID</code> value) to <code>config.vm.box</code>:</p>
+<div class="highlight"><pre><code class="language-Vagrantfile" data-lang="Vagrantfile">Vagrant.configure("2") do |config|
+  config.vm.box = "&lt;box id&gt;"
+  ...  
+end
+</code></pre></div>
+<p>In the next article I will show how to configure these boxes to create clusters.</p>
+
+
+                <hr>
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="http://blog.joseestudillo.com/2017/08/27/creating-kafka-cluster-with-docker/" data-toggle="tooltip" data-placement="top" title="Creating a kafka cluster with docker">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="http://blog.joseestudillo.com/2018/01/15/creating-scalable-kafka-cluster-with-docker/" data-toggle="tooltip" data-placement="top" title="Creating a scalable kafka cluster with docker">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+            </div>
+        </div>
+        <div class="row">
+          <!-- Disqus { -->
+          <div class="text-center">
+            <div id="disqus_thread"></div>
+          </div>
+          <!-- } Disqus -->
+        </div>
+    </div>
+</article>
+<script type="text/javascript" src="http://blog.joseestudillo.com/js/disqus.js"></script>
 
 <hr>
 
@@ -258,6 +295,13 @@
 <script src="http://blog.joseestudillo.com/js/blog.min.js "></script>
 
 <!-- Add This script -->
+
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-51ff8808639bd279"></script>
+<script type="text/javascript">
+  var addthis_config = addthis_config||{};
+  addthis_config.data_track_addressbar = false;
+  addthis_config.data_track_clickback = false;
+</script>
 
 
 

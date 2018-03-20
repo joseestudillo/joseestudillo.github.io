@@ -3,7 +3,7 @@
 <generator uri="http://jekyllrb.com" version="3.7.3">Jekyll</generator>
 <link href="http://joseestudillo.comhttp://blog.joseestudillo.com/feed.xml" rel="self" type="application/atom+xml" />
 <link href="http://joseestudillo.comhttp://blog.joseestudillo.com/" rel="alternate" type="text/html" />
-<updated>2018-03-19T22:19:59+00:00</updated>
+<updated>2018-03-20T00:54:08+00:00</updated>
 <id>http://joseestudillo.comhttp://blog.joseestudillo.com/</id>
 <subtitle>Jose Estudillo's Blog. Software engineering and technology blog.</subtitle>
 <author>
@@ -110,6 +110,92 @@ docker tag joseestudillo/kafka:0.0.1 joseestudillo/kafka:latest
 &lt;p&gt;With this file defined, we just need to call &lt;code&gt;docker-compose up --scale kafka_broker=5&lt;/code&gt; and it will start a kafka cluster with 5 brokers.&lt;/p&gt;
 </content>
 <summary>Creating a scalable kafka cluster with docker</summary>
+</entry>
+<entry>
+<title>Extending Vagrant Boxes: Creating your own Vagrant boxes</title>
+<link href="http://joseestudillo.comhttp://blog.joseestudillo.com/2017/09/06/extending-vagrant-boxes/" rel="alternate" type="text/html" title="Extending Vagrant Boxes: Creating your own Vagrant boxes" />
+<published>2017-09-06T00:00:00+01:00</published>
+<updated>2017-09-06T00:00:00+01:00</updated>
+<id>http://joseestudillo.comhttp://blog.joseestudillo.com/2017/09/06/extending-vagrant-boxes</id>
+<content type="html" xml:base="http://joseestudillo.comhttp://blog.joseestudillo.com/2017/09/06/extending-vagrant-boxes/">&lt;h1&gt;Extending Vagrant Boxes&lt;/h1&gt;
+
+&lt;p&gt;It&amp;#39;s a common case in &lt;a href=&quot;https://www.vagrantup.com/&quot;&gt;Vagrant&lt;/a&gt; to want to have base boxes that contain certain package or specific software to be able to create different type of clusters with little effort. &lt;/p&gt;
+
+&lt;p&gt;The most common case when using &lt;a href=&quot;https://www.vagrantup.com/&quot;&gt;Vagrant&lt;/a&gt;  is to specify a script that will download the software and prepare the box on startup, but this is quite inefficient, specially if we are downloading a lot of information from the internet that could be common for many of the instances. &lt;/p&gt;
+
+&lt;h1&gt;Defining your own boxed extending from a base image&lt;/h1&gt;
+
+&lt;p&gt;For the examples I will use &lt;a href=&quot;https://www.centos.org/&quot;&gt;CentOS&lt;/a&gt; (&lt;code&gt;centos/7&lt;/code&gt;) as a base image as it is one of the most common server OS.&lt;/p&gt;
+
+&lt;h2&gt;Defining a box using Inline script&lt;/h2&gt;
+
+&lt;p&gt;Using the inline script capabilities is the fastest way to define what our custom box will require: &lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Vagrantfile&lt;/code&gt;:
+&lt;code&gt;Vagrantfile
+Vagrant.configure(&amp;quot;2&amp;quot;) do |config|
+config.vm.box = &amp;quot;centos/7&amp;quot;
+config.ssh.insert_key = false
+config.vm.provision &amp;quot;shell&amp;quot;, inline: &amp;lt;&amp;lt;-SHELL
+yum update -y
+yum install -y git
+SHELL  
+end
+&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;Defining a box Using external script&lt;/h2&gt;
+
+&lt;p&gt;For the cases where we need to do more complex installation, it is cleaner to create a external script and point to it from the &lt;code&gt;Vagrantfile&lt;/code&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Vagrantfile&lt;/code&gt;:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-Vagrantfile&quot; data-lang=&quot;Vagrantfile&quot;&gt;Vagrant.configure(&quot;2&quot;) do |config|
+  config.vm.box = &quot;centos/7&quot;
+  config.ssh.insert_key = false
+  config.vm.provision :shell, path: &quot;.vagrant/scripts/init.sh&quot;  
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;An example of init script could be:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;.vagrant/scripts/init.sh&lt;/code&gt;:
+&lt;code&gt;
+#!/usr/bin/env bash
+yum update -y
+yum install -y git
+&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The location of the script can be anywhere in the directory where the &lt;code&gt;VagrantFile&lt;/code&gt; is, but I like to keep the init scripts under &lt;code&gt;.vagrant&lt;/code&gt; directory, so they are used the first time the Virtual machine is started, but never copied into it (&lt;a href=&quot;https://www.vagrantup.com/&quot;&gt;Vagrant&lt;/a&gt; ignored the context of this directory by default).&lt;/p&gt;
+
+&lt;h1&gt;Installing the extend box&lt;/h1&gt;
+
+&lt;p&gt;I have noticed that the generated boxes only work correctly when the vguest plugin installed, so I advice to install it before running any of the scripts below. This can be done running &lt;code&gt;vagrant plugin install vagrant-vbguest&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;To install the box we will create a vagrant virtual machine that will download and install all the specified software, turn it off and package it into a box to install it in the vagrant boxes repo.&lt;/p&gt;
+
+&lt;p&gt;the script below can do all this steps in one go and will clean the generated files after.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;BOX_ID&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;your box id&amp;gt;&quot;&lt;/span&gt;
+vagrant destroy &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt;
+vagrant up &lt;span class=&quot;c&quot;&gt;# Start the box and run any defined scripts&lt;/span&gt;
+vagrant package &lt;span class=&quot;nt&quot;&gt;--output&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;BOX_ID&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;.box &lt;span class=&quot;c&quot;&gt;# Store the virtual machine with all the software installed into a box file.&lt;/span&gt;
+vagrant box add &lt;span class=&quot;nt&quot;&gt;--force&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;BOX_ID&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;BOX_ID&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;.box &lt;span class=&quot;c&quot;&gt;# Add the box to the vagrant repo using the given id.&lt;/span&gt;
+vagrant destroy &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# Stop the vagrant instance&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;rm&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;BOX_ID&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;.box &lt;span class=&quot;c&quot;&gt;# Remove the file &lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Once the the previous steps are completed, you can use your newly created box as base assigning the id (&lt;code&gt;BOX_ID&lt;/code&gt; value) to &lt;code&gt;config.vm.box&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-Vagrantfile&quot; data-lang=&quot;Vagrantfile&quot;&gt;Vagrant.configure(&quot;2&quot;) do |config|
+  config.vm.box = &quot;&amp;lt;box id&amp;gt;&quot;
+  ...  
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;In the next article I will show how to configure these boxes to create clusters.&lt;/p&gt;
+</content>
+<summary>Extending Vagrant Boxes</summary>
 </entry>
 <entry>
 <title>Creating a kafka cluster with docker</title>
@@ -1133,60 +1219,5 @@ sudo service mongod start
 &lt;p&gt;[jenkinsInstall]: {{site.baseurl}}{% post_url 2014-12-03-installing-jenkins-centos-7 %}&lt;/p&gt;
 </content>
 <summary>Configuring a Maven project hosted in Bitbucket</summary>
-</entry>
-<entry>
-<title>Installing and configuring Jenkins in CentOS 7</title>
-<link href="http://joseestudillo.comhttp://blog.joseestudillo.com/2014/12/03/installing-jenkins-centos-7/" rel="alternate" type="text/html" title="Installing and configuring Jenkins in CentOS 7" />
-<published>2014-12-03T00:00:00+00:00</published>
-<updated>2014-12-03T00:00:00+00:00</updated>
-<id>http://joseestudillo.comhttp://blog.joseestudillo.com/2014/12/03/installing-jenkins-centos-7</id>
-<content type="html" xml:base="http://joseestudillo.comhttp://blog.joseestudillo.com/2014/12/03/installing-jenkins-centos-7/">&lt;h1&gt;Installing Jenkins&lt;/h1&gt;
-
-&lt;p&gt;The easies way to install jenkins is following the instructions in their &lt;a href=&quot;https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on+RedHat+distributions&quot;&gt;official page&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;{% highlight bash %}
-sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo
-sudo rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
-sudo yum install jenkins
-{% endhighlight %}&lt;/p&gt;
-
-&lt;p&gt;Jenkins require java installed, to do so check [Installing java in CentOS][InstallingJavaCentOS]&lt;/p&gt;
-
-&lt;h2&gt;Configuring Jenkins&lt;/h2&gt;
-
-&lt;h2&gt;Changing the default port when Jenkins is installed as a service&lt;/h2&gt;
-
-&lt;p&gt;The script that manages Jenkins on the system is located in &lt;code&gt;/etc/init.d/jenkins&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;So to change the default port, 8080, the easiest way is to replace the value of the variable &lt;code&gt;HTTP_PORT&lt;/code&gt; in the file &lt;code&gt;/etc/sysconfig/jenkins&lt;/code&gt;. This can be done using the following command as super user, where NEW_PORT is the value of the port you want to asign&lt;/p&gt;
-
-&lt;p&gt;{% highlight bash %}
-sed -i s/JENKINS&lt;em&gt;PORT=\&amp;quot;8080\&amp;quot;/JENKINS&lt;/em&gt;PORT=\&amp;quot;{NEW_PORT}\&amp;quot;/g /etc/sysconfig/jenkins
-{% endhighlight %}&lt;/p&gt;
-
-&lt;p&gt;Then you just need to restart the service&lt;/p&gt;
-
-&lt;p&gt;{% highlight bash %}
-/etc/init.d/jenkins restart #service jenkins restart #will also works
-{% endhighlight %}&lt;/p&gt;
-
-&lt;h2&gt;Setting jenkins to start when the server starts&lt;/h2&gt;
-
-&lt;p&gt;{% highlight bash %}
-chkconfig jenkins on
-{% endhighlight %}&lt;/p&gt;
-
-&lt;h2&gt;Opening Jenkins ports&lt;/h2&gt;
-
-&lt;p&gt;CentOS 7 has a new firewall application, for previous versions the service is called &lt;em&gt;iptables&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;{% highlight bash %}
-firewall-cmd --permanent --zone=public --add-port={NEW_PORT}/tcp
-firewall-cmd --reload
-{% endhighlight %}&lt;/p&gt;
-
-&lt;p&gt;[InstallingJavaCentOS]: {{site.baseurl}}{% post_url 2014-10-14-installing-java-centos-7 %}&lt;/p&gt;
-</content>
-<summary>Installing Jenkins</summary>
 </entry>
 </feed>
