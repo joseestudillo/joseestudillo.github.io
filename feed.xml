@@ -3,7 +3,7 @@
 <generator uri="http://jekyllrb.com" version="3.7.3">Jekyll</generator>
 <link href="http://joseestudillo.comhttp://blog.joseestudillo.com/feed.xml" rel="self" type="application/atom+xml" />
 <link href="http://joseestudillo.comhttp://blog.joseestudillo.com/" rel="alternate" type="text/html" />
-<updated>2018-03-20T00:54:08+00:00</updated>
+<updated>2018-03-20T00:55:45+00:00</updated>
 <id>http://joseestudillo.comhttp://blog.joseestudillo.com/</id>
 <subtitle>Jose Estudillo's Blog. Software engineering and technology blog.</subtitle>
 <author>
@@ -119,7 +119,7 @@ docker tag joseestudillo/kafka:0.0.1 joseestudillo/kafka:latest
 <id>http://joseestudillo.comhttp://blog.joseestudillo.com/2017/09/06/extending-vagrant-boxes</id>
 <content type="html" xml:base="http://joseestudillo.comhttp://blog.joseestudillo.com/2017/09/06/extending-vagrant-boxes/">&lt;h1&gt;Extending Vagrant Boxes&lt;/h1&gt;
 
-&lt;p&gt;It&amp;#39;s a common case in &lt;a href=&quot;https://www.vagrantup.com/&quot;&gt;Vagrant&lt;/a&gt; to want to have base boxes that contain certain package or specific software to be able to create different type of clusters with little effort. &lt;/p&gt;
+&lt;p&gt;It&amp;#39;s a common case in &lt;a href=&quot;https://www.vagrantup.com/&quot;&gt;Vagrant&lt;/a&gt; wanting to have base boxes that contain certain package or specific software to be able to create different type of clusters with little effort. &lt;/p&gt;
 
 &lt;p&gt;The most common case when using &lt;a href=&quot;https://www.vagrantup.com/&quot;&gt;Vagrant&lt;/a&gt;  is to specify a script that will download the software and prepare the box on startup, but this is quite inefficient, specially if we are downloading a lot of information from the internet that could be common for many of the instances. &lt;/p&gt;
 
