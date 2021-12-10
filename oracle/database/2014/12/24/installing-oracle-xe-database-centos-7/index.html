@@ -13,18 +13,18 @@
 
     <title>Installing Oracle Database XE in CentOS 7</title>
 
-    <link rel="canonical" href="http://blog.joseestudillo.com/oracle/database/2014/12/24/installing-oracle-xe-database-centos-7/">
-    <link rel="icon" href="http://blog.joseestudillo.com/favicon.ico">
-    <link rel="shortcut icon" href="http://blog.joseestudillo.com/favicon.ico">
+    <link rel="canonical" href="https://blog.joseestudillo.com/oracle/database/2014/12/24/installing-oracle-xe-database-centos-7/">
+    <link rel="icon" href="https://blog.joseestudillo.com/favicon.ico">
+    <link rel="shortcut icon" href="https://blog.joseestudillo.com/favicon.ico">
 
     <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="http://blog.joseestudillo.com/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://blog.joseestudillo.com/css/bootstrap.min.css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="http://blog.joseestudillo.com/css/blog.css">
+    <link rel="stylesheet" href="https://blog.joseestudillo.com/css/blog.css">
 
     <!-- Pygments Github CSS -->
-    <link rel="stylesheet" href="http://blog.joseestudillo.com/css/syntax.css">
+    <link rel="stylesheet" href="https://blog.joseestudillo.com/css/syntax.css">
 
     <!-- Custom Fonts -->
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -38,7 +38,7 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <link type="application/atom+xml" rel="alternate" href="http://joseestudillo.com/http://blog.joseestudillo.com/feed.xml" title="Jose Estudillo's Blog" />
+    <link type="application/atom+xml" rel="alternate" href="http://joseestudillo.com/https://blog.joseestudillo.com/feed.xml" title="Jose Estudillo's Blog" />
 
 </head>
 
@@ -56,31 +56,31 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="http://blog.joseestudillo.com/">Jose Estudillo's Blog</a>
+            <a class="navbar-brand" href="https://blog.joseestudillo.com/">Jose Estudillo's Blog</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="http://blog.joseestudillo.com/">Home</a>
+                    <a href="https://blog.joseestudillo.com/">Home</a>
                 </li>
                 
 				
                 <li>
-                    <a href="http://blog.joseestudillo.com/about/">About</a>
-                </li>
-				
-                
-				
-                <li>
-                    <a href="http://blog.joseestudillo.com/books/">Books</a>
+                    <a href="https://blog.joseestudillo.com/about/">About</a>
                 </li>
 				
                 
 				
                 <li>
-                    <a href="http://blog.joseestudillo.com/contact/">Contact</a>
+                    <a href="https://blog.joseestudillo.com/books/">Books</a>
+                </li>
+				
+                
+				
+                <li>
+                    <a href="https://blog.joseestudillo.com/contact/">Contact</a>
                 </li>
 				
                 
@@ -93,7 +93,7 @@
 
 
     <!-- Post Header -->
-<header class="intro-header" style="background-image: url('http://blog.joseestudillo.com/img/home-bg.jpg')">
+<header class="intro-header" style="background-image: url('https://blog.joseestudillo.com/img/home-bg.jpg')">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -198,11 +198,11 @@ firewall-cmd <span class="nt">--reload</span></code></pre></figure>
 
 <p>Once in APEX <a href="http://localhost:11521/">localhost:11521</a> go to <strong>home -&gt; Application express</strong> and create a workspace (<em>Application express workspace</em> it will be the name of the workspace)</p>
 
-<p><img src="http://blog.joseestudillo.com/img/oracle-xe-database-centos-7/create-workspace.png" alt="creating oracle workspace" /></p>
+<p><img src="https://blog.joseestudillo.com/img/oracle-xe-database-centos-7/create-workspace.png" alt="creating oracle workspace" /></p>
 
 <p>then connect to it using the interface next to the previous one to access to the newly created workspace</p>
 
-<p><img src="http://blog.joseestudillo.com/img/oracle-xe-database-centos-7/login-workspace.png" alt="log into workspace" /></p>
+<p><img src="https://blog.joseestudillo.com/img/oracle-xe-database-centos-7/login-workspace.png" alt="log into workspace" /></p>
 
 <h2 id="connecting-from-java">Connecting from Java</h2>
 
@@ -211,7 +211,7 @@ firewall-cmd <span class="nt">--reload</span></code></pre></figure>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/u01/app/oracle/product/11.2.0/xe/jdbc/lib/ojdbc6.jar
 </code></pre></div></div>
 
-<p>To install one the drives to make it accessible from Maven check <a href="http://blog.joseestudillo.com/http://blog.joseestudillo.com/maven/java/jar/2014/12/23/installing-third-party-jars-in-maven/">this</a>. With Oracle driver added to the classpath, the connection URL for this example would look as follows:</p>
+<p>To install one the drives to make it accessible from Maven check <a href="https://blog.joseestudillo.com/https://blog.joseestudillo.com/maven/java/jar/2014/12/23/installing-third-party-jars-in-maven/">this</a>. With Oracle driver added to the classpath, the connection URL for this example would look as follows:</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jdbc:oracle:thin:@localhost:1521:xe
 </code></pre></div></div>
@@ -233,12 +233,12 @@ firewall-cmd <span class="nt">--reload</span></code></pre></figure>
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="http://blog.joseestudillo.com/maven/java/jar/2014/12/23/installing-third-party-jars-in-maven/" data-toggle="tooltip" data-placement="top" title="Installing third party jars in Maven">&larr; Previous Post</a>
+                        <a href="https://blog.joseestudillo.com/maven/java/jar/2014/12/23/installing-third-party-jars-in-maven/" data-toggle="tooltip" data-placement="top" title="Installing third party jars in Maven">&larr; Previous Post</a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="http://blog.joseestudillo.com/linux/mint/2015/06/01/exporting-keybindings-linux-mint/" data-toggle="tooltip" data-placement="top" title="Exporting/Importing keyboard shortcuts in Linux Mint">Next Post &rarr;</a>
+                        <a href="https://blog.joseestudillo.com/linux/mint/2015/06/01/exporting-keybindings-linux-mint/" data-toggle="tooltip" data-placement="top" title="Exporting/Importing keyboard shortcuts in Linux Mint">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -254,7 +254,7 @@ firewall-cmd <span class="nt">--reload</span></code></pre></figure>
         </div>
     </div>
 </article>
-<script type="text/javascript" src="http://blog.joseestudillo.com/js/disqus.js"></script>
+<script type="text/javascript" src="https://blog.joseestudillo.com/js/disqus.js"></script>
 
 <hr>
 
@@ -266,7 +266,7 @@ firewall-cmd <span class="nt">--reload</span></code></pre></figure>
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <ul class="list-inline text-center">
                     <li>
-                        <a href="http://blog.joseestudillo.com/feed.xml">
+                        <a href="https://blog.joseestudillo.com/feed.xml">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
@@ -322,13 +322,13 @@ firewall-cmd <span class="nt">--reload</span></code></pre></figure>
 </footer>
 
 <!-- jQuery -->
-<script src="http://blog.joseestudillo.com/js/jquery.min.js "></script>
+<script src="https://blog.joseestudillo.com/js/jquery.min.js "></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="http://blog.joseestudillo.com/js/bootstrap.min.js "></script>
+<script src="https://blog.joseestudillo.com/js/bootstrap.min.js "></script>
 
 <!-- Custom Theme JavaScript -->
-<script src="http://blog.joseestudillo.com/js/blog.min.js "></script>
+<script src="https://blog.joseestudillo.com/js/blog.min.js "></script>
 
 <!-- Add This script -->
 
