@@ -113,56 +113,57 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-				<h1>Configuring a Maven project hosted in Bitbucket</h1>
+				<h1 id="configuring-a-maven-project-hosted-in-bitbucket">Configuring a Maven project hosted in Bitbucket</h1>
 
-<p>If you don&#39;t have Jenkins installed in  your system go to <a href="http://blog.joseestudillo.com/2014/12/03/installing-jenkins-centos-7/">How to install Jenkins</a></p>
+<p>If you don’t have Jenkins installed in  your system go to <a href="http://blog.joseestudillo.com/http://blog.joseestudillo.com/2014/12/03/installing-jenkins-centos-7/">How to install Jenkins</a></p>
 
-<h2>Installing Bitbucket plugins</h2>
+<h2 id="installing-bitbucket-plugins">Installing Bitbucket plugins</h2>
 
 <p>Manage Jenkins -&gt; Manage Plugins</p>
 
-<p>Go to the <em>Available</em> tab and filter by &quot;Bitbucket&quot;, you will get the entries listed below:</p>
+<p>Go to the <em>Available</em> tab and filter by “Bitbucket”, you will get the entries listed below:</p>
 
 <ul>
-<li>Bitbucket OAuth Plugin</li>
-<li>Bitbucket Plugin</li>
-<li>Bitbucket Pullrequest Builder Plugin</li>
+  <li>Bitbucket OAuth Plugin</li>
+  <li>Bitbucket Plugin</li>
+  <li>Bitbucket Pullrequest Builder Plugin</li>
 </ul>
 
 <p>Not all this plugins are required to build from Bitbucket</p>
 
-<h2>Creating new Item for a Maven project hosted in Bitbucket</h2>
+<h2 id="creating-new-item-for-a-maven-project-hosted-in-bitbucket">Creating new Item for a Maven project hosted in Bitbucket</h2>
 
 <p>New Item -&gt; Maven Project</p>
 
 <p>Maven project name:</p>
 
 <ul>
-<li>Source Code Management
-
-<ul>
-<li>Repository URL</li>
-<li>Credentials</li>
-<li>Branches to build : */master (or any other specified)</li>
-</ul></li>
-<li>Build Triggers
-
-<ul>
-<li>Build whenever a SNAPSHOT dependency is built</li>
-<li>Build when a change is pushed to BitBucket</li>
-<li>Build periodically: @midnight</li>
-</ul></li>
-<li>Build
-
-<ul>
-<li>Root POM: pom.xml</li>
-</ul></li>
-<li>Build Settings:
-
-<ul>
-<li>E-mail notification: setting the recipient and send emails for different cases, the most common one is for failed builds, so you can know as soon as a build fails.</li>
-</ul></li>
+  <li>Source Code Management
+    <ul>
+      <li>Repository URL</li>
+      <li>Credentials</li>
+      <li>Branches to build : */master (or any other specified)</li>
+    </ul>
+  </li>
+  <li>Build Triggers
+    <ul>
+      <li>Build whenever a SNAPSHOT dependency is built</li>
+      <li>Build when a change is pushed to BitBucket</li>
+      <li>Build periodically: @midnight</li>
+    </ul>
+  </li>
+  <li>Build
+    <ul>
+      <li>Root POM: pom.xml</li>
+    </ul>
+  </li>
+  <li>Build Settings:
+    <ul>
+      <li>E-mail notification: setting the recipient and send emails for different cases, the most common one is for failed builds, so you can know as soon as a build fails.</li>
+    </ul>
+  </li>
 </ul>
+
 
 
                 <hr>
@@ -252,7 +253,7 @@
                     </li>
                     
                 </ul>
-                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2019</p>
+                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2021</p>
             </div>
         </div>
     </div>

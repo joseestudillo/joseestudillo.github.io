@@ -113,19 +113,19 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-				<h1>Installing third party jars in Maven</h1>
+				<h1 id="installing-third-party-jars-in-maven">Installing third party jars in Maven</h1>
 
-<p>Some companies don&#39;t put their jars in Maven official repositories, so when working in a local environment is useful to have this jars available as any other.</p>
+<p>Some companies don’t put their jars in Maven official repositories, so when working in a local environment is useful to have this jars available as any other.</p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">    mvn <span class="nb">install</span>:install-file <span class="nt">-Dfile</span><span class="o">=</span>JAR_FILE_PATH <span class="nt">-DgroupId</span><span class="o">=</span>GROUP_ID <span class="nt">-DartifactId</span><span class="o">=</span>ARTIFACT_ID <span class="nt">-Dversion</span><span class="o">=</span>VERSION  <span class="nt">-Dpackaging</span><span class="o">=</span>jar</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">	mvn <span class="nb">install</span>:install-file <span class="nt">-Dfile</span><span class="o">=</span>JAR_FILE_PATH <span class="nt">-DgroupId</span><span class="o">=</span>GROUP_ID <span class="nt">-DartifactId</span><span class="o">=</span>ARTIFACT_ID <span class="nt">-Dversion</span><span class="o">=</span>VERSION  <span class="nt">-Dpackaging</span><span class="o">=</span>jar</code></pre></figure>
 
 <p>where:</p>
 
 <ul>
-<li><strong>JAR<em>FILE</em>PATH</strong>: path to the jar file to install</li>
-<li><strong>GROUP_ID</strong>: Id to identify a group that will contains the jars released by the same provider (i.e. org.springframework)</li>
-<li><strong>ARTIFACT_ID</strong>: Id to identify a single jar file (i.e. spring-core)</li>
-<li><strong>VERSION</strong>: version of the specific jar (i.e. 1.2.0)</li>
+  <li><strong>JAR_FILE_PATH</strong>: path to the jar file to install</li>
+  <li><strong>GROUP_ID</strong>: Id to identify a group that will contains the jars released by the same provider (i.e. org.springframework)</li>
+  <li><strong>ARTIFACT_ID</strong>: Id to identify a single jar file (i.e. spring-core)</li>
+  <li><strong>VERSION</strong>: version of the specific jar (i.e. 1.2.0)</li>
 </ul>
 
 <p>to declare this new added jar in the pom.xml</p>
@@ -143,6 +143,7 @@
   <span class="nt">&lt;/dependencies&gt;</span>
   ...
 <span class="nt">&lt;/project&gt;</span></code></pre></figure>
+
 
 
                 <hr>
@@ -232,7 +233,7 @@
                     </li>
                     
                 </ul>
-                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2019</p>
+                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2021</p>
             </div>
         </div>
     </div>

@@ -113,68 +113,71 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-				<h1>Extending Vagrant Boxes</h1>
+				<h1 id="extending-vagrant-boxes">Extending Vagrant Boxes</h1>
 
-<p>It&#39;s a common case in <a href="https://www.vagrantup.com/">Vagrant</a> wanting to have base boxes that contain certain package or specific software to be able to create different type of clusters with little effort. </p>
+<p>It’s a common case in <a href="https://www.vagrantup.com/">Vagrant</a> wanting to have base boxes that contain certain package or specific software to be able to create different type of clusters with little effort.</p>
 
-<p>The most common case when using <a href="https://www.vagrantup.com/">Vagrant</a>  is to specify a script that will download the software and prepare the box on startup, but this is quite inefficient, specially if we are downloading a lot of information from the internet that could be common for many of the instances. </p>
+<p>The most common case when using <a href="https://www.vagrantup.com/">Vagrant</a>  is to specify a script that will download the software and prepare the box on startup, but this is quite inefficient, specially if we are downloading a lot of information from the internet that could be common for many of the instances.</p>
 
-<h1>Defining your own boxed extending from a base image</h1>
+<h1 id="defining-your-own-boxed-extending-from-a-base-image">Defining your own boxed extending from a base image</h1>
 
-<p>For the examples I will use <a href="https://www.centos.org/">CentOS</a> (<code>centos/7</code>) as a base image as it is one of the most common server OS.</p>
+<p>For the examples I will use <a href="https://www.centos.org/">CentOS</a> (<code class="language-plaintext highlighter-rouge">centos/7</code>) as a base image as it is one of the most common server OS.</p>
 
-<h2>Defining a box using Inline script</h2>
+<h2 id="defining-a-box-using-inline-script">Defining a box using Inline script</h2>
 
-<p>Using the inline script capabilities is the fastest way to define what our custom box will require: </p>
+<p>Using the inline script capabilities is the fastest way to define what our custom box will require:</p>
 
 <ul>
-<li><code>Vagrantfile</code>:
-<code>Vagrantfile
-Vagrant.configure(&quot;2&quot;) do |config|
-config.vm.box = &quot;centos/7&quot;
+  <li><code class="language-plaintext highlighter-rouge">Vagrantfile</code>:
+    <pre><code class="language-Vagrantfile">Vagrant.configure("2") do |config|
+config.vm.box = "centos/7"
 config.ssh.insert_key = false
-config.vm.provision &quot;shell&quot;, inline: &lt;&lt;-SHELL
-yum update -y
-yum install -y git
+config.vm.provision "shell", inline: &lt;&lt;-SHELL
+  yum update -y
+  yum install -y git
 SHELL  
 end
-</code></li>
+</code></pre>
+  </li>
 </ul>
 
-<h2>Defining a box Using external script</h2>
+<h2 id="defining-a-box-using-external-script">Defining a box Using external script</h2>
 
-<p>For the cases where we need to do more complex installation, it is cleaner to create a external script and point to it from the <code>Vagrantfile</code>.</p>
+<p>For the cases where we need to do more complex installation, it is cleaner to create a external script and point to it from the <code class="language-plaintext highlighter-rouge">Vagrantfile</code>.</p>
 
 <ul>
-<li><code>Vagrantfile</code>:</li>
+  <li><code class="language-plaintext highlighter-rouge">Vagrantfile</code>:</li>
 </ul>
-<div class="highlight"><pre><code class="language-Vagrantfile" data-lang="Vagrantfile">Vagrant.configure("2") do |config|
+
+<pre><code class="language-Vagrantfile">Vagrant.configure("2") do |config|
   config.vm.box = "centos/7"
   config.ssh.insert_key = false
   config.vm.provision :shell, path: ".vagrant/scripts/init.sh"  
 end
-</code></pre></div>
+</code></pre>
+
 <p>An example of init script could be:</p>
 
 <ul>
-<li><code>.vagrant/scripts/init.sh</code>:
-<code>
-#!/usr/bin/env bash
+  <li><code class="language-plaintext highlighter-rouge">.vagrant/scripts/init.sh</code>:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/usr/bin/env bash
 yum update -y
 yum install -y git
-</code></li>
+</code></pre></div>    </div>
+  </li>
 </ul>
 
-<p>The location of the script can be anywhere in the directory where the <code>VagrantFile</code> is, but I like to keep the init scripts under <code>.vagrant</code> directory, so they are used the first time the Virtual machine is started, but never copied into it (<a href="https://www.vagrantup.com/">Vagrant</a> ignored the context of this directory by default).</p>
+<p>The location of the script can be anywhere in the directory where the <code class="language-plaintext highlighter-rouge">VagrantFile</code> is, but I like to keep the init scripts under <code class="language-plaintext highlighter-rouge">.vagrant</code> directory, so they are used the first time the Virtual machine is started, but never copied into it (<a href="https://www.vagrantup.com/">Vagrant</a> ignored the context of this directory by default).</p>
 
-<h1>Installing the extend box</h1>
+<h1 id="installing-the-extend-box">Installing the extend box</h1>
 
-<p>I have noticed that the generated boxes only work correctly when the vguest plugin installed, so I advice to install it before running any of the scripts below. This can be done running <code>vagrant plugin install vagrant-vbguest</code>.</p>
+<p>I have noticed that the generated boxes only work correctly when the vguest plugin installed, so I advice to install it before running any of the scripts below. This can be done running <code class="language-plaintext highlighter-rouge">vagrant plugin install vagrant-vbguest</code>.</p>
 
 <p>To install the box we will create a vagrant virtual machine that will download and install all the specified software, turn it off and package it into a box to install it in the vagrant boxes repo.</p>
 
 <p>the script below can do all this steps in one go and will clean the generated files after.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">BOX_ID</span><span class="o">=</span><span class="s2">"&lt;your box id&gt;"</span>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">BOX_ID</span><span class="o">=</span><span class="s2">"&lt;your box id&gt;"</span>
 vagrant destroy <span class="nt">-f</span>
 <span class="nb">set</span> <span class="nt">-e</span>
 vagrant up <span class="c"># Start the box and run any defined scripts</span>
@@ -182,14 +185,18 @@ vagrant package <span class="nt">--output</span> <span class="k">${</span><span 
 vagrant box add <span class="nt">--force</span> <span class="k">${</span><span class="nv">BOX_ID</span><span class="k">}</span> <span class="k">${</span><span class="nv">BOX_ID</span><span class="k">}</span>.box <span class="c"># Add the box to the vagrant repo using the given id.</span>
 vagrant destroy <span class="nt">-f</span> <span class="c"># Stop the vagrant instance</span>
 <span class="nb">rm</span> <span class="k">${</span><span class="nv">BOX_ID</span><span class="k">}</span>.box <span class="c"># Remove the file </span>
-</code></pre></div>
-<p>Once the the previous steps are completed, you can use your newly created box as base assigning the id (<code>BOX_ID</code> value) to <code>config.vm.box</code>:</p>
-<div class="highlight"><pre><code class="language-Vagrantfile" data-lang="Vagrantfile">Vagrant.configure("2") do |config|
+</code></pre></div></div>
+
+<p>Once the the previous steps are completed, you can use your newly created box as base assigning the id (<code class="language-plaintext highlighter-rouge">BOX_ID</code> value) to <code class="language-plaintext highlighter-rouge">config.vm.box</code>:</p>
+
+<pre><code class="language-Vagrantfile">Vagrant.configure("2") do |config|
   config.vm.box = "&lt;box id&gt;"
   ...  
 end
-</code></pre></div>
+</code></pre>
+
 <p>In the next article I will show how to configure these boxes to create clusters.</p>
+
 
 
                 <hr>
@@ -279,7 +286,7 @@ end
                     </li>
                     
                 </ul>
-                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2019</p>
+                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2021</p>
             </div>
         </div>
     </div>

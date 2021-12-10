@@ -113,11 +113,11 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-				<h1>Creating a static site with Jekyll</h1>
+				<h1 id="creating-a-static-site-with-jekyll">Creating a static site with Jekyll</h1>
 
 <p>This article explains how I created this site using Jekyll.</p>
 
-<h2>1. Installing Jekyll</h2>
+<h2 id="1-installing-jekyll">1. Installing Jekyll</h2>
 
 <p>My development environment is <a href="http://www.linuxmint.com/" title="Linux Mint">Linux Mint</a> which is based on Ubuntu, so following commands will work for both. For other OS check the official <a href="http://jekyllrb.com/" title="Jekyll">Jekyll website</a>.</p>
 
@@ -126,15 +126,16 @@
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">sudo </span>apt-get <span class="nb">install </span>ruby
 <span class="nb">sudo </span>apt-get <span class="nb">install </span>ruby1.9.1-dev</code></pre></figure>
 
-<p>Once the ruby packages have been installed we can proceed to install Jekyll    </p>
+<p>Once the ruby packages have been installed we can proceed to install Jekyll</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash">    
 <span class="nb">sudo </span>gem <span class="nb">install </span>jekyll</code></pre></figure>
 
-<h2>2. Creating a new Jekyll Project</h2>
+<h2 id="2-creating-a-new-jekyll-project">2. Creating a new Jekyll Project</h2>
 
-<p>A Jekyll project is based in several preconfigured folders and files. For this example we will go with the basics, for further information check <a href="http://jekyllrb.com/docs/structure/" title="Jekyll Structure">Jekyll Structure</a>. To create a new site use the sintax <code>jekyll new {project directory name}</code> that will create the following structure:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">.
+<p>A Jekyll project is based in several preconfigured folders and files. For this example we will go with the basics, for further information check <a href="http://jekyllrb.com/docs/structure/" title="Jekyll Structure">Jekyll Structure</a>. To create a new site use the sintax <code class="language-plaintext highlighter-rouge">jekyll new {project directory name}</code> that will create the following structure:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.
 ├── _config.yml
 ├── css
 │   ├── main.css
@@ -145,26 +146,26 @@
 │   └── post.html
 └── _posts
     └── 2014-01-23-welcome-to-jekyll.markdown
-</code></pre></div>
+</code></pre></div></div>
+
 <p>To modify this default folder structure check <a href="http://jekyllrb.com/docs/configuration/" title="Jekyll Configuration">Jekyll Configuration</a></p>
 
-<h2>3. Configuration</h2>
+<h2 id="3-configuration">3. Configuration</h2>
 
-<p>This is not strictly necessary because the Jekyll has a basic configuration by default. We will only add some global properties and configure the markdown editor to use &#39;redcarpet2&#39;</p>
+<p>This is not strictly necessary because the Jekyll has a basic configuration by default. We will only add some global properties and configure the markdown editor to use ‘redcarpet2’</p>
 
-<h3>_config.yml</h3>
+<h3 id="_configyml">_config.yml</h3>
 
 <figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="na">author</span><span class="pi">:</span> <span class="s">Jose Estudillo</span>
 <span class="na">markdown</span><span class="pi">:</span> <span class="s">redcarpet</span></code></pre></figure>
-    
 
 <p>DEPLOYS what is deployed and how</p>
 
-<h2>4. Page</h2>
+<h2 id="4-page">4. Page</h2>
 
 <p>Jekyll allow serveral ways to create a page, in this post I will focus on markdown.</p>
 
-<h3>page.md</h3>
+<h3 id="pagemd">page.md</h3>
 
 <figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="nn">---</span>
 <span class="c1">#YAML declaration</span>
@@ -175,9 +176,9 @@
 
 <span class="s">Text</span></code></pre></figure>
 
-<p>In the YAML (after the first <code>---</code>) declaration we usually declare parameter for the page that will be generated (title, author,...). In the markdown declaration (after the second <code>---</code>) we will place the content. For further information check the <a href="http://daringfireball.net/projects/markdown/syntax" title="Markdown Documentation">official markdown documentation</a>.</p>
+<p>In the YAML (after the first <code class="language-plaintext highlighter-rouge">---</code>) declaration we usually declare parameter for the page that will be generated (title, author,…). In the markdown declaration (after the second <code class="language-plaintext highlighter-rouge">---</code>) we will place the content. For further information check the <a href="http://daringfireball.net/projects/markdown/syntax" title="Markdown Documentation">official markdown documentation</a>.</p>
 
-<h2>5. Layout</h2>
+<h2 id="5-layout">5. Layout</h2>
 
 <p>The layout will allow us to place the content generated in the markdown file in a good looking HTML.</p>
 
@@ -196,18 +197,18 @@
 <p>In every layout there are three global vars that are always defined:</p>
 
 <ul>
-<li><strong>site</strong>: that refers to the information declared in _config.yml</li>
-<li><strong>page</strong>: information related the the page itself</li>
-<li><strong>content</strong>: refering to the content generated by markdown</li>
+  <li><strong>site</strong>: that refers to the information declared in _config.yml</li>
+  <li><strong>page</strong>: information related the the page itself</li>
+  <li><strong>content</strong>: refering to the content generated by markdown</li>
 </ul>
 
-<h2>6. Includes</h2>
+<h2 id="6-includes">6. Includes</h2>
 
 <p>To keep it simple we will go for a simple header and footer that we will place in</p>
 
 <ul>
-<li><code>_includes/header.html</code></li>
-<li><code>_includes/footer.html</code></li>
+  <li><code class="language-plaintext highlighter-rouge">_includes/header.html</code></li>
+  <li><code class="language-plaintext highlighter-rouge">_includes/footer.html</code></li>
 </ul>
 
 <p>to use import this files in a layout we will use the following codes</p>
@@ -220,21 +221,21 @@
 
 <figure class="highlight"><pre><code class="language-html" data-lang="html">    {{include.title}}</code></pre></figure>
 
-<h2>7. Paginated index</h2>
+<h2 id="7-paginated-index">7. Paginated index</h2>
 
 <p>Once you have reached a certain numbers of posts, pagination is a must. Jekyll allow you to paginate the post in to basic steps:</p>
 
 <ul>
-<li>First will require to configure the pagination extension in the file  <strong>config.yml</strong>:</li>
+  <li>First will require to configure the pagination extension in the file  <strong>config.yml</strong>:</li>
 </ul>
 
-<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="na">paginate</span><span class="pi">:</span> <span class="s">5</span>
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="na">paginate</span><span class="pi">:</span> <span class="m">5</span>
 <span class="na">paginate_path</span><span class="pi">:</span> <span class="s2">"</span><span class="s">:num"</span></code></pre></figure>
 
-<p>where <code>paginate</code> defines the number of post per page, and <code>paginate_path</code> will define how the page is shown in the URL.</p>
+<p>where <code class="language-plaintext highlighter-rouge">paginate</code> defines the number of post per page, and <code class="language-plaintext highlighter-rouge">paginate_path</code> will define how the page is shown in the URL.</p>
 
 <ul>
-<li>The second one will be define the Liquid/HTML code to navigate through the index pages, that contain the links to the different post, this must be defined in the file <strong>index.html</strong>:</li>
+  <li>The second one will be define the Liquid/HTML code to navigate through the index pages, that contain the links to the different post, this must be defined in the file <strong>index.html</strong>:</li>
 </ul>
 
 <figure class="highlight"><pre><code class="language-html" data-lang="html">{% if paginator.previous_page %}
@@ -271,10 +272,10 @@
   <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"{{page.next.url}}"</span><span class="nt">/&gt;</span>
 {% endif %}</code></pre></figure>
 
-<h2>8. Building the site</h2>
+<h2 id="8-building-the-site">8. Building the site</h2>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash">    jekyll build <span class="nt">--watch</span></code></pre></figure>
-    
+
 
 
                 <hr>
@@ -360,7 +361,7 @@
                     </li>
                     
                 </ul>
-                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2019</p>
+                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2021</p>
             </div>
         </div>
     </div>

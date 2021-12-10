@@ -113,9 +113,9 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-				<h1>Issues accessing Git repository in the command line</h1>
+				<h1 id="issues-accessing-git-repository-in-the-command-line">Issues accessing Git repository in the command line</h1>
 
-<p>Depending on the server configuration, the password to access to git repositories (between others) in the command line is requested displaying a new popup window, so you can only type the password locally in the computer or using an X11 session. </p>
+<p>Depending on the server configuration, the password to access to git repositories (between others) in the command line is requested displaying a new popup window, so you can only type the password locally in the computer or using an X11 session.</p>
 
 <p>I was getting the following error trying to clone a repository from the command line:</p>
 
@@ -124,9 +124,8 @@
 <p>This happens because the OS is trying to use a GUI to request the password, and It is impossible to use in an SSH session unless you are using X11. To deactivate this feature you just need to unset an environment variable:</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash">    <span class="nb">unset </span>SSH_ASKPASS</code></pre></figure>
-    
 
-<p>To keep the change be sure you add this into <code>.bashrc</code> in your user profile or create an script in <code>/etc/init.d</code> to make it global. </p>
+<p>To keep the change be sure you add this into <code class="language-plaintext highlighter-rouge">.bashrc</code> in your user profile or create an script in <code class="language-plaintext highlighter-rouge">/etc/init.d</code> to make it global.</p>
 
 
                 <hr>
@@ -216,7 +215,7 @@
                     </li>
                     
                 </ul>
-                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2019</p>
+                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2021</p>
             </div>
         </div>
     </div>

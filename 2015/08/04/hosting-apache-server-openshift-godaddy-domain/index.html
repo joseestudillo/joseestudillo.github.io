@@ -113,82 +113,113 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-				<h1>Hosting an apache server in Openshift with a godaddy hosted domain</h1>
+				<h1 id="hosting-an-apache-server-in-openshift-with-a-godaddy-hosted-domain">Hosting an apache server in Openshift with a godaddy hosted domain</h1>
 
-<p>In this article I&#39;ll show how to point an existing domain hosted in godaddy to an apache server running in Openshift, to do so I&#39;ll use the following generic URLs:</p>
+<p>In this article I’ll show how to point an existing domain hosted in godaddy to an apache server running in Openshift, to do so I’ll use the following generic URLs:</p>
 
 <ul>
-<li><p>Subdomain under you already registered domain: <code>http://SUBDOMAIN.DOMAIN.com</code></p></li>
-<li><p>URL to the apache server hosted in <a href="https://www.openshift.com/">OpenShift</a>: <code>http://APP_NAME-OPENSHIFT_DOMAIN_NAME.rhcloud.com</code></p></li>
+  <li>
+    <p>Subdomain under you already registered domain: <code class="language-plaintext highlighter-rouge">http://SUBDOMAIN.DOMAIN.com</code></p>
+  </li>
+  <li>
+    <p>URL to the apache server hosted in <a href="https://www.openshift.com/">OpenShift</a>: <code class="language-plaintext highlighter-rouge">http://APP_NAME-OPENSHIFT_DOMAIN_NAME.rhcloud.com</code></p>
+  </li>
 </ul>
 
 <p>And I will also assume you have a free account in <a href="https://www.openshift.com/">OpenShift</a>.</p>
 
-<h2>Creating an application</h2>
+<h2 id="creating-an-application">Creating an application</h2>
 
-<p>Once logged into <a href="https://www.openshift.com/">OpenShift</a> go to: <strong>Applications -&gt; Add Application...</strong></p>
+<p>Once logged into <a href="https://www.openshift.com/">OpenShift</a> go to: <strong>Applications -&gt; Add Application…</strong></p>
 
-<p>In this case I will focus in creating a simple apache server. Configuring any other type of server should work in the same way. The apache server isn&#39;t offered as an option, but any server that can host PHP will work (for example: PHP 5.3, PHP 5.4).</p>
+<p>In this case I will focus in creating a simple apache server. Configuring any other type of server should work in the same way. The apache server isn’t offered as an option, but any server that can host PHP will work (for example: PHP 5.3, PHP 5.4).</p>
 
-<p>During the instantiation process, we will be asked to create an URL for the new application, in our case this will be: <code>http://APP_NAME-OPENSHIFT_DOMAIN_NAME.rhcloud.com</code>. Unless you have specific needs, the rest of the parameters can be left as they are. A git repository can be given to obtaion the content, otherwise, one will be created for every application.</p>
+<p>During the instantiation process, we will be asked to create an URL for the new application, in our case this will be: <code class="language-plaintext highlighter-rouge">http://APP_NAME-OPENSHIFT_DOMAIN_NAME.rhcloud.com</code>. Unless you have specific needs, the rest of the parameters can be left as they are. A git repository can be given to obtaion the content, otherwise, one will be created for every application.</p>
 
-<h2>Uploading files to the application using git</h2>
+<h2 id="uploading-files-to-the-application-using-git">Uploading files to the application using git</h2>
 
-<p>In the right side hand of the application configuration menu, there is a box that displays the git repository associated to the app, for this example it would look like <code>ssh://ID@APP_NAME-OPENSHIFT_DOMAIN_NAME.rhcloud.com/~/git/APPNAME.git/</code> using this URL we can clone the git repository from the CLI:</p>
+<p>In the right side hand of the application configuration menu, there is a box that displays the git repository associated to the app, for this example it would look like <code class="language-plaintext highlighter-rouge">ssh://ID@APP_NAME-OPENSHIFT_DOMAIN_NAME.rhcloud.com/~/git/APPNAME.git/</code> using this URL we can clone the git repository from the CLI:</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash">git clone ssh://[ID]@APP_NAME-OPENSHIFT_DOMAIN_NAME.rhcloud.com/~/git/APPNAME.git/</code></pre></figure>
 
-<p>Once it has been cloned, we can place the required files into the directory <code>APPNAME</code>. The last step will be uploading the files, this can be done using the commands below:</p>
+<p>Once it has been cloned, we can place the required files into the directory <code class="language-plaintext highlighter-rouge">APPNAME</code>. The last step will be uploading the files, this can be done using the commands below:</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash">git add <span class="nt">--all</span>
 git commit <span class="nt">-m</span> <span class="s2">"</span><span class="sb">`</span><span class="nb">date</span><span class="sb">`</span><span class="s2">"</span>
 git push origin</code></pre></figure>
 
-<p>Notice that for this to work you will need credentials, the easiest way to do it is having your public shh key configured in <a href="https://www.openshift.com/">OpenShift</a>. This is outside the scope of this article, so as a quick tip, <code>ssh-keygen -t rsa -b 4096 -C &quot;your@email.com&quot;</code> will generate the public key and <code>cat ~/.ssh/id_rsa.pub</code> will display it.</p>
+<p>Notice that for this to work you will need credentials, the easiest way to do it is having your public shh key configured in <a href="https://www.openshift.com/">OpenShift</a>. This is outside the scope of this article, so as a quick tip, <code class="language-plaintext highlighter-rouge">ssh-keygen -t rsa -b 4096 -C "your@email.com"</code> will generate the public key and <code class="language-plaintext highlighter-rouge">cat ~/.ssh/id_rsa.pub</code> will display it.</p>
 
-<h3>Setting the alias domain</h3>
+<h3 id="setting-the-alias-domain">Setting the alias domain</h3>
 
-<p>From the application configuration page, right next to the application&#39;s URL, there is a link called <strong>change</strong>, clicking on it will take you to a menu where you can see two values:</p>
+<p>From the application configuration page, right next to the application’s URL, there is a link called <strong>change</strong>, clicking on it will take you to a menu where you can see two values:</p>
 
 <ul>
-<li><p><strong>Application URL</strong>: is the actual URL app, it should look like <code>http://APP_NAME-DOMAIN_NAME.rhcloud.com</code> (as defined before) and</p></li>
-<li><p><strong>Domain Name</strong>: which is the domain that will be pointing to this app, being in the case <code>SUBDOMAIN.DOMAIN.com</code>. </p></li>
+  <li>
+    <p><strong>Application URL</strong>: is the actual URL app, it should look like <code class="language-plaintext highlighter-rouge">http://APP_NAME-DOMAIN_NAME.rhcloud.com</code> (as defined before) and</p>
+  </li>
+  <li>
+    <p><strong>Domain Name</strong>: which is the domain that will be pointing to this app, being in the case <code class="language-plaintext highlighter-rouge">SUBDOMAIN.DOMAIN.com</code>.</p>
+  </li>
 </ul>
 
 <p>With this is setup, no further configuration is required on the <a href="https://www.openshift.com/">OpenShift</a> side.</p>
 
-<h3>Configuring the domain in Godaddy</h3>
+<h3 id="configuring-the-domain-in-godaddy">Configuring the domain in Godaddy</h3>
 
-<p>To point our domain to a <a href="https://www.openshift.com/">OpenShift</a>&#39;s application we need two things:</p>
+<p>To point our domain to a <a href="https://www.openshift.com/">OpenShift</a>’s application we need two things:</p>
 
 <ul>
-<li><p>redirect DOMAIN.com to SUBDOMAIN.DOMAIN.com</p></li>
-<li><p>add a CNAME entry to point SUBDOMAIN.DOMAIN.com to the <a href="https://www.openshift.com/">OpenShift</a> URL.</p></li>
+  <li>
+    <p>redirect DOMAIN.com to SUBDOMAIN.DOMAIN.com</p>
+  </li>
+  <li>
+    <p>add a CNAME entry to point SUBDOMAIN.DOMAIN.com to the <a href="https://www.openshift.com/">OpenShift</a> URL.</p>
+  </li>
 </ul>
 
 <p>The redirection is done using forwarding at domain level (no subdomain!) so clicking in <strong>manage</strong> under the forwarding category should allow you to add an entry:</p>
 
 <ul>
-<li><p><strong>Forward To</strong>: http://SUBDOMAIN.DOMAIN.com</p></li>
-<li><p><strong>Redirect Type</strong>: 301 (Permanent)</p></li>
-<li><p><strong>Forward Settings</strong>: Forward only</p></li>
+  <li>
+    <p><strong>Forward To</strong>: http://SUBDOMAIN.DOMAIN.com</p>
+  </li>
+  <li>
+    <p><strong>Redirect Type</strong>: 301 (Permanent)</p>
+  </li>
+  <li>
+    <p><strong>Forward Settings</strong>: Forward only</p>
+  </li>
 </ul>
 
 <p>Adding the CName entry is done from a different tab, <strong>DNS ZONE FILE</strong>, where you must check that under:</p>
 
 <ul>
-<li><p><strong>A (Host)</strong> : there is no entries for the subdomain you want to redirect, and, in</p></li>
-<li><p><strong>CName (Alias)</strong>: you add the entry:</p>
+  <li>
+    <p><strong>A (Host)</strong> : there is no entries for the subdomain you want to redirect, and, in</p>
+  </li>
+  <li>
+    <p><strong>CName (Alias)</strong>: you add the entry:</p>
 
-<ul>
-<li><em>Record Type</em>: CNAME (alias)</li>
-<li><em>Host</em>: SUBDOMAIN</li>
-<li><em>Points To</em>: http://APP<em>NAME-OPENSHIFT</em>DOMAIN_NAME.rhcloud.com</li>
-<li><em>TTL</em>: 1 hour</li>
-</ul></li>
+    <ul>
+      <li>
+        <p><em>Record Type</em>: CNAME (alias)</p>
+      </li>
+      <li>
+        <p><em>Host</em>: SUBDOMAIN</p>
+      </li>
+      <li>
+        <p><em>Points To</em>: http://APP_NAME-OPENSHIFT_DOMAIN_NAME.rhcloud.com</p>
+      </li>
+      <li>
+        <p><em>TTL</em>: 1 hour</p>
+      </li>
+    </ul>
+  </li>
 </ul>
 
 <p>If you got to this point you are all setup, after waiting a few minutes (this may vary) the page will be ready to use.</p>
+
 
 
                 <hr>
@@ -278,7 +309,7 @@ git push origin</code></pre></figure>
                     </li>
                     
                 </ul>
-                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2019</p>
+                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2021</p>
             </div>
         </div>
     </div>

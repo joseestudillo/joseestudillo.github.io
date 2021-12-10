@@ -113,7 +113,7 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-				<h1>Installing maven in CentOS 7</h1>
+				<h1 id="installing-maven-in-centos-7">Installing maven in CentOS 7</h1>
 
 <p>Get the maven binary distribution from <a href="http://maven.apache.org/download.cgi">maven official site</a></p>
 
@@ -132,11 +132,12 @@
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">ln</span> <span class="nt">-s</span> /opt/apache-maven/apache-maven-3.2.3 /opt/apache-maven/default</code></pre></figure>
 
-<p>Create environment variables adding the following content to the file <code>/etc/profile.d/maven.sh</code> this will set the enviroment variables for all the users everytime the server starts.</p>
+<p>Create environment variables adding the following content to the file <code class="language-plaintext highlighter-rouge">/etc/profile.d/maven.sh</code> this will set the enviroment variables for all the users everytime the server starts.</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">export </span><span class="nv">M2_HOME</span><span class="o">=</span>/opt/apache-maven/default
 <span class="nb">export </span><span class="nv">M2</span><span class="o">=</span><span class="nv">$M2_HOME</span>/bin 
 <span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$M2</span>:<span class="nv">$PATH</span></code></pre></figure>
+
 
 
                 <hr>
@@ -226,7 +227,7 @@
                     </li>
                     
                 </ul>
-                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2019</p>
+                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2021</p>
             </div>
         </div>
     </div>

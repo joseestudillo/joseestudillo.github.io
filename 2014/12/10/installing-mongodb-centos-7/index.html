@@ -113,46 +113,48 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-				<h1>Installing MongoDB in CentOS 7</h1>
+				<h1 id="installing-mongodb-in-centos-7">Installing MongoDB in CentOS 7</h1>
 
-<h1>Adding MongoDB repositories to yum</h1>
+<h1 id="adding-mongodb-repositories-to-yum">Adding MongoDB repositories to yum</h1>
 
-<p>Following the steps specified in the [MongoDB installation guide][], we need to add mongo to the yum repository adding to <code>/etc/yum.repos.d/mongodb.repo</code> the following:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">[mongodb]
+<p>Following the steps specified in the [MongoDB installation guide][], we need to add mongo to the yum repository adding to <code class="language-plaintext highlighter-rouge">/etc/yum.repos.d/mongodb.repo</code> the following:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[mongodb]
 name=MongoDB Repository
 baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/x86_64/
 gpgcheck=0
 enabled=1
-</code></pre></div>
+</code></pre></div></div>
+
 <p>As <a href="TODO">super user</a> this file can be created using the command showed below:</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">printf</span> <span class="s2">"[mongodb]</span><span class="se">\n</span><span class="s2">name=MongoDB Repository</span><span class="se">\n</span><span class="s2">baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/x86_64/</span><span class="se">\n</span><span class="s2">gpgcheck=0</span><span class="se">\n</span><span class="s2">enabled=1</span><span class="se">\n</span><span class="s2">"</span> <span class="o">&gt;</span> /etc/yum.repos.d/mongodb.repo</code></pre></figure>
-    
 
-<h1>Installing MongoDB with yum</h1>
+<h1 id="installing-mongodb-with-yum">Installing MongoDB with yum</h1>
 
 <p>Once the file have been created we can install MongoDB using yum:</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># run as super user, su/sudo</span>
 yum <span class="nb">install</span> <span class="nt">-y</span> mongodb-org</code></pre></figure>
 
-<h1>Configuring MongoDB</h1>
+<h1 id="configuring-mongodb">Configuring MongoDB</h1>
 
-<p>By default, MongoDB configuration is stored in <code>/etc/mongodb.conf</code> there is not need to change anything to make it work. In the case external connections are required, the value <code>bind_ip=127.0.0.1</code> must be commented out. This can be done using:</p>
+<p>By default, MongoDB configuration is stored in <code class="language-plaintext highlighter-rouge">/etc/mongodb.conf</code> there is not need to change anything to make it work. In the case external connections are required, the value <code class="language-plaintext highlighter-rouge">bind_ip=127.0.0.1</code> must be commented out. This can be done using:</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># run as super user, su/sudo</span>
 <span class="nb">sed</span> <span class="nt">-i</span> <span class="nt">-e</span> s/bind_ip<span class="o">=</span>127.0.0.1/#bind_ip<span class="o">=</span>127.0.0.1/g /etc/mongod.conf</code></pre></figure>
 
 <p>By default MongoDB is runining on the port 21017, so as part of allowing external access, this port must be opened in the firewall.</p>
 
-<h1>Opening MongoDB ports in CentOS 7</h1>
+<h1 id="opening-mongodb-ports-in-centos-7">Opening MongoDB ports in CentOS 7</h1>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash">firewall-cmd <span class="nt">--permanent</span> <span class="nt">--zone</span><span class="o">=</span>public <span class="nt">--add-port</span><span class="o">=</span>27017/tcp
 firewall-cmd <span class="nt">--reload</span></code></pre></figure>
 
-<h1>Managing MongoDB service</h1>
+<h1 id="managing-mongodb-service">Managing MongoDB service</h1>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">sudo </span>service mongod start</code></pre></figure>
+
 
 
                 <hr>
@@ -242,7 +244,7 @@ firewall-cmd <span class="nt">--reload</span></code></pre></figure>
                     </li>
                     
                 </ul>
-                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2019</p>
+                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2021</p>
             </div>
         </div>
     </div>

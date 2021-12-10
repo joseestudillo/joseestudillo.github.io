@@ -113,17 +113,17 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-				<h1>Fixing corrupted package repository list in Linux Mint</h1>
+				<h1 id="fixing-corrupted-package-repository-list-in-linux-mint">Fixing corrupted package repository list in Linux Mint</h1>
 
-<p>I recently updated Linux Mint from Linux Mint 15 and I had problems with the existing source list that are placed in <code>/var/lib/apt/lists</code>. I was exactly getting the following error message:</p>
+<p>I recently updated Linux Mint from Linux Mint 15 and I had problems with the existing source list that are placed in <code class="language-plaintext highlighter-rouge">/var/lib/apt/lists</code>. I was exactly getting the following error message:</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash">    Failed to fetch <span class="nb">gzip</span>:/var/lib/apt/lists/partial/archive.ubuntu.com_ubuntu_dists_saucy_main_binary-amd64_Packages Hash Sum mismatch</code></pre></figure>
 
-<p>Like every time I have a problem I searched on the internet for a solution and I couldn&#39;t find anything useful, so this is what I did:</p>
+<p>Like every time I have a problem I searched on the internet for a solution and I couldn’t find anything useful, so this is what I did:</p>
 
 <ol>
-<li>delete all the content from <code>/var/lib/apt/lists</code></li>
-<li>run <code>apt-get update</code> as a super user (<code>sudo apt-get update</code>).</li>
+  <li>delete all the content from <code class="language-plaintext highlighter-rouge">/var/lib/apt/lists</code></li>
+  <li>run <code class="language-plaintext highlighter-rouge">apt-get update</code> as a super user (<code class="language-plaintext highlighter-rouge">sudo apt-get update</code>).</li>
 </ol>
 
 <p>This works in Linux Mint 17, so it should be also fine with previous versions and Ubuntu.</p>
@@ -216,7 +216,7 @@
                     </li>
                     
                 </ul>
-                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2019</p>
+                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2021</p>
             </div>
         </div>
     </div>

@@ -113,7 +113,7 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-				<h1>Installing Jenkins</h1>
+				<h1 id="installing-jenkins">Installing Jenkins</h1>
 
 <p>The easies way to install jenkins is following the instructions in their <a href="https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on+RedHat+distributions">official page</a></p>
 
@@ -121,15 +121,15 @@
 <span class="nb">sudo </span>rpm <span class="nt">--import</span> http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
 <span class="nb">sudo </span>yum <span class="nb">install </span>jenkins</code></pre></figure>
 
-<p>Jenkins require java installed, to do so check <a href="http://blog.joseestudillo.com/2014/10/14/installing-java-centos-7/">Installing java in CentOS</a></p>
+<p>Jenkins require java installed, to do so check <a href="http://blog.joseestudillo.com/http://blog.joseestudillo.com/2014/10/14/installing-java-centos-7/">Installing java in CentOS</a></p>
 
-<h2>Configuring Jenkins</h2>
+<h2 id="configuring-jenkins">Configuring Jenkins</h2>
 
-<h2>Changing the default port when Jenkins is installed as a service</h2>
+<h2 id="changing-the-default-port-when-jenkins-is-installed-as-a-service">Changing the default port when Jenkins is installed as a service</h2>
 
-<p>The script that manages Jenkins on the system is located in <code>/etc/init.d/jenkins</code></p>
+<p>The script that manages Jenkins on the system is located in <code class="language-plaintext highlighter-rouge">/etc/init.d/jenkins</code></p>
 
-<p>So to change the default port, 8080, the easiest way is to replace the value of the variable <code>HTTP_PORT</code> in the file <code>/etc/sysconfig/jenkins</code>. This can be done using the following command as super user, where NEW_PORT is the value of the port you want to asign</p>
+<p>So to change the default port, 8080, the easiest way is to replace the value of the variable <code class="language-plaintext highlighter-rouge">HTTP_PORT</code> in the file <code class="language-plaintext highlighter-rouge">/etc/sysconfig/jenkins</code>. This can be done using the following command as super user, where NEW_PORT is the value of the port you want to asign</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">sed</span> <span class="nt">-i</span> s/JENKINS_PORT<span class="o">=</span><span class="se">\"</span>8080<span class="se">\"</span>/JENKINS_PORT<span class="o">=</span><span class="se">\"</span><span class="o">{</span>NEW_PORT<span class="o">}</span><span class="se">\"</span>/g /etc/sysconfig/jenkins</code></pre></figure>
 
@@ -137,16 +137,17 @@
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash">/etc/init.d/jenkins restart <span class="c">#service jenkins restart #will also works</span></code></pre></figure>
 
-<h2>Setting jenkins to start when the server starts</h2>
+<h2 id="setting-jenkins-to-start-when-the-server-starts">Setting jenkins to start when the server starts</h2>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash">chkconfig jenkins on</code></pre></figure>
 
-<h2>Opening Jenkins ports</h2>
+<h2 id="opening-jenkins-ports">Opening Jenkins ports</h2>
 
 <p>CentOS 7 has a new firewall application, for previous versions the service is called <em>iptables</em>.</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash">firewall-cmd <span class="nt">--permanent</span> <span class="nt">--zone</span><span class="o">=</span>public <span class="nt">--add-port</span><span class="o">={</span>NEW_PORT<span class="o">}</span>/tcp
 firewall-cmd <span class="nt">--reload</span></code></pre></figure>
+
 
 
                 <hr>
@@ -236,7 +237,7 @@ firewall-cmd <span class="nt">--reload</span></code></pre></figure>
                     </li>
                     
                 </ul>
-                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2019</p>
+                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2021</p>
             </div>
         </div>
     </div>

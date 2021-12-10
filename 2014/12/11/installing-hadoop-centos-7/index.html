@@ -113,37 +113,37 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-				<h1>Installing Hadoop in CentOS 7</h1>
+				<h1 id="installing-hadoop-in-centos-7">Installing Hadoop in CentOS 7</h1>
 
-<p>In this article I&#39;m going to focus in how to install Hadoop in CentOS 7. At the time of this writing there are two mantanined version of Hadoop that can be useful for different purposes, for these reasons we will install both. For Hadoop 1, we will use <a href="http://mirror.ox.ac.uk/sites/rsync.apache.org/hadoop/common/stable1/hadoop-1.2.1.tar.gz">hadoop-1.2.1</a>, for Hadoop 2, <a href="http://mirror.ox.ac.uk/sites/rsync.apache.org/hadoop/common/stable2/hadoop-2.6.0.tar.gz">hadoop-2.6.0</a>. For other versions check <a href="http://www.apache.org/dyn/closer.cgi/hadoop/common/">Hadoop Download Page</a>. Also worth notice that the hostname of the machine where I&#39;m doing the instalation is <strong>centos-vm</strong> and I will use this name instead of <strong>localhost</strong> because this will make possible to work with this installation remotely.</p>
+<p>In this article I’m going to focus in how to install Hadoop in CentOS 7. At the time of this writing there are two mantanined version of Hadoop that can be useful for different purposes, for these reasons we will install both. For Hadoop 1, we will use <a href="http://mirror.ox.ac.uk/sites/rsync.apache.org/hadoop/common/stable1/hadoop-1.2.1.tar.gz">hadoop-1.2.1</a>, for Hadoop 2, <a href="http://mirror.ox.ac.uk/sites/rsync.apache.org/hadoop/common/stable2/hadoop-2.6.0.tar.gz">hadoop-2.6.0</a>. For other versions check <a href="http://www.apache.org/dyn/closer.cgi/hadoop/common/">Hadoop Download Page</a>. Also worth notice that the hostname of the machine where I’m doing the instalation is <strong>centos-vm</strong> and I will use this name instead of <strong>localhost</strong> because this will make possible to work with this installation remotely.</p>
 
-<h2>Installing Hadoop</h2>
+<h2 id="installing-hadoop">Installing Hadoop</h2>
 
-<p>There are different installation choices, I prefer to stay with the binaries because it gives me all the control about what is configured and where. Depending on the linux distribution choosen, using the RPMs could be another good choice. </p>
+<p>There are different installation choices, I prefer to stay with the binaries because it gives me all the control about what is configured and where. Depending on the linux distribution choosen, using the RPMs could be another good choice.</p>
 
 <p>Because every version of Hadoop can introduce small changes this may not work in other versions, the best way to install it is following the instructions in the documentation included in the tar file.</p>
 
-<p>For each Hadoop version we will create a folder <code>/opt/apache-hadoop/hadoop-x.y.z</code> and create a symbolic link <code>/opt/apache-hadoop/hadoopx</code> that will make updates easier. In our case this translates into:</p>
+<p>For each Hadoop version we will create a folder <code class="language-plaintext highlighter-rouge">/opt/apache-hadoop/hadoop-x.y.z</code> and create a symbolic link <code class="language-plaintext highlighter-rouge">/opt/apache-hadoop/hadoopx</code> that will make updates easier. In our case this translates into:</p>
 
 <ul>
-<li><p>Hadoop 1</p>
-
-<ul>
-<li><em>Directory</em>: <code>/opt/apache-hadoop/hadoop-1.2.1</code></li>
-<li><em>Symbolic link</em>: <code>/opt/apache-hadoop/hadoop1</code></li>
-</ul></li>
-<li><p>Hadoop 2</p>
-
-<ul>
-<li><em>Directory</em>: <code>/opt/apache-hadoop/hadoop-2.6.0</code></li>
-<li><em>Symbolic link</em>: <code>/opt/apache-hadoop/hadoop2</code></li>
-</ul></li>
+  <li>Hadoop 1
+    <ul>
+      <li><em>Directory</em>: <code class="language-plaintext highlighter-rouge">/opt/apache-hadoop/hadoop-1.2.1</code></li>
+      <li><em>Symbolic link</em>: <code class="language-plaintext highlighter-rouge">/opt/apache-hadoop/hadoop1</code></li>
+    </ul>
+  </li>
+  <li>Hadoop 2
+    <ul>
+      <li><em>Directory</em>: <code class="language-plaintext highlighter-rouge">/opt/apache-hadoop/hadoop-2.6.0</code></li>
+      <li><em>Symbolic link</em>: <code class="language-plaintext highlighter-rouge">/opt/apache-hadoop/hadoop2</code></li>
+    </ul>
+  </li>
 </ul>
 
 <p>Before the installation we also need to create a user, a group and set the permissions:</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># executed as super user</span>
-    
+  	
 groupadd hadoop
 useradd <span class="nt">-g</span> hadoop <span class="nt">-c</span> <span class="s2">"Hadoop user"</span> hadoop
 <span class="nb">mkdir</span> /var/log/hadoop
@@ -171,14 +171,15 @@ ssh-copy-id <span class="nt">-i</span> ~/.ssh/id_rsa.pub centos-vm
 
 ssh centos-vm</code></pre></figure>
 
-<p>With this steps you should be able to access to the server without typing the password, making easier to use Hadoop&#39;s start/stop scripts.</p>
+<p>With this steps you should be able to access to the server without typing the password, making easier to use Hadoop’s start/stop scripts.</p>
 
-<h2>Hadoop 1</h2>
+<h2 id="hadoop-1">Hadoop 1</h2>
 
-<h3>Tar file structure</h3>
+<h3 id="tar-file-structure">Tar file structure</h3>
 
 <p>The uncompressed tar file has the following structure for Hadoop 1:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">hadoop-1.z.y/
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hadoop-1.z.y/
 ├── bin
 ├── c++
 ├── conf
@@ -192,19 +193,19 @@ ssh centos-vm</code></pre></figure>
 ├── share
 ├── src
 └── webapps
-</code></pre></div>
-<p>The documentation for this version is in the <code>docs</code> directory. The details for the single node installation can be found in <code>docs/single_node_setup.html</code>. Apart of the installation process, authentication/access problems are their solutions are also  described in this document.</p>
+</code></pre></div></div>
 
-<h3>Editing the configuration files for a Pseudo-distributed configuration</h3>
+<p>The documentation for this version is in the <code class="language-plaintext highlighter-rouge">docs</code> directory. The details for the single node installation can be found in <code class="language-plaintext highlighter-rouge">docs/single_node_setup.html</code>. Apart of the installation process, authentication/access problems are their solutions are also  described in this document.</p>
 
-<p>The first step is to set the <code>JAVA_HOME</code> variable in <code>/opt/apache-hadoop/hadoop1/conf/hadoop-env.sh</code>. Different Hadoop versions may need different Java SDK versions, this versions table can be found <a href="http://wiki.apache.org/hadoop/HadoopJavaVersions">here</a>. I&#39;m currently using Java 8 (1.8.0_25) and Hadoop is running without any issues. If at this point you don&#39;t have Java in your system go to <a href="http://blog.joseestudillo.com/2014/10/14/installing-java-centos-7/">Installing Java in CentOS 7</a>.</p>
+<h3 id="editing-the-configuration-files-for-a-pseudo-distributed-configuration">Editing the configuration files for a Pseudo-distributed configuration</h3>
 
-<p>Supposing that the right version of java is installed in <code>/usr/java/latest</code> the following command will change the configuration in the file <code>conf/hadoop-env.sh</code>. Notice that this may not be required is you already have the right JDK installed and the JAVA<em>HOME variable defined (check using `echo &quot;$JAVA</em>HOME&quot;`).</p>
+<p>The first step is to set the <code class="language-plaintext highlighter-rouge">JAVA_HOME</code> variable in <code class="language-plaintext highlighter-rouge">/opt/apache-hadoop/hadoop1/conf/hadoop-env.sh</code>. Different Hadoop versions may need different Java SDK versions, this versions table can be found <a href="http://wiki.apache.org/hadoop/HadoopJavaVersions">here</a>. I’m currently using Java 8 (1.8.0_25) and Hadoop is running without any issues. If at this point you don’t have Java in your system go to <a href="http://blog.joseestudillo.com/http://blog.joseestudillo.com/2014/10/14/installing-java-centos-7/">Installing Java in CentOS 7</a>.</p>
+
+<p>Supposing that the right version of java is installed in <code class="language-plaintext highlighter-rouge">/usr/java/latest</code> the following command will change the configuration in the file <code class="language-plaintext highlighter-rouge">conf/hadoop-env.sh</code>. Notice that this may not be required is you already have the right JDK installed and the JAVA_HOME variable defined (check using <code class="language-plaintext highlighter-rouge">echo "$JAVA_HOME"</code>).</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">sed</span> <span class="nt">-i</span> <span class="nt">-e</span> <span class="s2">"s-^.*JAVA_HOME.*-export JAVA_HOME=/usr/java/latest-g"</span>  /opt/apache-hadoop/hadoop1/conf/hadoop-env.sh</code></pre></figure>
-    
 
-<p>In order to be a good linux citizen we will also configure the log path (<code>/var/log/hadoop</code>):</p>
+<p>In order to be a good linux citizen we will also configure the log path (<code class="language-plaintext highlighter-rouge">/var/log/hadoop</code>):</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash">    
 <span class="nb">sed</span> <span class="nt">-i</span> <span class="nt">-e</span> <span class="s2">"s-^.*HADOOP_LOG_DIR.*-export HADOOP_LOG_DIR=/var/log/hadoop-g"</span>  /opt/apache-hadoop/hadoop1/conf/hadoop-env.sh</code></pre></figure>
@@ -212,7 +213,7 @@ ssh centos-vm</code></pre></figure>
 <p>For a <em>Pseudo-Distributed</em> configuration these files must also be modified:</p>
 
 <ul>
-<li><strong>conf/core-site.xml</strong>:</li>
+  <li><strong>conf/core-site.xml</strong>:</li>
 </ul>
 
 <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;configuration&gt;</span>
@@ -221,22 +222,23 @@ ssh centos-vm</code></pre></figure>
     <span class="nt">&lt;value&gt;</span>hdfs://centos-vm:9000<span class="nt">&lt;/value&gt;</span>
   <span class="nt">&lt;/property&gt;</span>
 <span class="nt">&lt;/configuration&gt;</span></code></pre></figure>
-  
 
 <ul>
-<li><strong>conf/hdfs-site.xml</strong>:</li>
+  <li>
+    <p><strong>conf/hdfs-site.xml</strong>:</p>
+
+    <p>In the original Hadoop instructions, the properties below are not configured:</p>
+
+    <ul>
+      <li>dfs.name.dir</li>
+      <li>dfs.data.dir</li>
+      <li>dfs.client.buffer.dir</li>
+      <li>mapred.local.dir</li>
+    </ul>
+  </li>
 </ul>
 
-<p>In the original Hadoop instructions, the properties below are not configured:</p>
-
-<ul>
-<li>dfs.name.dir</li>
-<li>dfs.data.dir</li>
-<li>dfs.client.buffer.dir</li>
-<li>mapred.local.dir</li>
-</ul>
-
-<p>Without this the required file structures will be created by default in the <code>/tmp/</code> folder. This is not a good practice as some systems are configured to delete the content of this folder when the system restarts. To avoid this just configure any writable directory that will guaranty the persistence of the data. In the example below, we will assume this folder is <code>/var/data/hadoop</code>:</p>
+<p>Without this the required file structures will be created by default in the <code class="language-plaintext highlighter-rouge">/tmp/</code> folder. This is not a good practice as some systems are configured to delete the content of this folder when the system restarts. To avoid this just configure any writable directory that will guaranty the persistence of the data. In the example below, we will assume this folder is <code class="language-plaintext highlighter-rouge">/var/data/hadoop</code>:</p>
 
 <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;configuration&gt;</span>
   <span class="nt">&lt;property&gt;</span>
@@ -262,7 +264,7 @@ ssh centos-vm</code></pre></figure>
 <span class="nt">&lt;/configuration&gt;</span></code></pre></figure>
 
 <ul>
-<li><strong>conf/mapred-site.xml</strong>:</li>
+  <li><strong>conf/mapred-site.xml</strong>:</li>
 </ul>
 
 <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;configuration&gt;</span>
@@ -272,7 +274,7 @@ ssh centos-vm</code></pre></figure>
   <span class="nt">&lt;/property&gt;</span>
 <span class="nt">&lt;/configuration&gt;</span></code></pre></figure>
 
-<h3>Initializing Hadoop</h3>
+<h3 id="initializing-hadoop">Initializing Hadoop</h3>
 
 <p>Once all the configuration have been set, it is required to format the filesystem with the following command:</p>
 
@@ -280,7 +282,8 @@ ssh centos-vm</code></pre></figure>
 ./hadoop namenode <span class="nt">-format</span></code></pre></figure>
 
 <p>The output should be similar to:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">14/12/20 01:35:12 INFO namenode.NameNode: STARTUP_MSG: 
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>14/12/20 01:35:12 INFO namenode.NameNode: STARTUP_MSG: 
 /************************************************************
 STARTUP_MSG: Starting NameNode
 STARTUP_MSG:   host = centos-vm/127.0.0.1
@@ -309,44 +312,47 @@ STARTUP_MSG:   java = 1.8.0_25
 /************************************************************
 SHUTDOWN_MSG: Shutting down NameNode at centos-vm/127.0.0.1
 ************************************************************/
-</code></pre></div>
+</code></pre></div></div>
+
 <p>This will using the folders structure configured previosly. When this step is done we are ready to start the system</p>
 
-<h3>starting/stopping the node</h3>
+<h3 id="startingstopping-the-node">starting/stopping the node</h3>
 
-<p>All the scrips to manage Hadoop can be also found in the <strong>bin</strong> folder (<code>/opt/apache-hadoop/hadoop1/bin</code>)</p>
+<p>All the scrips to manage Hadoop can be also found in the <strong>bin</strong> folder (<code class="language-plaintext highlighter-rouge">/opt/apache-hadoop/hadoop1/bin</code>)</p>
 
 <ul>
-<li>Start the hadoop daemons:</li>
+  <li>Start the hadoop daemons:</li>
 </ul>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash">start-all.sh</code></pre></figure>
 
 <ul>
-<li>To stop the node use:</li>
+  <li>To stop the node use:</li>
 </ul>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash">stop-all.sh</code></pre></figure>
-      
 
 <p>When the service is started, Hadoop offers web interfaces to know the status of the system:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">NameNode - http://centos-vm:50070/
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NameNode - http://centos-vm:50070/
 DataNode - http://centos-vm:50075/
 JobTracker - http://centos-vm:50030/
-</code></pre></div>
-<h3>Make Hadoop web interface available for remote access</h3>
+</code></pre></div></div>
+
+<h3 id="make-hadoop-web-interface-available-for-remote-access">Make Hadoop web interface available for remote access</h3>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash">firewall-cmd <span class="nt">--permanent</span> <span class="nt">--zone</span><span class="o">=</span>public <span class="nt">--add-port</span><span class="o">=</span>50070/tcp
 firewall-cmd <span class="nt">--permanent</span> <span class="nt">--zone</span><span class="o">=</span>public <span class="nt">--add-port</span><span class="o">=</span>50075/tcp
 firewall-cmd <span class="nt">--permanent</span> <span class="nt">--zone</span><span class="o">=</span>public <span class="nt">--add-port</span><span class="o">=</span>50030/tcp
 firewall-cmd <span class="nt">--reload</span></code></pre></figure>
 
-<h2>Hadoop 2</h2>
+<h2 id="hadoop-2">Hadoop 2</h2>
 
 <p>For Hadoop 2 some details are slightly different so we will go through them, Also the introduction of the new MapReduce engine, <a href="http://en.wikipedia.org/wiki/Apache_Hadoop">YARN</a>, will require some aditional configuration.</p>
 
-<h3>Tar file structure</h3>
-<div class="highlight"><pre><code class="language-" data-lang="">hadoop-2.6.0/
+<h3 id="tar-file-structure-1">Tar file structure</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hadoop-2.6.0/
 ├── bin
 ├── etc
 ├── include
@@ -354,15 +360,16 @@ firewall-cmd <span class="nt">--reload</span></code></pre></figure>
 ├── libexec
 ├── sbin
 └── share
-</code></pre></div>
-<p>For this version the documentation is in <code>share/doc</code> and the single node installation in <code>share/doc/hadoop/hadoop-project-dist/hadoop-common/SingleCluster.html</code>.</p>
+</code></pre></div></div>
 
-<h3>Editing the configuration files for a Pseudo-distributed configuration</h3>
+<p>For this version the documentation is in <code class="language-plaintext highlighter-rouge">share/doc</code> and the single node installation in <code class="language-plaintext highlighter-rouge">share/doc/hadoop/hadoop-project-dist/hadoop-common/SingleCluster.html</code>.</p>
 
-<p>In the same way as we did for Hadoop 1, we may need to redefine JAVA_HOME, the <code>hadoop-env.sh</code> file has also been moved to another directory: <code>/opt/apache-hadoop/hadoop2/etc/hadoop/hadoop-env.sh</code>. Because of the number of environment variables required to have a proper configuration I opted for defining then as a script in the <code>/etc/profile.d</code> directory</p>
+<h3 id="editing-the-configuration-files-for-a-pseudo-distributed-configuration-1">Editing the configuration files for a Pseudo-distributed configuration</h3>
+
+<p>In the same way as we did for Hadoop 1, we may need to redefine JAVA_HOME, the <code class="language-plaintext highlighter-rouge">hadoop-env.sh</code> file has also been moved to another directory: <code class="language-plaintext highlighter-rouge">/opt/apache-hadoop/hadoop2/etc/hadoop/hadoop-env.sh</code>. Because of the number of environment variables required to have a proper configuration I opted for defining then as a script in the <code class="language-plaintext highlighter-rouge">/etc/profile.d</code> directory</p>
 
 <ul>
-<li><code>/etc/profile.d/hadoop.sh</code></li>
+  <li><code class="language-plaintext highlighter-rouge">/etc/profile.d/hadoop.sh</code></li>
 </ul>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">export </span><span class="nv">HADOOP_HOME</span><span class="o">=</span>/opt/apache-hadoop/default
@@ -383,10 +390,10 @@ firewall-cmd <span class="nt">--reload</span></code></pre></figure>
 <span class="nb">export </span><span class="nv">HADOOP_PID_DIR</span><span class="o">=</span>/var/run/hadoop/hdfs
 <span class="nb">export </span><span class="nv">HADOOP_MAPRED_PID_DIR</span><span class="o">=</span>/var/run/hadoop/mapred</code></pre></figure>
 
-<p>this can also be defined on the <code>.bashrc</code> file in the hadoop user home directory.</p>
+<p>this can also be defined on the <code class="language-plaintext highlighter-rouge">.bashrc</code> file in the hadoop user home directory.</p>
 
 <ul>
-<li><strong>etc/hadoop/core-site.xml</strong>:</li>
+  <li><strong>etc/hadoop/core-site.xml</strong>:</li>
 </ul>
 
 <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;configuration&gt;</span>
@@ -397,7 +404,7 @@ firewall-cmd <span class="nt">--reload</span></code></pre></figure>
 <span class="nt">&lt;/configuration&gt;</span></code></pre></figure>
 
 <ul>
-<li><strong>etc/hadoop/hdfs-site.xml</strong>:</li>
+  <li><strong>etc/hadoop/hdfs-site.xml</strong>:</li>
 </ul>
 
 <p>Notice that in this version the file paths must be given as URIs.</p>
@@ -426,7 +433,7 @@ firewall-cmd <span class="nt">--reload</span></code></pre></figure>
 <span class="nt">&lt;/configuration&gt;</span></code></pre></figure>
 
 <ul>
-<li><strong>etc/hadoop/mapred-site.xml</strong> (must be created or copied from <em>mapred-site.xml.template</em>):</li>
+  <li><strong>etc/hadoop/mapred-site.xml</strong> (must be created or copied from <em>mapred-site.xml.template</em>):</li>
 </ul>
 
 <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;configuration&gt;</span>
@@ -435,10 +442,9 @@ firewall-cmd <span class="nt">--reload</span></code></pre></figure>
     <span class="nt">&lt;value&gt;</span>yarn<span class="nt">&lt;/value&gt;</span>
   <span class="nt">&lt;/property&gt;</span>
 <span class="nt">&lt;/configuration&gt;</span></code></pre></figure>
-  
 
 <ul>
-<li><strong>etc/hadoop/yarn-site.xml</strong>:</li>
+  <li><strong>etc/hadoop/yarn-site.xml</strong>:</li>
 </ul>
 
 <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;configuration&gt;</span>
@@ -448,20 +454,19 @@ firewall-cmd <span class="nt">--reload</span></code></pre></figure>
   <span class="nt">&lt;/property&gt;</span>
 <span class="nt">&lt;/configuration&gt;</span></code></pre></figure>
 
-<h3>Initializing Hadoop</h3>
+<h3 id="initializing-hadoop-1">Initializing Hadoop</h3>
 
 <p>The command to format the filesystem has been changed in Hadoop2:</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">cd</span> /opt/apache-hadoop/hadoop2/bin
 ./hdfs namenode <span class="nt">-format</span></code></pre></figure>
-    
 
-<h3>starting/stopping the node</h3>
+<h3 id="startingstopping-the-node-1">starting/stopping the node</h3>
 
-<p>The directory where the scripts to start/stop that system has also change, being located now in the folder <strong>sbin</strong>  (<code>/opt/apache-hadoop/hadoop2/sbin</code>). Notice that for this version the <code>start-all.sh</code> and <code>stop-all.sh</code> have been deprecated. We will also need certain environment variables declared to make the configuration work, because this installation is only for development purposes, we will declare the environment variables in the startup script</p>
+<p>The directory where the scripts to start/stop that system has also change, being located now in the folder <strong>sbin</strong>  (<code class="language-plaintext highlighter-rouge">/opt/apache-hadoop/hadoop2/sbin</code>). Notice that for this version the <code class="language-plaintext highlighter-rouge">start-all.sh</code> and <code class="language-plaintext highlighter-rouge">stop-all.sh</code> have been deprecated. We will also need certain environment variables declared to make the configuration work, because this installation is only for development purposes, we will declare the environment variables in the startup script</p>
 
 <ul>
-<li>Start Hadoop2:</li>
+  <li>Start Hadoop2:</li>
 </ul>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">mkdir</span> <span class="nt">-p</span> /var/run/hadoop
@@ -474,7 +479,7 @@ su - hadoop <span class="nt">-c</span> <span class="s1">'/opt/apache-hadoop/hado
 su - hadoop <span class="nt">-c</span> <span class="s1">'/opt/apache-hadoop/hadoop2/sbin/mr-jobhistory-daemon.sh start historyserver'</span></code></pre></figure>
 
 <ul>
-<li>Stop Hadoop2:</li>
+  <li>Stop Hadoop2:</li>
 </ul>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">echo</span> <span class="s2">"Stopping Hadoop2 NameNode and DataNode"</span>
@@ -485,13 +490,15 @@ su - hadoop <span class="nt">-c</span> <span class="s1">'/opt/apache-hadoop/hado
 su - hadoop <span class="nt">-c</span> <span class="s1">'/opt/apache-hadoop/hadoop2/sbin/mr-jobhistory-daemon.sh stop historyserver'</span></code></pre></figure>
 
 <p>Once the service is started, Hadoop offers web interfaces to know the status of the system:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">NameNode - http://centos-vm:50070/
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NameNode - http://centos-vm:50070/
 DataNode - http://centos-vm:50075/
 Cluster Metrics - http://centos-vm:8088/
 Job History - http://centos-vm:19888/
 NodeManager Information - http://centos-vm:8042/
-</code></pre></div>
-<h3>Make Hadoop web interface available for remote access</h3>
+</code></pre></div></div>
+
+<h3 id="make-hadoop-web-interface-available-for-remote-access-1">Make Hadoop web interface available for remote access</h3>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash">firewall-cmd <span class="nt">--permanent</span> <span class="nt">--zone</span><span class="o">=</span>public <span class="nt">--add-port</span><span class="o">=</span>50070/tcp
 firewall-cmd <span class="nt">--permanent</span> <span class="nt">--zone</span><span class="o">=</span>public <span class="nt">--add-port</span><span class="o">=</span>50075/tcp
@@ -501,6 +508,7 @@ firewall-cmd <span class="nt">--permanent</span> <span class="nt">--zone</span><
 firewall-cmd <span class="nt">--reload</span></code></pre></figure>
 
 <p><em>Updated 2015-03-16</em>: Configuration improved to use linux standards. Start / Stop script improved. New Ports to open added to the list.</p>
+
 
 
                 <hr>
@@ -590,7 +598,7 @@ firewall-cmd <span class="nt">--reload</span></code></pre></figure>
                     </li>
                     
                 </ul>
-                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2019</p>
+                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2021</p>
             </div>
         </div>
     </div>

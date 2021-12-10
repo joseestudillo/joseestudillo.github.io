@@ -113,20 +113,25 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-				<h1>Exporting/Importing keyboard shortcuts in Linux Mint (Cinnamon)</h1>
+				<h1 id="exportingimporting-keyboard-shortcuts-in-linux-mint-cinnamon">Exporting/Importing keyboard shortcuts in Linux Mint (Cinnamon)</h1>
 
-<p>To check the configuration of <a href="http://www.linuxmint.com/">Linux Mint Cinnamon Edition</a> we will need the command <code>dconf</code>, in case it isn&#39;t be installed, use <code>sudo apt-get install dconf-cli</code></p>
+<p>To check the configuration of <a href="http://www.linuxmint.com/">Linux Mint Cinnamon Edition</a> we will need the command <code class="language-plaintext highlighter-rouge">dconf</code>, in case it isn’t be installed, use <code class="language-plaintext highlighter-rouge">sudo apt-get install dconf-cli</code></p>
 
-<h2>See the current configuration</h2>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">dconf dump /org/cinnamon/
-</code></pre></div>
-<p>This will show all the entries under <code>/org/cinnamon/</code> which means not all the entries will be related the the keyboard shorcuts configuration, you can get specific entries using the complete path in <code>dconf</code></p>
+<h2 id="see-the-current-configuration">See the current configuration</h2>
 
-<h2>Exporting the current configuration</h2>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">dconf dump /org/cinnamon/ <span class="o">&gt;</span> keyboard-shortcuts-conf.txt
-</code></pre></div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dconf dump /org/cinnamon/
+</code></pre></div></div>
+
+<p>This will show all the entries under <code class="language-plaintext highlighter-rouge">/org/cinnamon/</code> which means not all the entries will be related the the keyboard shorcuts configuration, you can get specific entries using the complete path in <code class="language-plaintext highlighter-rouge">dconf</code></p>
+
+<h2 id="exporting-the-current-configuration">Exporting the current configuration</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dconf dump /org/cinnamon/ <span class="o">&gt;</span> keyboard-shortcuts-conf.txt
+</code></pre></div></div>
+
 <p>In my case, using <a href="http://www.linuxmint.com/">Linux Mint 17</a>, I get many entries, but in this case we will only need the followings:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="o">[</span>settings-daemon/plugins/media-keys]
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>settings-daemon/plugins/media-keys]
 <span class="nv">terminal</span><span class="o">=</span><span class="s1">'&lt;Super&gt;t'</span>
 <span class="nv">screensaver</span><span class="o">=</span><span class="s1">'&lt;Super&gt;l'</span>
 <span class="nv">home</span><span class="o">=</span><span class="s1">'&lt;Super&gt;e'</span>
@@ -149,12 +154,16 @@ toggle-fullscreen<span class="o">=[</span><span class="s1">'F11'</span>, <span c
 toggle-maximized<span class="o">=[</span><span class="s1">'&lt;Super&gt;m'</span><span class="o">]</span>
 move-to-workspace-left<span class="o">=[</span><span class="s1">'&lt;Shift&gt;&lt;Super&gt;Left'</span><span class="o">]</span>
 move-to-workspace-right<span class="o">=[</span><span class="s1">'&lt;Shift&gt;&lt;Super&gt;Right'</span><span class="o">]</span>
-</code></pre></div>
-<h2>Importing a configuration form a file</h2>
+</code></pre></div></div>
 
-<p>Using the file generated in the previous process <code>keyboard-shortcuts-conf.txt</code> you can do the following</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">dconf load /org/cinnamon/ &lt; keyboard-shortcuts-conf.txt
-</code></pre></div>
+<h2 id="importing-a-configuration-form-a-file">Importing a configuration form a file</h2>
+
+<p>Using the file generated in the previous process <code class="language-plaintext highlighter-rouge">keyboard-shortcuts-conf.txt</code> you can do the following</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dconf load /org/cinnamon/ &lt; keyboard-shortcuts-conf.txt
+</code></pre></div></div>
+
+
 
                 <hr>
 
@@ -243,7 +252,7 @@ move-to-workspace-right<span class="o">=[</span><span class="s1">'&lt;Shift&gt;&
                     </li>
                     
                 </ul>
-                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2019</p>
+                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2021</p>
             </div>
         </div>
     </div>

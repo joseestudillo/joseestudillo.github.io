@@ -113,15 +113,16 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-				<h1>Opening ports in CentOS 7</h1>
+				<h1 id="opening-ports-in-centos-7">Opening ports in CentOS 7</h1>
 
-<p>CentOS 7.0 doesn&#39;t use iptables anymore to handle the ports, and it has been replaced by firewall-cmd.</p>
+<p>CentOS 7.0 doesn’t use iptables anymore to handle the ports, and it has been replaced by firewall-cmd.</p>
 
 <p>In the following example, I show how to permanently open the port XXXX:</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># run as super user, su/sudo</span>
 firewall-cmd <span class="nt">--permanent</span> <span class="nt">--zone</span><span class="o">=</span>public <span class="nt">--add-port</span><span class="o">=</span>XXXX/tcp
 firewall-cmd <span class="nt">--reload</span></code></pre></figure>
+
 
 
                 <hr>
@@ -211,7 +212,7 @@ firewall-cmd <span class="nt">--reload</span></code></pre></figure>
                     </li>
                     
                 </ul>
-                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2019</p>
+                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2021</p>
             </div>
         </div>
     </div>

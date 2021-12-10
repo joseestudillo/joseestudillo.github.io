@@ -113,82 +113,89 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-				<h1>Creating a scalable kafka cluster with docker</h1>
+				<h1 id="creating-a-scalable-kafka-cluster-with-docker">Creating a scalable kafka cluster with docker</h1>
 
 <p>The auto broker id features of <a href="https://kafka.apache.org/">Kafka</a> combined with <a href="https://docs.docker.com/compose/">Docker compose</a> scaling capabilities allow to create a cluster with N number of nodes with very little effort.</p>
 
-<h2>The Kafka docker image</h2>
+<h2 id="the-kafka-docker-image">The Kafka docker image</h2>
 
 <p>We will need an image that can start a broker and use zookeeper to form the cluster.</p>
 
 <ul>
-<li>Dockerfile for the kafka brokers:</li>
+  <li>Dockerfile for the kafka brokers:</li>
 </ul>
-<div class="highlight"><pre><code class="language-Dockerfile" data-lang="Dockerfile">FROM centos:7
-MAINTAINER jose@estudillo.me
 
-ENV K_SRC=http://apache.mirror.anlx.net/kafka/1.0.1/kafka_2.11-1.0.1.tgz
+<div class="language-Dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">FROM</span><span class="s"> centos:7</span>
+<span class="k">MAINTAINER</span><span class="s"> jose@estudillo.me</span>
 
-RUN yum install -y wget java-1.8.0-openjdk \
-    &amp;&amp; cd /tmp &amp;&amp; wget -q $K_SRC \ 
+<span class="k">ENV</span><span class="s"> K_SRC=http://apache.mirror.anlx.net/kafka/1.0.1/kafka_2.11-1.0.1.tgz</span>
+
+<span class="k">RUN </span>yum <span class="nb">install</span> <span class="nt">-y</span> wget java-1.8.0-openjdk <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> <span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> wget <span class="nt">-q</span> <span class="nv">$K_SRC</span> <span class="se">\ </span>
     &amp;&amp; export K_TAR=/tmp/$(ls kafka* | head -1) \
     &amp;&amp; mkdir -p /opt/apache/kafka/ &amp;&amp; tar -zxf $K_TAR -C /opt/apache/kafka/ \
     &amp;&amp; cd /opt/apache/kafka &amp;&amp; ln -s $(ls) current \
     &amp;&amp; rm -rf $K_TAR
 
-ENV KAFKA_HOME /opt/apache/kafka/current
-ENV PATH $PATH:$KAFKA_HOME/bin
+<span class="k">ENV</span><span class="s"> KAFKA_HOME /opt/apache/kafka/current</span>
+<span class="k">ENV</span><span class="s"> PATH $PATH:$KAFKA_HOME/bin</span>
 
-ADD resources /home/kafka
+<span class="k">ADD</span><span class="s"> resources /home/kafka</span>
 
-RUN groupadd -r kafka \
-    &amp;&amp; useradd -r -g kafka kafka \
-    &amp;&amp; mkdir -p /home/kafka \
-    &amp;&amp; chown -R kafka:kafka /home/kafka \
-    &amp;&amp; chmod -R +x /home/kafka/bin \
-    &amp;&amp; mkdir -p /var/log/kafka \
-    &amp;&amp; chown -R kafka:kafka /var/log/kafka
+<span class="k">RUN </span>groupadd <span class="nt">-r</span> kafka <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> useradd <span class="nt">-r</span> <span class="nt">-g</span> kafka kafka <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> <span class="nb">mkdir</span> <span class="nt">-p</span> /home/kafka <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> <span class="nb">chown</span> <span class="nt">-R</span> kafka:kafka /home/kafka <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> <span class="nb">chmod</span> <span class="nt">-R</span> +x /home/kafka/bin <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> <span class="nb">mkdir</span> <span class="nt">-p</span> /var/log/kafka <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> <span class="nb">chown</span> <span class="nt">-R</span> kafka:kafka /var/log/kafka
 
-USER kafka
+<span class="k">USER</span><span class="s"> kafka</span>
 
-CMD /home/kafka/bin/run.sh
-</code></pre></div>
-<p>Where <code>/home/kafka/bin/run.sh</code> allow to define the configuration of the broker dynamically and start it:</p>
+<span class="k">CMD</span><span class="s"> /home/kafka/bin/run.sh</span>
+</code></pre></div></div>
+
+<p>Where <code class="language-plaintext highlighter-rouge">/home/kafka/bin/run.sh</code> allow to define the configuration of the broker dynamically and start it:</p>
 
 <ul>
-<li><code>resources/bin/run.sh</code>:</li>
+  <li><code class="language-plaintext highlighter-rouge">resources/bin/run.sh</code>:</li>
 </ul>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">#!/bin/bash</span>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
 <span class="nb">cat</span> <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh"> &gt; /home/kafka/broker.properties
 broker.id.generation.enable = true
 port=9092
 log.dir=/var/log/kafka
 zookeeper.connect=</span><span class="k">${</span><span class="nv">KAFKA_ZOOKEEPER_HOST</span>:<span class="p">=zookeeper</span>:2181<span class="k">}</span><span class="sh">
-host.name=</span><span class="k">$(</span><span class="nb">hostname</span><span class="k">)</span><span class="sh">
-advertised.host.name=</span><span class="k">$(</span><span class="nb">hostname</span><span class="k">)</span><span class="sh">
+host.name=</span><span class="si">$(</span><span class="nb">hostname</span><span class="si">)</span><span class="sh">
+advertised.host.name=</span><span class="si">$(</span><span class="nb">hostname</span><span class="si">)</span><span class="sh">
 advertised.host.port=9092
 </span><span class="no">EOF
 
 </span>kafka-server-start.sh /home/kafka/broker.properties
-</code></pre></div>
-<p>Kafka auto broker id generation (<code>broker.id.generation.enable = true</code>) makes scaling the cluster easier (in older versions the id had to be setup for each broker), this will use zookeeper to keep all the brokers that join the cluster with unique ids. </p>
+</code></pre></div></div>
 
-<p>Notice that this or any other file must be located in the <code>resources</code> (at the same level of the <code>Dockerfile</code>), as in the image definition map this directory to <code>/home/kafka</code> (<code>ADD resources /home/kafka</code>).</p>
+<p>Kafka auto broker id generation (<code class="language-plaintext highlighter-rouge">broker.id.generation.enable = true</code>) makes scaling the cluster easier (in older versions the id had to be setup for each broker), this will use zookeeper to keep all the brokers that join the cluster with unique ids.</p>
+
+<p>Notice that this or any other file must be located in the <code class="language-plaintext highlighter-rouge">resources</code> (at the same level of the <code class="language-plaintext highlighter-rouge">Dockerfile</code>), as in the image definition map this directory to <code class="language-plaintext highlighter-rouge">/home/kafka</code> (<code class="language-plaintext highlighter-rouge">ADD resources /home/kafka</code>).</p>
 
 <p>Before running docker-compose we will need images in the docker local repo, the images can be generated using:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">docker build <span class="nt">--tag</span><span class="o">=</span><span class="s2">"joseestudillo/kafka:0.0.1"</span> <span class="nb">.</span>
-docker tag joseestudillo/kafka:0.0.1 joseestudillo/kafka:latest
-</code></pre></div>
-<h2>Scaling with docker-compose</h2>
 
-<p>In the docker compose definition we will only need to entries, one for the zookeeper server, that is not available for simplicity, and one for the kafka brokers that will use <code>KAFKA_ZOOKEEPER_HOST</code> to join the kafka cluster.</p>
-<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="na">version</span><span class="pi">:</span> <span class="s1">'</span><span class="s">2.1'</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker build <span class="nt">--tag</span><span class="o">=</span><span class="s2">"joseestudillo/kafka:0.0.1"</span> <span class="nb">.</span>
+docker tag joseestudillo/kafka:0.0.1 joseestudillo/kafka:latest
+</code></pre></div></div>
+
+<h2 id="scaling-with-docker-compose">Scaling with docker-compose</h2>
+
+<p>In the docker compose definition we will only need to entries, one for the zookeeper server, that is not available for simplicity, and one for the kafka brokers that will use <code class="language-plaintext highlighter-rouge">KAFKA_ZOOKEEPER_HOST</code> to join the kafka cluster.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">version</span><span class="pi">:</span> <span class="s1">'</span><span class="s">2.1'</span>
 <span class="na">services</span><span class="pi">:</span>
   <span class="na">zookeeper</span><span class="pi">:</span>
     <span class="na">hostname</span><span class="pi">:</span> <span class="s">zookeeper</span>
     <span class="na">image</span><span class="pi">:</span> <span class="s">zookeeper:latest</span>
     <span class="na">environment</span><span class="pi">:</span>
-      <span class="na">ZOO_MY_ID</span><span class="pi">:</span> <span class="s">1</span>
+      <span class="na">ZOO_MY_ID</span><span class="pi">:</span> <span class="m">1</span>
     <span class="na">restart</span><span class="pi">:</span> <span class="s">always</span>
     <span class="na">healthcheck</span><span class="pi">:</span>
         <span class="na">test</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">CMD"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">zkServer.sh"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">status"</span><span class="pi">]</span>
@@ -203,8 +210,10 @@ docker tag joseestudillo/kafka:0.0.1 joseestudillo/kafka:latest
     <span class="na">depends_on</span><span class="pi">:</span>
       <span class="na">zookeeper</span><span class="pi">:</span>
         <span class="na">condition</span><span class="pi">:</span> <span class="s">service_healthy</span>
-</code></pre></div>
-<p>With this file defined, we just need to call <code>docker-compose up --scale kafka_broker=5</code> and it will start a kafka cluster with 5 brokers.</p>
+</code></pre></div></div>
+
+<p>With this file defined, we just need to call <code class="language-plaintext highlighter-rouge">docker-compose up --scale kafka_broker=5</code> and it will start a kafka cluster with 5 brokers.</p>
+
 
 
                 <hr>
@@ -290,7 +299,7 @@ docker tag joseestudillo/kafka:0.0.1 joseestudillo/kafka:latest
                     </li>
                     
                 </ul>
-                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2019</p>
+                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2021</p>
             </div>
         </div>
     </div>

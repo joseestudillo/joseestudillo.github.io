@@ -113,92 +113,99 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-				<p><a href="http://blog.joseestudillo.com/2018/01/15/creating-scalable-kafka-cluster-with-docker/">Updated version of this article</a></p>
+				<p><a href="http://blog.joseestudillo.com/http://blog.joseestudillo.com/2018/01/15/creating-scalable-kafka-cluster-with-docker/">Updated version of this article</a></p>
 
-<h1>Creating a kafka cluster with docker</h1>
+<h1 id="creating-a-kafka-cluster-with-docker">Creating a kafka cluster with docker</h1>
 
-<p>A local <a href="https://kafka.apache.org/">Kafka</a> cluster will help to develop producer and consumers, allowing to test different scenarios specially when it comes to HA. In this article I&#39;ll show how to create a kafka cluster using <a href="https://www.docker.com/">docker</a> and <a href="https://docs.docker.com/compose/">docker-compose</a>.  </p>
+<p>A local <a href="https://kafka.apache.org/">Kafka</a> cluster will help to develop producer and consumers, allowing to test different scenarios specially when it comes to HA. In this article I’ll show how to create a kafka cluster using <a href="https://www.docker.com/">docker</a> and <a href="https://docs.docker.com/compose/">docker-compose</a>.</p>
 
-<h2>Defining kafka image: Dockerfile</h2>
+<h2 id="defining-kafka-image-dockerfile">Defining kafka image: Dockerfile</h2>
 
-<p>For the creation of the <a href="https://www.docker.com/">docker</a> image we will use the version <a href="http://www-eu.apache.org/dist/kafka/0.11.0.0/kafka_2.11-0.11.0.0.tgz">0.11.0.0</a> as specified in the code below in the environment var <code>KAFKA_BIN</code>.</p>
-
-<ul>
-<li><code>Dockerfile</code>:</li>
-</ul>
-<div class="highlight"><pre><code class="language-Dockerfile" data-lang="Dockerfile">FROM centos:7
-MAINTAINER jose@estudillo.me
-
-ENV KAFKA_BIN=http://www-eu.apache.org/dist/kafka/0.11.0.0/kafka_2.11-0.11.0.0.tgz
-
-RUN yum install -y wget java-1.8.0-openjdk \
-    &amp;&amp; cd /tmp &amp;&amp; wget -q $KAFKA_BIN \
-    &amp;&amp; export K_TAR=/tmp/$(ls kafka* | head -1) \
-    &amp;&amp; mkdir -p /opt/apache/kafka/ &amp;&amp; tar -zxf $K_TAR -C /opt/apache/kafka/ \
-    &amp;&amp; cd /opt/apache/kafka &amp;&amp; ln -s $(ls) current \
-    &amp;&amp; rm -rf $K_TAR
-
-ENV KAFKA_HOME /opt/apache/kafka/current
-ENV PATH $PATH:$KAFKA_HOME/bin
-
-ADD resources /home/kafka
-
-RUN groupadd -r kafka \
-    &amp;&amp; useradd -r -g kafka kafka \
-    &amp;&amp; mkdir -p /home/kafka \
-    &amp;&amp; chown -R kafka:kafka /home/kafka \
-    &amp;&amp; chmod -R +x /home/kafka/scripts \
-    &amp;&amp; mkdir -p /var/log/kafka \
-    &amp;&amp; chown -R kafka:kafka /var/log/kafka \
-    &amp;&amp; mkdir -p /etc/kafka \
-    &amp;&amp; chown -R kafka:kafka /etc/kafka
-
-USER kafka
-
-CMD /home/kafka/scripts/run.sh
-</code></pre></div>
-<p>The <code>Dockerimage</code> will download the <a href="https://kafka.apache.org/">Kafka</a> binaries and place then into <code>/opt/apache/kafka</code> and link the current version to <code>/opt/apache/kafka/current</code>, after that it add it into the <code>PATH</code> and create the required directories that need to be owned by the <code>kafka</code> user.</p>
-
-<p>In order to configure and start the broker properly, <code>CMD</code> needs to call a bash script that must be added to the image <code>ADD resources /home/kafka</code>, putting all the content from the local directory <code>resources</code> in the image directory <code>/home/kafka</code>.</p>
+<p>For the creation of the <a href="https://www.docker.com/">docker</a> image we will use the version <a href="http://www-eu.apache.org/dist/kafka/0.11.0.0/kafka_2.11-0.11.0.0.tgz">0.11.0.0</a> as specified in the code below in the environment var <code class="language-plaintext highlighter-rouge">KAFKA_BIN</code>.</p>
 
 <ul>
-<li><code>resources/scripts/run.sh</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Dockerfile</code>:</li>
 </ul>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">#!/bin/bash</span>
+
+<div class="language-Dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">FROM</span><span class="s"> centos:7</span>
+<span class="k">MAINTAINER</span><span class="s"> jose@estudillo.me</span>
+
+<span class="k">ENV</span><span class="s"> KAFKA_BIN=http://www-eu.apache.org/dist/kafka/0.11.0.0/kafka_2.11-0.11.0.0.tgz</span>
+
+<span class="k">RUN </span>yum <span class="nb">install</span> <span class="nt">-y</span> wget java-1.8.0-openjdk <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> <span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> wget <span class="nt">-q</span> <span class="nv">$KAFKA_BIN</span> <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> <span class="nb">export </span><span class="nv">K_TAR</span><span class="o">=</span>/tmp/<span class="si">$(</span><span class="nb">ls </span>kafka<span class="k">*</span> | <span class="nb">head</span> <span class="nt">-1</span><span class="si">)</span> <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> <span class="nb">mkdir</span> <span class="nt">-p</span> /opt/apache/kafka/ <span class="o">&amp;&amp;</span> <span class="nb">tar</span> <span class="nt">-zxf</span> <span class="nv">$K_TAR</span> <span class="nt">-C</span> /opt/apache/kafka/ <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> <span class="nb">cd</span> /opt/apache/kafka <span class="o">&amp;&amp;</span> <span class="nb">ln</span> <span class="nt">-s</span> <span class="si">$(</span><span class="nb">ls</span><span class="si">)</span> current <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> <span class="nb">rm</span> <span class="nt">-rf</span> <span class="nv">$K_TAR</span>
+
+<span class="k">ENV</span><span class="s"> KAFKA_HOME /opt/apache/kafka/current</span>
+<span class="k">ENV</span><span class="s"> PATH $PATH:$KAFKA_HOME/bin</span>
+
+<span class="k">ADD</span><span class="s"> resources /home/kafka</span>
+
+<span class="k">RUN </span>groupadd <span class="nt">-r</span> kafka <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> useradd <span class="nt">-r</span> <span class="nt">-g</span> kafka kafka <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> <span class="nb">mkdir</span> <span class="nt">-p</span> /home/kafka <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> <span class="nb">chown</span> <span class="nt">-R</span> kafka:kafka /home/kafka <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> <span class="nb">chmod</span> <span class="nt">-R</span> +x /home/kafka/scripts <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> <span class="nb">mkdir</span> <span class="nt">-p</span> /var/log/kafka <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> <span class="nb">chown</span> <span class="nt">-R</span> kafka:kafka /var/log/kafka <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> <span class="nb">mkdir</span> <span class="nt">-p</span> /etc/kafka <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> <span class="nb">chown</span> <span class="nt">-R</span> kafka:kafka /etc/kafka
+
+<span class="k">USER</span><span class="s"> kafka</span>
+
+<span class="k">CMD</span><span class="s"> /home/kafka/scripts/run.sh</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">Dockerimage</code> will download the <a href="https://kafka.apache.org/">Kafka</a> binaries and place then into <code class="language-plaintext highlighter-rouge">/opt/apache/kafka</code> and link the current version to <code class="language-plaintext highlighter-rouge">/opt/apache/kafka/current</code>, after that it add it into the <code class="language-plaintext highlighter-rouge">PATH</code> and create the required directories that need to be owned by the <code class="language-plaintext highlighter-rouge">kafka</code> user.</p>
+
+<p>In order to configure and start the broker properly, <code class="language-plaintext highlighter-rouge">CMD</code> needs to call a bash script that must be added to the image <code class="language-plaintext highlighter-rouge">ADD resources /home/kafka</code>, putting all the content from the local directory <code class="language-plaintext highlighter-rouge">resources</code> in the image directory <code class="language-plaintext highlighter-rouge">/home/kafka</code>.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">resources/scripts/run.sh</code></li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
 
 <span class="nb">cat</span> <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh"> &gt; /etc/kafka/broker.properties
-broker.id=</span><span class="k">$(</span><span class="nb">hostname</span> | <span class="nb">sed</span> <span class="s2">"s/[^0-9]*//g"</span><span class="k">)</span><span class="sh">
+broker.id=</span><span class="si">$(</span><span class="nb">hostname</span> | <span class="nb">sed</span> <span class="s2">"s/[^0-9]*//g"</span><span class="si">)</span><span class="sh">
 port=9092
 log.dir=/var/log/kafka
 zookeeper.connect=</span><span class="k">${</span><span class="nv">KAFKA_ZOOKEEPER_HOST</span>:<span class="p">=zookeeper</span>:2181<span class="k">}</span><span class="sh">
-host.name=</span><span class="k">$(</span><span class="nb">hostname</span><span class="k">)</span><span class="sh">
-advertised.host.name=</span><span class="k">$(</span><span class="nb">hostname</span><span class="k">)</span><span class="sh">
+host.name=</span><span class="si">$(</span><span class="nb">hostname</span><span class="si">)</span><span class="sh">
+advertised.host.name=</span><span class="si">$(</span><span class="nb">hostname</span><span class="si">)</span><span class="sh">
 advertised.host.port=9092
 </span><span class="no">EOF
 
 </span>kafka-server-start.sh /etc/kafka/broker.properties
-</code></pre></div>
+</code></pre></div></div>
+
 <p>For this to work we require:</p>
 
 <ul>
-<li>Every container created from this image must contain a number in the hostname, so it can be used as <code>broker.id</code>.</li>
-<li>Kafka requires <a href="https://zookeeper.apache.org/">Zookeeper</a> to be able to work, the script will assume that the hostname for this is <code>zookeeper</code>, but this value can be also specified in the env var <code>KAFKA_ZOOKEEPER_HOST</code> (i.c. `zoo1:2181,zoo2:2181,zoo3:2181)</li>
+  <li>Every container created from this image must contain a number in the hostname, so it can be used as <code class="language-plaintext highlighter-rouge">broker.id</code>.</li>
+  <li>Kafka requires <a href="https://zookeeper.apache.org/">Zookeeper</a> to be able to work, the script will assume that the hostname for this is <code class="language-plaintext highlighter-rouge">zookeeper</code>, but this value can be also specified in the env var <code class="language-plaintext highlighter-rouge">KAFKA_ZOOKEEPER_HOST</code> (i.c. `zoo1:2181,zoo2:2181,zoo3:2181)</li>
 </ul>
 
-<h2>Creating the kafka image from the Dockerfile</h2>
+<h2 id="creating-the-kafka-image-from-the-dockerfile">Creating the kafka image from the Dockerfile</h2>
 
-<p>In this example I use my own namespace (<code>joseestudillo</code>) but this is not required and can be omitted. I also add the version <code>latest</code> to follow docker image naming standards.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">docker build <span class="nt">--tag</span><span class="o">=</span><span class="s2">"joseestudillo/kafka:0.0.1"</span> <span class="nb">.</span>
+<p>In this example I use my own namespace (<code class="language-plaintext highlighter-rouge">joseestudillo</code>) but this is not required and can be omitted. I also add the version <code class="language-plaintext highlighter-rouge">latest</code> to follow docker image naming standards.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker build <span class="nt">--tag</span><span class="o">=</span><span class="s2">"joseestudillo/kafka:0.0.1"</span> <span class="nb">.</span>
 docker tag joseestudillo/kafka:0.0.1 joseestudillo/kafka:latest
-</code></pre></div>
-<h2>Creating the cluster: docker compose</h2>
+</code></pre></div></div>
 
-<p>Having the kafka image in our system we are ready to create a cluster. For <a href="https://zookeeper.apache.org/">Zookeeper</a> we will use the official image from <a href="https://hub.docker.com/_/zookeeper/">docker hub</a>. In the docker compose example I&#39;ll create a 3 nodes kafka cluster, but any number of nodes can be added by adding a new entry and changing the name/hostname.</p>
+<h2 id="creating-the-cluster-docker-compose">Creating the cluster: docker compose</h2>
+
+<p>Having the kafka image in our system we are ready to create a cluster. For <a href="https://zookeeper.apache.org/">Zookeeper</a> we will use the official image from <a href="https://hub.docker.com/_/zookeeper/">docker hub</a>. In the docker compose example I’ll create a 3 nodes kafka cluster, but any number of nodes can be added by adding a new entry and changing the name/hostname.</p>
 
 <ul>
-<li><code>docker-compose.yml</code></li>
+  <li><code class="language-plaintext highlighter-rouge">docker-compose.yml</code></li>
 </ul>
-<div class="highlight"><pre><code class="language-YAML" data-lang="YAML">version: '2.1'
+
+<pre><code class="language-YAML">version: '2.1'
 services:
   zookeeper:
     hostname: zookeeper
@@ -239,14 +246,16 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - kafka1
-</code></pre></div>
-<p>In they YAML, I&#39;ve defined a single node zookeeper (examples with a higher number of nodes can be found in docker hub). Notice that <a href="https://zookeeper.apache.org/">Zookeeper</a> must be running to be able to create a kafka cluster, to guarantee this, we will make the first <a href="https://kafka.apache.org/">Kafka</a> node (<code>kafka1</code>) depend on the <a href="https://zookeeper.apache.org/">Zookeeper</a> container, then the rest of the <a href="https://kafka.apache.org/">Kafka</a> nodes will depend of the first one that we will use as advertised host.</p>
+</code></pre>
 
-<h2>Running the cluster</h2>
+<p>In they YAML, I’ve defined a single node zookeeper (examples with a higher number of nodes can be found in docker hub). Notice that <a href="https://zookeeper.apache.org/">Zookeeper</a> must be running to be able to create a kafka cluster, to guarantee this, we will make the first <a href="https://kafka.apache.org/">Kafka</a> node (<code class="language-plaintext highlighter-rouge">kafka1</code>) depend on the <a href="https://zookeeper.apache.org/">Zookeeper</a> container, then the rest of the <a href="https://kafka.apache.org/">Kafka</a> nodes will depend of the first one that we will use as advertised host.</p>
 
-<p>Once the kafka image is on the system (check with <code>docker images</code>), we can launch the cluster using: <code>docker-compose up</code> that will show the logs from all the running containers. The status of the containers can be checked with <code>docker-compose ps</code> that as the rest of the docker compose commands, but be run from the directory where <code>docker-compose.yml</code> is placed, or point explicitly to it.</p>
+<h2 id="running-the-cluster">Running the cluster</h2>
 
-<p>The cluster then can be operated from any of its nodes: <code>docker-compose exec &lt;container name in the docker compose file&gt; bash</code></p>
+<p>Once the kafka image is on the system (check with <code class="language-plaintext highlighter-rouge">docker images</code>), we can launch the cluster using: <code class="language-plaintext highlighter-rouge">docker-compose up</code> that will show the logs from all the running containers. The status of the containers can be checked with <code class="language-plaintext highlighter-rouge">docker-compose ps</code> that as the rest of the docker compose commands, but be run from the directory where <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> is placed, or point explicitly to it.</p>
+
+<p>The cluster then can be operated from any of its nodes: <code class="language-plaintext highlighter-rouge">docker-compose exec &lt;container name in the docker compose file&gt; bash</code></p>
+
 
 
                 <hr>
@@ -336,7 +345,7 @@ services:
                     </li>
                     
                 </ul>
-                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2019</p>
+                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2021</p>
             </div>
         </div>
     </div>

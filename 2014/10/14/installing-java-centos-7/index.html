@@ -113,52 +113,50 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-				<h1>Installing Oracle Java SDK in CentOS 7</h1>
+				<h1 id="installing-oracle-java-sdk-in-centos-7">Installing Oracle Java SDK in CentOS 7</h1>
 
-<p>Before starting I want to point out that all the commands required below must be executed as super user. By default CentOS doesn&#39;t add the newly create users to the sudoers list, because of this, we will have to become super user using the command <code>su</code> that will keep the root session open.</p>
+<p>Before starting I want to point out that all the commands required below must be executed as super user. By default CentOS doesn’t add the newly create users to the sudoers list, because of this, we will have to become super user using the command <code class="language-plaintext highlighter-rouge">su</code> that will keep the root session open.</p>
 
-<h2>Downloading the binaries</h2>
+<h2 id="downloading-the-binaries">Downloading the binaries</h2>
 
-<h2>Removing OpenJDK</h2>
+<h2 id="removing-openjdk">Removing OpenJDK</h2>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># run as super user, su/sudo</span>
 yum remove java-1.7.0-openjdk.x86_64</code></pre></figure>
 
-<p>to know which version you have to remove type <code>yum remove java-</code> and then press tab for autocompletion. In CentOS 7, <code>yum remove java</code> also does the job.</p>
+<p>to know which version you have to remove type <code class="language-plaintext highlighter-rouge">yum remove java-</code> and then press tab for autocompletion. In CentOS 7, <code class="language-plaintext highlighter-rouge">yum remove java</code> also does the job.</p>
 
-<h2>Installing the Oracle JDK rpm</h2>
+<h2 id="installing-the-oracle-jdk-rpm">Installing the Oracle JDK rpm</h2>
 
-<p>For this example I will assume that the files are downloaded in <code>/tmp/</code></p>
+<p>For this example I will assume that the files are downloaded in <code class="language-plaintext highlighter-rouge">/tmp/</code></p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># run as super user, su/sudo</span>
 rpm <span class="nt">-Uvh</span> /tmp/jdk-7u71-linux-x64.rpm</code></pre></figure>
-    
 
-<p>By default this will be installed in <code>/usr/java/jdk{version}</code> using a symbolic links, this will be mapped to <code>/usr/java/default</code> that can be changed to a different SDK if required. To see the symbolic links, type the following in the shell:</p>
+<p>By default this will be installed in <code class="language-plaintext highlighter-rouge">/usr/java/jdk{version}</code> using a symbolic links, this will be mapped to <code class="language-plaintext highlighter-rouge">/usr/java/default</code> that can be changed to a different SDK if required. To see the symbolic links, type the following in the shell:</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">ls</span> <span class="nt">-l</span> /usr/java/default </code></pre></figure>
 
-<p>this will return <code>/usr/java/default -&gt; /usr/java/latest</code> if we repeat the same operation, with the target of the symbolic link: </p>
+<p>this will return <code class="language-plaintext highlighter-rouge">/usr/java/default -&gt; /usr/java/latest</code> if we repeat the same operation, with the target of the symbolic link:</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">ls</span> <span class="nt">-l</span> /usr/java/latest</code></pre></figure>
 
-<p>It will show the actual directory where the JDK is installed <code>/usr/java/latest -&gt; /usr/java/jdk1.7.0_71</code>. Changing this symbolic link would allow us to point to a different JDK without any extra effort.</p>
+<p>It will show the actual directory where the JDK is installed <code class="language-plaintext highlighter-rouge">/usr/java/latest -&gt; /usr/java/jdk1.7.0_71</code>. Changing this symbolic link would allow us to point to a different JDK without any extra effort.</p>
 
 <p>I will do the same with the JDK 8 to have both versions on the server</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># run as super user, su/sudo</span>
 rpm <span class="nt">-Uvh</span> /tmp/jdk-8u25-linux-x64.rpm</code></pre></figure>
-  
 
-<p>In CentOS there is no need to redefine the alternatives for the java binaries, because they are defined already based on the default path (<code>/usr/java/default</code>) so all the java commands will be available (java, jar, javaws, ...).</p>
+<p>In CentOS there is no need to redefine the alternatives for the java binaries, because they are defined already based on the default path (<code class="language-plaintext highlighter-rouge">/usr/java/default</code>) so all the java commands will be available (java, jar, javaws, …).</p>
 
-<h2>Defining environment variables</h2>
+<h2 id="defining-environment-variables">Defining environment variables</h2>
 
-<p>Depending on the use, some users, just define the <strong>JAVA_HOME</strong> variable in their bash profile <code>/home/{username}/.bashrc</code> adding it the following line:</p>
+<p>Depending on the use, some users, just define the <strong>JAVA_HOME</strong> variable in their bash profile <code class="language-plaintext highlighter-rouge">/home/{username}/.bashrc</code> adding it the following line:</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">export </span><span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/java/default</code></pre></figure>
 
-<p>In my case I intent to use the machine as a server so I want it to be defined for all the profiles, to achieve this, I create an <code>sh</code> file in the folder <code>/etc/profile.d/</code> where it will be always loaded on startup. This can be done with the following command:</p>
+<p>In my case I intent to use the machine as a server so I want it to be defined for all the profiles, to achieve this, I create an <code class="language-plaintext highlighter-rouge">sh</code> file in the folder <code class="language-plaintext highlighter-rouge">/etc/profile.d/</code> where it will be always loaded on startup. This can be done with the following command:</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">echo</span> <span class="s2">"export JAVA_HOME=/usr/java/default"</span> <span class="o">&gt;</span> /etc/profile.d/java.sh</code></pre></figure>
 
@@ -256,7 +254,7 @@ rpm <span class="nt">-Uvh</span> /tmp/jdk-8u25-linux-x64.rpm</code></pre></figur
                     </li>
                     
                 </ul>
-                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2019</p>
+                <p class="copyright text-muted">Copyright &copy; Jose Estudillo Ojeda 2021</p>
             </div>
         </div>
     </div>
